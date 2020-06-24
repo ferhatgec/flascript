@@ -1,1 +1,3 @@
-exec(system ->scrift )
+var(string) -> Hello FlaScrift! -> test <-
+print(get[string] -> test) [this]
+

@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
 				} else if(arg == "--b" || arg == "--build") {
 					FInterpreter interp;
 					std::getline(std::cin, arg);
-					interp.ReadFileWithReturn(arg);
+					interp.FlaScriptInterpreter(arg);
 				}
 			} else {
 				HelpFunction();
