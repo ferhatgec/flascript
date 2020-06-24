@@ -25,7 +25,10 @@ public:
 	std::string Whitespace = " ";
 	static bool FindObject(std::string, std::string);
 	void FlaScriptInterpreter(std::string);
-	bool ReadFileWithReturn(std::string, std::string);	
+	bool ReadFileWithReturn(std::string, std::string);
+	bool FCommentLine(std::string, std::string);
+	void Read(std::string);
+	void Print(std::string, std::string);	
 };
 
 #endif // INTERPRETER_HPP

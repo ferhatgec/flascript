@@ -5,10 +5,11 @@
 #
 # */
 
+#include <fstream>
 #include <iostream>
 #include "../include/Interpreter.hpp"
 #include "../Library/FileSystemPlusPlus.h"
-#include <fstream>
+#include "../include/Tokenizer.hpp"
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -27,6 +28,7 @@ int intest;
 int load;
 std::string loadstr;
 std::string test;
+std::string alltext;
 
 // Get Between String    
 void GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
@@ -42,7 +44,14 @@ void GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::s
     else
        rStr = "error"; 
 }    
-        
+
+std::string EraseAllSubString(std::string & mainString, const std::string & erase) {
+    size_t pos = std::string::npos;
+    while((pos = mainString.find(erase)) != std::string::npos) {
+        mainString.erase(pos, erase.length());
+    }
+    return mainString;
+} 
 
 bool
 FInterpreter::FindObject(std::string object, std::string find) {
@@ -71,43 +80,50 @@ FInterpreter::ReadFileWithReturn(std::string file, std::string argument) {
     	}
 }
 
-void 
-FInterpreter::FlaScriptInterpreter(std::string file) {
+
+bool
+FInterpreter::FCommentLine(std::string file, std::string argument) {
 	std::string line;
     	std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
     	if(readfile.is_open()) {
         while (std::getline(readfile, line)) {
-		// var[int] -> 100 -> a
-		if(FindObject(line, "var") == true) {
+        	test.append(line);
+        	if(FindObject(line, argument) == true) {
+        		return true;
+        	}
+        }
+        readfile.close();
+    	} else {
+        	printf("Unable to open file\n");
+    	}
+}
+
+void
+FInterpreter::Read(std::string file) {
+	std::string line;
+    	std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
+    	if(readfile.is_open()) {
+        while (std::getline(readfile, line)) {
+        	alltext.append(line);
+        }
+        readfile.close();
+    	} else {
+        	printf("Unable to open file\n");
+    	}
+}
+
+void 
+FInterpreter::Print(std::string file, std::string arg) {
+	if(FindObject(arg, "print") == true) {
 			std::string assign;
-			GetBtwString(line, "[", "]", assign);
-			if(assign == "int") {
-				GetBtwString(line, " -> ", " <-", assign);
-				load = atoi(assign.c_str());
-			} else if(assign == "string") {
-				// var(string) -> test -> abc
-				GetBtwString(line, " -> ", " <-", assign);
-				loadstr = assign;
-			} 			
-		} 
-	
-		// func -> test {
-		if(FindObject(line, "func") == true) {
-			std::string assign;
-			GetBtwString(line, " ->", " {", assign);
-		}
-	
-		// print(var[int]) -> " "
-		if(FindObject(line, "print") == true) {
-			std::string assign;
-			GetBtwString(line, "(", ")", assign);
+			GetBtwString(arg, "(", ")", assign);
 			if(assign == "string") {
-				GetBtwString(line, " \"", "\"", assign);
+				GetBtwString(arg, " \"", "\"", assign);
 				std::cout << assign;
 			} else if(FindObject(assign, "var") == true) {
 				GetBtwString(assign, "[", "]", assign);
 				if(assign == "int") {
-					GetBtwString(line, " \"", "\"", assign);
+					GetBtwString(arg, " \"", "\"", assign);
 					std::cout << atoi(assign.c_str());
 				} 
 			} else if(FindObject(assign, "get") == true) {
@@ -131,7 +147,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					}
 				}
 				
-				GetBtwString(line, "[t", "s]", assign); 
+				GetBtwString(arg, "[t", "s]", assign); 
 				if(assign == "hi") {
 					if(check == 1) { std::cout << test; } else if(check == 2) {
 						std::cout << intest;
@@ -140,11 +156,67 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					std::cout << assign;
 				}
 			} else if(assign == "error") {
-				GetBtwString(line, " \"", "\"", assign);
+				GetBtwString(arg, " \"", "\"", assign);
 				std::cout << assign;
 			} else {
 				printf("FlaScript Definition Error!\n");
 			}
+	}
+}
+
+void 
+FInterpreter::FlaScriptInterpreter(std::string file) {
+	Tokenizer token;
+	std::string line;
+    	std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
+    	if(readfile.is_open()) {
+        while (std::getline(readfile, line)) {
+        	Read(file);
+        	// Single Comment Line
+        	if(FindObject(line, token.SingleCommentLine) == true) {
+        		line.erase();
+        	}
+        	
+        	// Single Comment Line
+        	if(FindObject(line, token.CommentLineBegin) == true) {
+			std::string assign;
+			GetBtwString(line, token.CommentLineBegin, token.CommentLineEnd, assign);
+			if(assign != "error") {
+				 line = EraseAllSubString(line, token.CommentLineBegin + assign + token.CommentLineEnd);
+			} else {
+				if(FCommentLine(file, "</") == true) {
+				} else {
+					printf("token.CommentLine Error\n");
+				}
+			}	       	
+        	}
+        	
+		// var[int] -> 100 -> a
+		if(FindObject(line, "var") == true) {
+			std::string assign;
+			GetBtwString(line, "[", "]", assign);
+			if(assign == "int") {
+				GetBtwString(line, " -> ", " <-", assign);
+				load = atoi(assign.c_str());
+			} else if(assign == "string") {
+				// var(string) -> test -> abc
+				GetBtwString(line, " -> ", " <-", assign);
+				loadstr = assign;
+			} 			
+		} 
+	
+		// func() -> test {
+		if(FindObject(line, "func()") == true) {
+			std::string assign;
+			GetBtwString(line, "func() -> ", " {", assign);
+			// Assign = Function name 
+			GetBtwString(alltext, "func() -> " + assign + " {", "}", alltext);
+			//Print(file, alltext);
+		}
+	
+		// print(var[int]) -> " "
+		if(FindObject(line, "print") == true) {
+			Print(file, line);
 		}
 	
 		// exec(system ->scrift ->[->arg])
