@@ -14,6 +14,9 @@
 FInterpreter::FInterpreter() { }
 FInterpreter::~FInterpreter() { }
 
+int check;
+
+int intest;
 int load;
 std::string loadstr;
 std::string test;
@@ -109,12 +112,23 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					// var(string)
 					if(ReadFileWithReturn(file, Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
 						GetBtwString(test, " -> ", " -> ", test);
+						check = 1;
+					}
+				} else if(get == "int") {
+					GetBtwString(assign, " ->", " ->", get);
+					if(ReadFileWithReturn(file, Var + BracketsBegin + Int + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
+						check = 2;
+						std::string intest_str;
+						GetBtwString(test, " -> ", " ->", intest_str);
+						intest = atoi(intest_str.c_str());
 					}
 				}
 				
 				GetBtwString(line, "[t", "s]", assign); 
 				if(assign == "hi") {
-					std::cout << test;
+					if(check == 1) { std::cout << test; } else if(check == 2) {
+						std::cout << intest;
+					}
 				} else {
 					std::cout << assign;
 				}

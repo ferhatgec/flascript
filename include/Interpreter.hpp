@@ -6,6 +6,7 @@ class FInterpreter {
 public:
 	FInterpreter();
 	~FInterpreter();
+	std::string Int = "int";
 	std::string Var = "var";
 	std::string Str = "string";
 	std::string BracketsBegin = "(";

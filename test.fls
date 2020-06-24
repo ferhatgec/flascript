@@ -1,3 +1,5 @@
 var(string) -> Hello FlaScrift! -> test <-
 print(get[string] -> test) [this]
 
+var(int) -> 2005 -> intest <-
+print(get[int] -> intest) [this]
