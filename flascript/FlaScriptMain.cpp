@@ -1,5 +1,14 @@
+/* MIT License
+#
+# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
+# Distributed under the terms of the MIT License.
+#
+# */
+
 #include <iostream>
 #include "../include/Interpreter.hpp"
+#include "../include/FlaScriptMain.hpp"
+
 #include "../Library/FileSystemPlusPlus.h"
 
 #define EXIT_SUCCESS 0
