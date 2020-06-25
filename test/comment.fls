@@ -1,0 +1,15 @@
+/> MIT License
+#
+# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
+# Distributed under the terms of the MIT License.
+# 
+</
+
+main() -> main {
+// This is single comment line
+/> This is single comment line </
+/> print -> "FlaScript test"
+This is multiple comment line
+</
+print -> "FlaScript test"
+}
