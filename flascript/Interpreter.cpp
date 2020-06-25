@@ -113,8 +113,9 @@ FInterpreter::Read(std::string file) {
     	}
 }
 
-void 
+void
 FInterpreter::Print(std::string file, std::string arg) {
+	Tokenizer token;
 	if(FindObject(arg, "print") == true) {
 			std::string assign;
 			GetBtwString(arg, "(", ")", assign);
@@ -146,21 +147,26 @@ FInterpreter::Print(std::string file, std::string arg) {
 						GetBtwString(test, " -> ", " ->", intest_str);
 						intest = atoi(intest_str.c_str());
 					}
+				} else if(get == "string&") {
+					GetBtwString(assign, " -> ", " <-", get);
+					if(ReadFileWithReturn(file, Var + BracketsBegin + Str + "&" + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
+						check = 3;
+						std::string nil_str;
+						GetBtwString(test, " -> ", " <-", nil_str);
+					}	
 				}
 				
 				GetBtwString(arg, "[t", "s]", assign); 
 				if(assign == "hi") {
-					if(check == 1) { std::cout << test; } else if(check == 2) {
-						std::cout << intest;
-					}
+					if(check == 1) { std::cout << test; } else if(check == 2) { std::cout << intest; } else if(check == 3) { std::cout << "nil"; }
 				} else {
 					std::cout << assign;
 				}
 			} else if(assign == "error") {
 				GetBtwString(arg, " \"", "\"", assign);
-				std::cout << assign;
+				std::cout << "print : Double quotes missing";
 			} else {
-				printf("FlaScript Definition Error!\n");
+				printf("print : Definition Error!\n");
 			}
 	}
 }
@@ -203,7 +209,10 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				// var(string) -> test -> abc
 				GetBtwString(line, " -> ", " <-", assign);
 				loadstr = assign;
-			} 			
+			} else if(assign == "string&") {
+				GetBtwString(line, " -> ", " <-", assign);
+				loadstr = assign;
+			}		
 		} 
 		
 		// func() -> test {
@@ -214,7 +223,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			GetBtwString(alltext, "func() -> " + assign + " {", "}", alltext);
 			//Print(file, alltext);
 		}
-	
+
         	if(FindObject(line, "main() -> main {") == true) {
         		Read(file);
         		GetBtwString(alltext, "main() -> main {", "}", alltext);
@@ -224,7 +233,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			if(FindObject(linebyline, "print") == true) {
 				Print(file, linebyline);
 			} 
-				
+
 			// exec(system -> scrift ->[->arg])
 			if(FindObject(linebyline, "exec") == true) {
 				std::string assign;
@@ -234,7 +243,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 						if(assign != "error") {
 							system(assign.c_str());
 						} else {
-							printf("FlaScript Arrow Error!\n");
+							printf("exec(system) : Arrow Error!\n");
 						}
 				}	
         		} 

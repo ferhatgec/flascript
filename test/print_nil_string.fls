@@ -5,7 +5,9 @@
 # 
 </
 
-var(string) -> Hello FlaScript! -> Hello <-
+// string& -> nil string
+var(string&) -> Hello <-
 main() -> main {
-print(get[string] -> Hello) [this]
+print(get[string&] -> Hello) [this]
 }
+

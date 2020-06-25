@@ -18,6 +18,12 @@ public:
 	std::string CommentLineEnd = "</";
 	std::string SingleCommentLine = "//";
 	
+	// Brackets
+	std::string BracketsBegin = "[";
+	std::string BracketsEnd = "]";
+	std::string OtherBracketBegin = "(";
+	std::string OtherBracketEnd = ")";
+	
 	// Variables
 	std::string Var = "var";
 	std::string Int = "int";
@@ -26,6 +32,7 @@ public:
 	// Functions 
 	std::string Func = "func";
 	std::string Get = "get";
+	std::string Input = "input";
 	
 	// Print
 	std::string Print = "print";
@@ -33,7 +40,7 @@ public:
 	// Sign
 	std::string RightArrowSign = "->";
 	std::string LeftArrowSign = "<-";
-	
+
 	// System Integration
 	std::string Exec = "exec";
 	std::string System = "system";
