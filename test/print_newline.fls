@@ -6,6 +6,7 @@
 </
 
 main() -> main {
-// newline = slashn = '\n' = "\n"
+// Newline is prints string and going to newline
+// Newline = slashn = '\n' = "\n"
 print(newline) -> "Hello FlaScript!"
 }

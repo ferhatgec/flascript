@@ -162,6 +162,9 @@ FInterpreter::Print(std::string file, std::string arg) {
 				} else {
 					std::cout << assign;
 				}
+			} else if(assign == "newline") {
+				GetBtwString(arg, " \"", "\"", assign);
+				std::cout << assign << "\n";
 			} else if(assign == "error") {
 				GetBtwString(arg, " \"", "\"", assign);
 				std::cout << "print : Double quotes missing";
