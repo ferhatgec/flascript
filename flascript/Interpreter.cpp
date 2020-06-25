@@ -5,6 +5,7 @@
 #
 # */
 
+#include <sstream>
 #include <fstream>
 #include <iostream>
 #include "../include/Interpreter.hpp"
@@ -29,7 +30,7 @@ int load;
 std::string loadstr;
 std::string test;
 std::string alltext;
-
+std::string linebyline;
 // Get Between String    
 void GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
     int start = oStr.find(sStr1);   
@@ -104,7 +105,7 @@ FInterpreter::Read(std::string file) {
     	std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
     	if(readfile.is_open()) {
         while (std::getline(readfile, line)) {
-        	alltext.append(line);
+        	alltext.append(line + "\n");
         }
         readfile.close();
     	} else {
@@ -190,7 +191,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				}
 			}	       	
         	}
-        	
+        	        	
 		// var[int] -> 100 -> a
 		if(FindObject(line, "var") == true) {
 			std::string assign;
@@ -204,7 +205,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				loadstr = assign;
 			} 			
 		} 
-	
+		
 		// func() -> test {
 		if(FindObject(line, "func()") == true) {
 			std::string assign;
@@ -214,28 +215,33 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			//Print(file, alltext);
 		}
 	
-		// print(var[int]) -> " "
-		if(FindObject(line, "print") == true) {
-			Print(file, line);
-		}
-	
-		// exec(system ->scrift ->[->arg])
-		if(FindObject(line, "exec") == true) {
-			std::string assign;
-			GetBtwString(line, "(", ")", assign);
-			if(FindObject(assign, "system") == true) {
-					GetBtwString(assign, " ->", " ->", assign);
-					if(assign != "error") {
-						system(assign.c_str());
-					} else {
-						printf("FlaScript Arrow Error!\n");
-					}
-			}
-		}	
+        	if(FindObject(line, "main() -> main {") == true) {
+        		Read(file);
+        		GetBtwString(alltext, "main() -> main {", "}", alltext);
+        		std::istringstream f(alltext);
+        		while(std::getline(f, linebyline)) {
+        		// print(var[int]) -> " "
+			if(FindObject(linebyline, "print") == true) {
+				Print(file, linebyline);
+			} 
+				
+			// exec(system -> scrift ->[->arg])
+			if(FindObject(linebyline, "exec") == true) {
+				std::string assign;
+				GetBtwString(linebyline, "(", ")", assign);
+				if(FindObject(assign, "system") == true) {
+						GetBtwString(assign, " -> ", " ->", assign);
+						if(assign != "error") {
+							system(assign.c_str());
+						} else {
+							printf("FlaScript Arrow Error!\n");
+						}
+				}	
+        		} 
+        		}
+        	}
 	}
 	} else {
 		printf("Unable to open file\n");
 	}
 }
-
-

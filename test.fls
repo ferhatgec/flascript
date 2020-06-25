@@ -5,18 +5,7 @@
 # 
 </
 
-func() -> PrintHello {
-print -> "Hello, FlaScript!"
+main() -> main {
+print -> "Hello FlaScript!"
+//exec(system -> fetcheya ->)
 }
-
-// Create Variable -> String 
-var(string) -> Hello FlaScrift! -> test <-
-
-// Print test variable
-print(get[string] -> test) [this]
-
-// Create Variable -> Integer
-var(int) -> 2005 -> intest <-
-
-// Print intest variable
-print(get[int] -> intest) [this]
