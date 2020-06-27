@@ -157,11 +157,18 @@ FInterpreter::Print(std::string file, std::string arg) {
 						std::string nil_str;
 						GetBtwString(test, " -> ", " <-", nil_str);
 					}	
+				} else if(get == "int&") {
+					GetBtwString(assign, " -> ", " <-", get);
+					if(ReadFileWithReturn(file, Var + BracketsBegin + Int + "&" + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
+						check = 4;
+						std::string nil_int;
+						GetBtwString(test, " -> ", " <-", nil_int);
+					}
 				}
 				
 				GetBtwString(arg, "[t", "s]", assign); 
 				if(assign == "hi") {
-					if(check == 1) { std::cout << test; } else if(check == 2) { std::cout << intest; } else if(check == 3) { std::cout << "nil"; }
+					if(check == 1) { std::cout << test; } else if(check == 2) { std::cout << intest; } else if(check == 3) { std::cout << "nil"; } else if(check == 4) { std::cout << "0"; }
 				} else {
 					std::cout << assign;
 				}
@@ -229,6 +236,10 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			if(assign == "int") {
 				GetBtwString(line, " -> ", " <-", assign);
 				load = atoi(assign.c_str());
+			} else if(assign == "int&") {
+				// var(int&) -> Argc <-
+				GetBtwString(line, " -> ", " <-", assign);
+				load = NULL;
 			} else if(assign == "string") {
 				// var(string) -> test -> abc
 				GetBtwString(line, " -> ", " <-", assign);

@@ -6,7 +6,7 @@
 </
 
 main() -> main {
-// newline = slashn = '\n' = "\n"
-// print(newline) -> "Hello FlaScript!"
-print(colorized[:1, 31:]) -> "Hello FlaScript!" <-
+print(colorized[:1, 33:]) -> "Hello FlaScript! (Yellow)" <-
+// EOL (End of Line) arrow operator is calling the RESET_COLOR
 }
+

@@ -5,8 +5,9 @@
 # 
 </
 
+// string& -> nil string
+var(int&) -> Argc <-
 main() -> main {
-// newline = slashn = '\n' = "\n"
-// print(newline) -> "Hello FlaScript!"
-print(colorized[:1, 31:]) -> "Hello FlaScript!" <-
+print(get[int&] -> Argc) [this]
 }
+
