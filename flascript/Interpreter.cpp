@@ -195,42 +195,6 @@ FInterpreter::Print(std::string file, std::string arg) {
 }
 
 
-/*
-				std::string get;
-				GetBtwString(assign, "[", "]", get);
-				if(get != "error") {
-					GetBtwString(arg, " \"", "\"", assign);
-					if(FindObject(get, "colorized") == true) {
-						GetBtwString(get, "<", ">", get);
-						if(get != "error") {
-							std::string color;
-							std::string	color_type;
-							int color_type_int;
-							int color_int;
-							
-							if(FindObject(get, "type") == true) {
-								GetBtwString(get, "type ", " end", color_type);
-								color_type_int = atoi(color_type.c_str());
-							}	
-						
-							if(FindObject(get, "color") == true) {
-								GetBtwString(get, "color ", " end", color);
-								color_int = atoi(color.c_str());
-							}
-							
-							std::cout << Templatestr + colorized::IntToString(color_type_int) + Semicolonstr + colorized::IntToString(color_int) + "m" << assign;
-						}
-					}				
-				} else {
-					std::cout << assign;
-				}
-					
-				} else {
-					printf("color : Add brackets -> print(color[colorcode]) -> \n");
-				}
-
-*/
-
 void 
 FInterpreter::FlaScriptInterpreter(std::string file) {
 	Tokenizer token;
