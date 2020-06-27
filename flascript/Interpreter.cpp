@@ -8,9 +8,12 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
-#include "../include/Interpreter.hpp"
-#include "../Library/FileSystemPlusPlus.h"
 #include "../include/Tokenizer.hpp"
+#include "../include/Interpreter.hpp"
+
+// Libraries
+#include "../Library/FileSystemPlusPlus.h"
+#include "../Library/Colorized.hpp"
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -165,6 +168,23 @@ FInterpreter::Print(std::string file, std::string arg) {
 			} else if(assign == "newline") {
 				GetBtwString(arg, " \"", "\"", assign);
 				std::cout << assign << "\n";
+			} else if(FindObject(assign, "colorized") == true) {
+				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
+				std::string get, color_type, color;
+				GetBtwString(assign, "[", "]", get);
+				if(get != "error") {
+					GetBtwString(get, ":", ",", color_type);
+					GetBtwString(get, " ", ":", color);
+					GetBtwString(arg, " \"", "\" <-", assign);
+					if(assign == "error") {
+						GetBtwString(arg, " \"", "\"", assign);
+						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign;
+					} else {
+						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign << WBLACK_COLOR;
+					}
+				} else {
+					printf("colorized : Brackets error.\n");
+				}
 			} else if(assign == "error") {
 				GetBtwString(arg, " \"", "\"", assign);
 				std::cout << "print : Double quotes missing";
@@ -173,6 +193,43 @@ FInterpreter::Print(std::string file, std::string arg) {
 			}
 	}
 }
+
+
+/*
+				std::string get;
+				GetBtwString(assign, "[", "]", get);
+				if(get != "error") {
+					GetBtwString(arg, " \"", "\"", assign);
+					if(FindObject(get, "colorized") == true) {
+						GetBtwString(get, "<", ">", get);
+						if(get != "error") {
+							std::string color;
+							std::string	color_type;
+							int color_type_int;
+							int color_int;
+							
+							if(FindObject(get, "type") == true) {
+								GetBtwString(get, "type ", " end", color_type);
+								color_type_int = atoi(color_type.c_str());
+							}	
+						
+							if(FindObject(get, "color") == true) {
+								GetBtwString(get, "color ", " end", color);
+								color_int = atoi(color.c_str());
+							}
+							
+							std::cout << Templatestr + colorized::IntToString(color_type_int) + Semicolonstr + colorized::IntToString(color_int) + "m" << assign;
+						}
+					}				
+				} else {
+					std::cout << assign;
+				}
+					
+				} else {
+					printf("color : Add brackets -> print(color[colorcode]) -> \n");
+				}
+
+*/
 
 void 
 FInterpreter::FlaScriptInterpreter(std::string file) {
