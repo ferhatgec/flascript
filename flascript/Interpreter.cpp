@@ -131,9 +131,13 @@ FInterpreter::Get(std::string file, std::string arg) {
 			GetBtwString(test, " -> ", " <-", comp);
 			if(comp == name) {
 				std::string text;
-				GetBtwString(test, ": ", " -> ", text); 
+				GetBtwString(test, ": ", " -> ", text);
 				if(pr_check == 1)  { // print
-					std::cout << text;
+					if(type == "string") {
+						std::cout << text;
+					} else if(type == "int") {
+						std::cout << atoi(text.c_str());
+					}
 					pr_check = 0;
 				}  else {
 				}
@@ -180,11 +184,20 @@ FInterpreter::Print(std::string file, std::string arg) {
 					}
 				} else if(get == "int") {
 					GetBtwString(assign, " ->", " ->", get);
+					if(get == "error") {
+						std::string name;
+						GetBtwString(assign,  ": ", " -> ", name); 	
+						if(name != "error") {
+							pr_check = 1;
+							Get(file, assign);
+						}
+					} else {
 					if(ReadFileWithReturn(file, Var + BracketsBegin + Int + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
 						check = 2;
 						std::string intest_str;
 						GetBtwString(test, " -> ", " ->", intest_str);
 						intest = atoi(intest_str.c_str());
+					}
 					}
 				} else if(get == "string&") {
 					GetBtwString(assign, " -> ", " <-", get);

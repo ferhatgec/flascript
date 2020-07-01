@@ -5,7 +5,7 @@
 # 
 </
 
-var[string]: Hello FlaScript! -> Hello <-
+var[int]: 12123 -> Hello <-
 
 main() -> main {
 // newline = slashn = '\n' = "\n"
