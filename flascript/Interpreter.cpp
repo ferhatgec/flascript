@@ -26,14 +26,15 @@
 FInterpreter::FInterpreter() { }
 FInterpreter::~FInterpreter() { }
 
+int pr_check;
 int check;
-
 int intest;
 int load;
 std::string loadstr;
 std::string test;
 std::string alltext;
 std::string linebyline;
+
 // Get Between String    
 void GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
     int start = oStr.find(sStr1);   
@@ -116,6 +117,32 @@ FInterpreter::Read(std::string file) {
     	}
 }
 
+void 
+FInterpreter::Get(std::string file, std::string arg) {
+	if(FindObject(arg, "get") == true) {
+		std::string assign;
+		std::string name;
+		std::string type;
+		GetBtwString(arg, "[", "]", type);
+		GetBtwString(arg, ": ", " -> ", name); // Variable name
+		GetBtwString(arg, " \"", "\"", assign); // Variable header
+		if(ReadFileWithReturn(assign, "var[" + type + "]: ") == true) {
+			std::string comp;
+			GetBtwString(test, " -> ", " <-", comp);
+			if(comp == name) {
+				std::string text;
+				GetBtwString(test, ": ", " -> ", text); 
+				if(pr_check == 1)  { // print
+					std::cout << text;
+					pr_check = 0;
+				}  else {
+				}
+			} 
+		}
+	}
+}
+
+
 void
 FInterpreter::Print(std::string file, std::string arg) {
 	Tokenizer token;
@@ -137,10 +164,19 @@ FInterpreter::Print(std::string file, std::string arg) {
 				GetBtwString(assign, "[", "]", get);
 				if(get == "string") {
 					GetBtwString(assign, " ->", " ->", get); // var(string) -> test -> abc
+					if(get == "error") {
+						std::string name;
+						GetBtwString(assign,  ": ", " -> ", name); 	
+						if(name != "error") {
+							pr_check = 1;
+							Get(file, assign);
+						}
+					} else {
 					// var(string)
 					if(ReadFileWithReturn(file, Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
 						GetBtwString(test, " -> ", " -> ", test);
 						check = 1;
+					}
 					}
 				} else if(get == "int") {
 					GetBtwString(assign, " ->", " ->", get);
@@ -164,8 +200,7 @@ FInterpreter::Print(std::string file, std::string arg) {
 						std::string nil_int;
 						GetBtwString(test, " -> ", " <-", nil_int);
 					}
-				}
-				
+				} 
 				GetBtwString(arg, "[t", "s]", assign); 
 				if(assign == "hi") {
 					if(check == 1) { std::cout << test; } else if(check == 2) { std::cout << intest; } else if(check == 3) { std::cout << "nil"; } else if(check == 4) { std::cout << "0"; }
@@ -201,6 +236,18 @@ FInterpreter::Print(std::string file, std::string arg) {
 	}
 }
 
+std::string
+FInterpreter::FlaScriptImporter(std::string file, std::string get) {
+	std::string line;
+	std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
+    	if(readfile.is_open()) {
+    		while(std::getline(readfile, line)) {
+    			if(FindObject(line, get) == true) {
+        			return line;
+        		}
+    		}
+    	}
+}
 
 void 
 FInterpreter::FlaScriptInterpreter(std::string file) {
@@ -250,6 +297,12 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			}		
 		} 
 		
+		// import " " -> name <- 
+		if(FindObject(line, "import") == true) {
+			std::string assign;
+			GetBtwString(line, " \"", "\"", assign);
+		}
+		
 		// func() -> test {
 		if(FindObject(line, "func()") == true) {
 			std::string assign;
@@ -269,6 +322,12 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				Print(file, linebyline);
 			} 
 
+		
+			// get[string]: Hello -> "test.flsh"
+			if(FindObject(linebyline, "get") == true) {
+				Get(file, linebyline);
+			}
+			
 			// exec(system -> scrift ->[->arg])
 			if(FindObject(linebyline, "exec") == true) {
 				std::string assign;

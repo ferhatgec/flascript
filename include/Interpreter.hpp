@@ -28,7 +28,9 @@ public:
 	bool ReadFileWithReturn(std::string, std::string);
 	bool FCommentLine(std::string, std::string);
 	void Read(std::string);
-	void Print(std::string, std::string);	
+	void Print(std::string, std::string);
+	void Get(std::string, std::string);
+	std::string FlaScriptImporter(std::string, std::string);	
 };
 
 #endif // INTERPRETER_HPP

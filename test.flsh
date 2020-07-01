@@ -5,13 +5,10 @@
 # 
 </
 
-import "test.flsh"
-
-get[string]: Hello -> "test.flsh"
+var[string]: Hello FlaScript! -> Hello <-
 
 main() -> main {
 // newline = slashn = '\n' = "\n"
 // print(newline) -> "Hello FlaScript!"
-//print(colorized[:1, 31:]) -> "Hello FlaScript!" <-
-print(get[string]: Hello -> "test.flsh") [this]
+print(colorized[:1, 31:]) -> "Hello FlaScript!" <-
 }
