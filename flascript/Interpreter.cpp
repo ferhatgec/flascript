@@ -36,6 +36,20 @@ std::string test;
 std::string alltext;
 std::string linebyline;
 
+int random(int min_num, int max_num) {
+    int result=0,low_num=0,hi_num=0;
+     if(min_num<max_num) {
+         low_num=min_num;
+         hi_num=max_num+1; // this is done to include max_num in output.
+     } else{
+         low_num=max_num+1;// this is done to include max_num in output.
+         hi_num=min_num;
+     }
+     srand(time(NULL));
+     result = (rand()%(hi_num-low_num-low_num))+low_num; // Unsecure.
+     return result;
+}
+
 // Get Between String    
 void 
 FInterpreter::GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
@@ -367,7 +381,33 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			if(FindObject(linebyline, "get") == true) {
 				Get(file, linebyline);
 			}
-			
+
+			// random(:1, 12:) -> print
+			if(FindObject(linebyline, "random") == true) {
+				std::string assign;
+				std::string first, second;
+				GetBtwString(linebyline, "(", ")", assign);
+				if(assign == "error") {
+					printf("main() : random : brackets error. random(:, :)\n");
+				}
+				GetBtwString(assign, ":", ", ", first);
+				if(first == "error") {
+					srand(time(NULL));
+					int number = atoi(assign.c_str());
+					std::cout << random(0, number);	
+				} else {
+					GetBtwString(assign, ", ", " :", second);
+					if(second == "error") {
+						printf("main() : random : second number is not defined. random(..., 2:)\n"); 
+					}
+					int first_number = atoi(first.c_str());
+					int second_number = atoi(second.c_str());
+					srand(time(NULL));
+					std::cout << random(first_number, second_number);
+				}
+				
+			}
+						
 			// exec(system -> scrift ->[->arg])
 			if(FindObject(linebyline, "exec") == true) {
 				std::string assign;

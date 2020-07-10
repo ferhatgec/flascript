@@ -6,5 +6,8 @@
 </
 
 main() -> main {
-random(400)
+// Input
+input(string)
+// Print Input
+print(last)
 }
