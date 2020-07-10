@@ -30,13 +30,15 @@ int pr_check;
 int check;
 int intest;
 int load;
+std::string inp;
 std::string loadstr;
 std::string test;
 std::string alltext;
 std::string linebyline;
 
 // Get Between String    
-void GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
+void 
+FInterpreter::GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
     int start = oStr.find(sStr1);   
     if (start >= 0) {       
       std::string tstr = oStr.substr(start + sStr1.length());        
@@ -50,7 +52,8 @@ void GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::s
        rStr = "error"; 
 }    
 
-std::string EraseAllSubString(std::string & mainString, const std::string & erase) {
+std::string 
+FInterpreter::EraseAllSubString(std::string & mainString, const std::string & erase) {
     size_t pos = std::string::npos;
     while((pos = mainString.find(erase)) != std::string::npos) {
         mainString.erase(pos, erase.length());
@@ -162,6 +165,12 @@ FInterpreter::Print(std::string file, std::string arg) {
 					GetBtwString(arg, " \"", "\"", assign);
 					std::cout << atoi(assign.c_str());
 				} 
+			} else if(assign == "input") {
+				std::string input;
+				std::cin >> input;
+				std::cout << input;
+			} else if(assign == "last") {
+				std::cout << inp;
 			} else if(FindObject(assign, "get") == true) {
 				// print(get[string] -> test ->) ->this
 				std::string get;
@@ -324,7 +333,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			GetBtwString(alltext, "func() -> " + assign + " {", "}", alltext);
 			//Print(file, alltext);
 		}
-
+		
         	if(FindObject(line, "main() -> main {") == true) {
         		Read(file);
         		GetBtwString(alltext, "main() -> main {", "}", alltext);
@@ -335,7 +344,25 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				Print(file, linebyline);
 			} 
 
-		
+			// var(string&) -> Hello -> Hello <-
+			// input(get[string] ->  ->) [this]
+			if(FindObject(linebyline, "input") == true) {
+				std::string assign;
+				GetBtwString(linebyline, "(", ")", assign);
+				if(FindObject(assign, "get") == true) {
+					std::string get;
+					GetBtwString(assign, "[", "]", get); 
+					if(get == "string") {
+						std::cin >> inp;
+						GetBtwString(linebyline, " -> ", " ->", assign);
+						if(ReadFileWithReturn(file, Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
+							test = Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace + inp + Whitespace + ArrowKey + Whitespace + assign + Whitespace + LeftArrowKey;
+						}			 
+					} 
+				} else if(assign == "string") {
+					std::cin >> inp;
+				}
+			}
 			// get[string]: Hello -> "test.flsh"
 			if(FindObject(linebyline, "get") == true) {
 				Get(file, linebyline);

@@ -44,6 +44,7 @@ public:
 	// System Integration
 	std::string Exec = "exec";
 	std::string System = "system";
+	
 } Tokenizer;
 
 #endif // TOKENIZER_HPP

@@ -5,13 +5,9 @@
 # 
 </
 
-import "test.flsh"
-
-get[string]: Hello -> "test.flsh"
-
 main() -> main {
-// newline = slashn = '\n' = "\n"
-// print(newline) -> "Hello FlaScript!"
-//print(colorized[:1, 31:]) -> "Hello FlaScript!" <-
-print(get[int]: Hello -> "test.flsh") [this]
+// Input
+input(string)
+// Print Input
+print(last)
 }

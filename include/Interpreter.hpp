@@ -22,6 +22,7 @@ public:
 	std::string BracketsBegin = "(";
 	std::string BracketsEnd = ")";
 	std::string ArrowKey = "->";
+	std::string LeftArrowKey = "<-";
 	std::string Whitespace = " ";
 	static bool FindObject(std::string, std::string);
 	void FlaScriptInterpreter(std::string);
@@ -30,7 +31,9 @@ public:
 	void Read(std::string);
 	void Print(std::string, std::string);
 	void Get(std::string, std::string);
-	std::string FlaScriptImporter(std::string, std::string);	
+	void GetBtwString(std::string, std::string, std::string, std::string &);
+	std::string FlaScriptImporter(std::string, std::string);
+	std::string EraseAllSubString(std::string &, const std::string &);	
 };
 
 #endif // INTERPRETER_HPP
