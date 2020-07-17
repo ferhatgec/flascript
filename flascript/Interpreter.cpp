@@ -245,7 +245,11 @@ FInterpreter::Print(std::string file, std::string arg) {
 				}
 			} else if(assign == "newline") {
 				GetBtwString(arg, " \"", "\"", assign);
-				std::cout << assign << "\n";
+				if(assign != "error") {
+					std::cout << assign << "\n";
+				} else {
+					std::cout << "\n";
+				}
 			} else if(FindObject(assign, "colorized") == true) {
 				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
 				std::string get, color_type, color;
