@@ -6,5 +6,5 @@
 </
 
 main() -> main {
-read(string&) -> type[arch]
+random(400)
 }

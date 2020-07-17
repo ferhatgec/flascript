@@ -14,6 +14,7 @@
 // Libraries
 #include "../Library/FileSystemPlusPlus.h"
 #include "../Library/Colorized.hpp"
+#include "../Library/SystemInfo.hpp"
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -362,6 +363,40 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				Print(file, linebyline);
 			} 
 
+			// read(string&) -> type[cpu]
+			if(FindObject(linebyline, "read") == true) {
+				std::string assign;
+				GetBtwString(linebyline, "(", ")", assign);
+				
+				if(assign != "error" && assign == "string&") {
+					GetBtwString(linebyline, "type[", "]", assign);
+					if(assign != "error") {
+						systemInfo info;
+						if(assign == "cpu") {
+							fsplusplus::ReadCPU();
+						} else if(assign == "os") {
+							std::cout << fsplusplus::ReadOSName() << "\n";
+						} else if(assign == "uptime") {
+							std::cout << info.getUptime() << "\n";
+						} else if(assign == "arch") {
+							std::cout << info.getArch() << "\n";
+						} else if(assign == "hostname") {
+							std::cout << info.getUsername() << "\n";
+						} else if(assign == "username") {
+							std::cout << info.getHostname() << "\n";
+						} else if(assign == "shell") {
+							std::cout << info.getShell() << "\n";
+						} else if(assign == "kernelname") {
+							std::cout << info.getSystem() << "\n";
+						} else if(assign == "kernelrelease") {
+							std::cout << info.getKernel() << "\n";
+						} else if(assign == "terminal") {
+							std::cout << info.getTerm() << "\n";
+						}
+					} 
+				}
+			}
+		
 			// var(string&) -> Hello -> Hello <-
 			// input(get[string] ->  ->) [this]
 			if(FindObject(linebyline, "input") == true) {

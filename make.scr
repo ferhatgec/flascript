@@ -5,5 +5,5 @@
 *# 
 
 system("g++ ./flascript/FlaScriptMain.cpp ./flascript/Interpreter.cpp -o fla");
-system("./fla");
+system("./fla --b");
 return
