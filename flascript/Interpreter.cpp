@@ -261,7 +261,7 @@ FInterpreter::Print(std::string file, std::string arg) {
 					GetBtwString(arg, " \"", "\" <-", assign);
 					if(assign == "error") {
 						GetBtwString(arg, " \"", "\"", assign);
-						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign;
+						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m";
 					} else {
 						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign;
 					}
@@ -278,7 +278,7 @@ FInterpreter::Print(std::string file, std::string arg) {
 					GetBtwString(arg, " \"", "\" <-", assign);
 					if(assign == "error") {
 						GetBtwString(arg, " \"", "\"", assign);
-						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign;
+						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m";
 					} else {
 						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign << WBLACK_COLOR;
 					}
@@ -397,9 +397,9 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 							std::cout << info.getUptime() << "\n";
 						} else if(assign == "arch") {
 							std::cout << info.getArch() << "\n";
-						} else if(assign == "hostname") {
-							std::cout << info.getUsername() << "\n";
 						} else if(assign == "username") {
+							std::cout << info.getUsername() << "\n";
+						} else if(assign == "hostname") {
 							std::cout << info.getHostname() << "\n";
 						} else if(assign == "shell") {
 							std::cout << info.getShell() << "\n";
