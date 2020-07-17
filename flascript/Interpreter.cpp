@@ -261,9 +261,9 @@ FInterpreter::Print(std::string file, std::string arg) {
 					GetBtwString(arg, " \"", "\" <-", assign);
 					if(assign == "error") {
 						GetBtwString(arg, " \"", "\"", assign);
-						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m";
+						colorized::PrintWhReset(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), "");
 					} else {
-						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign;
+						colorized::PrintWhReset(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
 					}
 				} else {
 					printf("colorized : Brackets error.\n");
@@ -278,9 +278,9 @@ FInterpreter::Print(std::string file, std::string arg) {
 					GetBtwString(arg, " \"", "\" <-", assign);
 					if(assign == "error") {
 						GetBtwString(arg, " \"", "\"", assign);
-						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m";
+						colorized::PrintWith(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), "");
 					} else {
-						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign << WBLACK_COLOR;
+						colorized::PrintWith(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
 					}
 				} else {
 					printf("colorized : Brackets error.\n");
@@ -391,24 +391,24 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 						systemInfo info;
 						if(assign == "cpu") {
 							fsplusplus::ReadCPU();
-						} else if(assign == "os") {
-							std::cout << fsplusplus::ReadOSName() << "\n";
+						} else if(assign == "osname") {
+							std::cout << fsplusplus::ReadOSName();
 						} else if(assign == "uptime") {
-							std::cout << info.getUptime() << "\n";
+							std::cout << info.getUptime();
 						} else if(assign == "arch") {
-							std::cout << info.getArch() << "\n";
+							std::cout << info.getArch();
 						} else if(assign == "username") {
-							std::cout << info.getUsername() << "\n";
+							std::cout << info.getUsername();
 						} else if(assign == "hostname") {
-							std::cout << info.getHostname() << "\n";
+							std::cout << info.getHostname();
 						} else if(assign == "shell") {
-							std::cout << info.getShell() << "\n";
+							std::cout << info.getShell();
 						} else if(assign == "kernelname") {
-							std::cout << info.getSystem() << "\n";
+							std::cout << info.getSystem();
 						} else if(assign == "kernelrelease") {
-							std::cout << info.getKernel() << "\n";
+							std::cout << info.getKernel();
 						} else if(assign == "terminal") {
-							std::cout << info.getTerm() << "\n";
+							std::cout << info.getTerm();
 						}
 					} 
 				}
