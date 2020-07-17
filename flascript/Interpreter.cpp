@@ -237,6 +237,11 @@ FInterpreter::Print(std::string file, std::string arg) {
 						std::string nil_int;
 						GetBtwString(test, " -> ", " <-", nil_int);
 					}
+				} else if(get == "env") {
+					GetBtwString(assign, " -> ", " <-", get);
+					check = 5;
+					assign = getenv(get.c_str());
+					std::cout << assign;
 				} 
 				GetBtwString(arg, "[t", "s]", assign); 
 				if(assign == "hi") {
@@ -413,7 +418,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					} 
 				}
 			}
-		
+			
 			// var(string&) -> Hello -> Hello <-
 			// input(get[string] ->  ->) [this]
 			if(FindObject(linebyline, "input") == true) {
