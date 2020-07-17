@@ -5,4 +5,4 @@
 # 
 #!/bin/sh
 
-g++ ./flascript/FlaScriptMain.cpp ./flascript/Interpreter.cpp -o fla && ./fla
+g++ ./flascript/FlaScriptMain.cpp ./flascript/Interpreter.cpp -o fla && ./fla --b

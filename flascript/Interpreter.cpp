@@ -251,23 +251,6 @@ FInterpreter::Print(std::string file, std::string arg) {
 				} else {
 					std::cout << "\n";
 				}
-			} else if(FindObject(assign, "colorized") == true) {
-				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
-				std::string get, color_type, color;
-				GetBtwString(assign, "[", "]", get);
-				if(get != "error") {
-					GetBtwString(get, ":", ",", color_type);
-					GetBtwString(get, " ", ":", color);
-					GetBtwString(arg, " \"", "\" <-", assign);
-					if(assign == "error") {
-						GetBtwString(arg, " \"", "\"", assign);
-						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign;
-					} else {
-						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign << WBLACK_COLOR;
-					}
-				} else {
-					printf("colorized : Brackets error.\n");
-				}
 			} else if(FindObject(assign, "rcolorized") == true) {
 				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
 				std::string get, color_type, color;
@@ -281,6 +264,23 @@ FInterpreter::Print(std::string file, std::string arg) {
 						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign;
 					} else {
 						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign;
+					}
+				} else {
+					printf("colorized : Brackets error.\n");
+				}
+			} else if(FindObject(assign, "colorized") == true) {
+				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
+				std::string get, color_type, color;
+				GetBtwString(assign, "[", "]", get);
+				if(get != "error") {
+					GetBtwString(get, ":", ",", color_type);
+					GetBtwString(get, " ", ":", color);
+					GetBtwString(arg, " \"", "\" <-", assign);
+					if(assign == "error") {
+						GetBtwString(arg, " \"", "\"", assign);
+						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign;
+					} else {
+						std::cout << Templatestr + colorized::IntToString(atoi(color_type.c_str())) + Semicolonstr + colorized::IntToString(atoi(color.c_str())) + "m" << assign << WBLACK_COLOR;
 					}
 				} else {
 					printf("colorized : Brackets error.\n");
