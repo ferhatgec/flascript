@@ -4,5 +4,6 @@
 *   Distributed under the terms of the MIT License.
 *# 
 
-system("g++ ./flascript/FlaScriptMain.cpp ./flascript/Interpreter.cpp -o fla && ./fla");
+system("g++ ./flascript/FlaScriptMain.cpp ./flascript/Interpreter.cpp -o fla");
+system("./fla");
 return

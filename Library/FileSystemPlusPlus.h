@@ -23,6 +23,14 @@
 #endif
 
 namespace fsplusplus {
+	static std::string EraseAllSubString(std::string & mainString, const std::string & erase) {
+   	 size_t pos = std::string::npos;
+   	 while((pos = mainString.find(erase)) != std::string::npos) {
+   	     	mainString.erase(pos, erase.length());
+   	 }
+   		return mainString;
+    	}
+
 	static std::string GetCurrentWorkingDir(void) {
   		char buff[FILENAME_MAX];
   		GetCurrentDir( buff, FILENAME_MAX );
@@ -340,15 +348,66 @@ namespace fsplusplus {
    	 closedir(directory);
     	}
     	
+	// Get Between String    
+	static void GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
+    		int start = oStr.find(sStr1);   
+    	if (start >= 0) {       
+      		std::string tstr = oStr.substr(start + sStr1.length());        
+      		int stop = tstr.find(sStr2);      
+      		if (stop >1)          
+        		rStr = oStr.substr(start + sStr1.length(), stop);
+      		else
+        		rStr ="error";  
+    		}
+    		else
+       		rStr = "error"; 
+	}    
+    
     	static void ReadFilePath(std::string path) {
     		std::string line;
     		std::ifstream readfile(path.c_str());
-    		if(readfile.is_open())
-    		{
-        	while (std::getline(readfile, line))
-        	{
-			printf(line.c_str());
-			printf("\n");
+    		if(readfile.is_open()) {
+        	while (std::getline(readfile, line)) {
+        		if(line.find("PRETTY_NAME=\"") == 0) {
+				GetBtwString(line, "\"", "\"", line);
+				printf(line.c_str());
+				printf("\n");
+        		}
+        	}
+        	readfile.close();
+    	} else {
+        	printf("Unable to open file\n");
+    	}
+	}
+	
+	static std::string ReadOSName() {
+    		std::string line;
+    		std::ifstream readfile("/etc/os-release");
+    		if(readfile.is_open()) {
+        	while (std::getline(readfile, line)) {
+        		if(line.find("PRETTY_NAME=\"") == 0) {
+				GetBtwString(line, "\"", "\"", line);
+				return line;
+        		}
+        	}
+        	readfile.close();
+    	} else {
+        	printf("Unable to open file\n");
+    	}
+	}
+	
+	
+	static void ReadCPU() {
+    		std::string line;
+    		std::ifstream readfile("/proc/cpuinfo");
+    		if(readfile.is_open()) {
+        	while (std::getline(readfile, line)) {
+        		if(line.find("model name	: ") == 0) {
+				line = EraseAllSubString(line, "model name	: ");
+				printf(line.c_str());
+				printf("\n");
+				return;
+        		}
         	}
         	readfile.close();
     	} else {
