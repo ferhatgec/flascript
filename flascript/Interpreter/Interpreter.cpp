@@ -104,6 +104,7 @@ FInterpreter::ReadFileWithReturn(std::string file, std::string argument) {
     	} else {
         	printf("Unable to open file\n");
     	}
+	return false;
 }
 
 
@@ -122,6 +123,7 @@ FInterpreter::FCommentLine(std::string file, std::string argument) {
     	} else {
         	printf("Unable to open file\n");
     	}
+	return false;
 }
 
 void
@@ -178,6 +180,7 @@ FInterpreter::FlaScriptImporter(std::string file, std::string get) {
         		}
     		}
     	}
+	return "null";
 }
 
 void 
@@ -217,7 +220,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			} else if(assign == "int&") {
 				// var(int&) -> Argc <-
 				GetBtwString(line, " -> ", " <-", assign);
-				load = NULL;
+				load = 0;
 			} else if(assign == "string") {
 				// var(string) -> test -> abc
 				GetBtwString(line, " -> ", " <-", assign);

@@ -315,9 +315,10 @@ namespace fsplusplus {
 			return line + "\n";
         	}
         	readfile.close();
-    	} else {
-        	printf("Unable to open file\n");
-    	}
+    		} else {
+        		printf("Unable to open file\n");
+    		}
+		return "null";
     	}
     	
     	static void FindPath(std::string name) {
@@ -345,7 +346,7 @@ namespace fsplusplus {
                  printf("%4s %s\n", "[File]", entryname->d_name);
             }
             }
-   	 closedir(directory);
+   	    closedir(directory);
     	}
     	
 	// Get Between String    
@@ -375,9 +376,9 @@ namespace fsplusplus {
         		}
         	}
         	readfile.close();
-    	} else {
-        	printf("Unable to open file\n");
-    	}
+    		} else {
+        		printf("Unable to open file\n");
+    		}
 	}
 	
 	static std::string ReadOSName() {
@@ -391,9 +392,10 @@ namespace fsplusplus {
         		}
         	}
         	readfile.close();
-    	} else {
-        	printf("Unable to open file\n");
-    	}
+    		} else {
+        		printf("Unable to open file\n");
+    		}
+		return "null";	
 	}
 	
 	
