@@ -19,7 +19,7 @@ void HelpFunction() {
 }
 
 int main(int argc, char** argv) {
-		if(argc > 1) {
+	if(argc > 1) {
 		for(int i = 1; i < argc; i++) {
 			std::string arg(argv[i]);
 			if(arg.substr(0, 2) == "--") {
@@ -41,4 +41,5 @@ int main(int argc, char** argv) {
         } else {
         	HelpFunction();
         }
+	return 0;
 }
