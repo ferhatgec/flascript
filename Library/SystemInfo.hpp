@@ -5,14 +5,20 @@
 #
 # */
 
+#ifndef SYSTEM_INFO_HPP
+#define SYSTEM_INFO_HPP
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <algorithm>
 #include <sys/utsname.h>
-#include <sys/sysinfo.h>
 #include <chrono>
+
+#ifndef __FreeBSD__
+	#include <sys/sysinfo.h>
+#endif
 
 // Libraries 
 #include "Colorized.hpp"
@@ -101,6 +107,9 @@ public:
 		return deviceName;
 	}
 	string getUptime() {
+		#ifdef __FreeBSD__ 
+		return "null";
+		#else
 		struct sysinfo info;
 		sysinfo(&info);
 		uptime = info.uptime;
@@ -128,6 +137,7 @@ public:
 		}
 		uptimeString = uptimeStream.str();
 		return uptimeString;
+		#endif
 	}
 	string getShell() {
 		shell = getenv("SHELL");
@@ -168,3 +178,4 @@ private:
 	stringstream uptimeStream;
 };
 
+#endif // SYSTEM_INFO_HPP
