@@ -6,13 +6,6 @@
 </
 
 main() -> main {
-	print(string) -> "Username: " /> Print Username (USER) Environment </
-	print(get[env] -> USER <-) [this]
-	print(newline)
-	print(string) -> "Home: " /> Print Home Directory (HOME) Environment </
-	print(get[env] -> HOME <-) [this]
-	print(newline)
-	print(string) -> "Working Directory: " /> Print Working Directory (PWD) Environment </ 
-	print(get[env] -> PWD <-) [this]
+	print(EraseAllSubstring(string["Hello FlaScript!?!?", "!?"])) // Output: Hello FlaScript
 	print(newline)
 } 

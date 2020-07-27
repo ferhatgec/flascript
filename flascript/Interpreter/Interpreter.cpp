@@ -13,6 +13,7 @@
 #include <Interpreter/Read.hpp>
 #include <Interpreter/Print.hpp>
 #include <Interpreter/Exec.hpp>
+#include <Interpreter/String.hpp>
 
 // Libraries
 #include "../Library/FileSystemPlusPlus.h"
@@ -318,6 +319,11 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				FExec execute;
 				execute.Exec(linebyline);	
         		} 
+			// EraseAllSubstring(string["Hello FlaScript!", "ll"])
+			if(FindObject(linebyline, "EraseAllSubstring") == true) {
+				FString st;
+				std::cout << st.EraseAllSubString(linebyline);
+			}
         		}
         	}
 	}

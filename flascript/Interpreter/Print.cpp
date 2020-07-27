@@ -11,6 +11,7 @@
 #include <Tokenizer.hpp>
 #include <Interpreter/Interpreter.hpp>
 #include <Interpreter/Print.hpp>
+#include <Interpreter/String.hpp>
 
 // Libraries
 #include "../../Library/FileSystemPlusPlus.h"
