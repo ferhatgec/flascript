@@ -78,7 +78,7 @@ FInterpreter::EraseAllSubString(std::string & mainString, const std::string & er
 
 bool
 FInterpreter::FindObject(std::string object, std::string find) {
-	if(object.find(find) == 0) {
+	if(strstr(object.c_str(), find.c_str())) {
 		return true;
 	} else {
 		return false;

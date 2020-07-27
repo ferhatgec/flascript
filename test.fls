@@ -6,16 +6,13 @@
 </
 
 main() -> main {
-/> Print Username (USER) Environment </
-print(string) -> "Username: "
-print(get[env] -> USER <-) [this]
-print(newline)
-/> Print Home Directory (HOME) Environment </
-print(string) -> "Home: "
-print(get[env] -> HOME <-) [this]
-print(newline)
-/> Print Working Directory (PWD) Environment </
-print(string) -> "Working Directory: " 
-print(get[env] -> PWD <-) [this]
-print(newline)
-}
+	print(string) -> "Username: " /> Print Username (USER) Environment </
+	print(get[env] -> USER <-) [this]
+	print(newline)
+	print(string) -> "Home: " /> Print Home Directory (HOME) Environment </
+	print(get[env] -> HOME <-) [this]
+	print(newline)
+	print(string) -> "Working Directory: " /> Print Working Directory (PWD) Environment </ 
+	print(get[env] -> PWD <-) [this]
+	print(newline)
+} 
