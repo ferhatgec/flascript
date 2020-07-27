@@ -29,8 +29,7 @@
 
 using namespace std; // Sorry...
 
-const std::string compilation_time = __TIME__;
-std::string ftime(compilation_time); // Convert
+static std::string ftime(__TIME__); // Convert
 
 class systemInfo {
 public:
@@ -42,15 +41,15 @@ public:
    		return mainString;
     	}
 
-	void getOS() {
+	static void getOS() {
 		fsplusplus::ReadFilePath("/etc/os-release"); 
 	}
 	
-	void getCPU() {
+	static void getCPU() {
 		fsplusplus::ReadCPU();
 	}
 
-	void Test16bitColours() {
+	static void Test16bitColours() {
 		colorized::PrintWith(colorized::Colorize(BOLD, BLACK).c_str(), "███");
 		colorized::PrintWith(colorized::Colorize(BOLD, RED).c_str(), "███");
 		colorized::PrintWith(colorized::Colorize(BOLD, GREEN).c_str(), "███");
@@ -69,7 +68,7 @@ public:
 		colorized::PrintWith(colorized::Colorize(BOLD, WHITE).c_str(), "███");	
 	}
 
-	string getSystem() {
+	static string getSystem() {
 		struct utsname buf;
 		if(!uname(&buf)) { //Get name and information about current kernel.
 			//printf("%s\n",buf.sysname);//Display the system name.
@@ -80,14 +79,13 @@ public:
 		}
 	}
 	
-	string getHostname() {
+	static string getHostname() {
 		struct utsname sysinfo;
 		uname(&sysinfo);
-		hostname = sysinfo.nodename;
-		return hostname;
+		return sysinfo.nodename;
 	}
-	string getUsername() {
-		username = getenv("USER");
+	static string getUsername() {
+		string username = getenv("USER");
 		return username;
 	}
 	int getUserHostLength() {
@@ -169,7 +167,7 @@ public:
 		return visual;
 	}
 private:
-	string distroLine, filename, hostname, username, deviceName,
+	string distroLine, filename, hostname, deviceName,
 		uptimeString, shell, terminal, kernelVersion, architecture,
 		editor, visual, lineOne;
 	double uptime, uptimeMinutes, uptimeHour, uptimeDay;

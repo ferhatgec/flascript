@@ -6,9 +6,9 @@
 # */
 
 #include <iostream>
-#include "../include/Interpreter.hpp"
-#include "../include/FlaScriptMain.hpp"
-#include "../include/FlaVersion.hpp"
+#include <Interpreter/Interpreter.hpp>
+#include <FlaScriptMain.hpp>
+#include <FlaVersion.hpp>
 
 #include "../Library/FileSystemPlusPlus.h"
 

@@ -8,8 +8,11 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
-#include "../include/Tokenizer.hpp"
-#include "../include/Interpreter.hpp"
+#include <Tokenizer.hpp>
+#include <Interpreter/Interpreter.hpp>
+#include <Interpreter/Read.hpp>
+#include <Interpreter/Print.hpp>
+#include <Interpreter/Exec.hpp>
 
 // Libraries
 #include "../Library/FileSystemPlusPlus.h"
@@ -164,141 +167,6 @@ FInterpreter::Get(std::string file, std::string arg) {
 	}
 }
 
-
-void
-FInterpreter::Print(std::string file, std::string arg) {
-	Tokenizer token;
-	if(FindObject(arg, "print") == true) {
-			std::string assign;
-			GetBtwString(arg, "(", ")", assign);
-			if(assign == "string") {
-				GetBtwString(arg, " \"", "\"", assign);
-				std::cout << assign;
-			} else if(FindObject(assign, "var") == true) {
-				GetBtwString(assign, "[", "]", assign);
-				if(assign == "int") {
-					GetBtwString(arg, " \"", "\"", assign);
-					std::cout << atoi(assign.c_str());
-				} 
-			} else if(assign == "input") {
-				std::string input;
-				std::cin >> input;
-				std::cout << input;
-			} else if(assign == "last") {
-				std::cout << inp;
-			} else if(FindObject(assign, "get") == true) {
-				// print(get[string] -> test ->) ->this
-				std::string get;
-				GetBtwString(assign, "[", "]", get);
-				if(get == "string") {
-					GetBtwString(assign, " ->", " ->", get); // var(string) -> test -> abc
-					if(get == "error") {
-						std::string name;
-						GetBtwString(assign,  ": ", " -> ", name); 	
-						if(name != "error") {
-							pr_check = 1;
-							Get(file, assign);
-						}
-					} else {
-					// var(string)
-					if(ReadFileWithReturn(file, Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
-						GetBtwString(test, " -> ", " -> ", test);
-						check = 1;
-					}
-					}
-				} else if(get == "int") {
-					GetBtwString(assign, " ->", " ->", get);
-					if(get == "error") {
-						std::string name;
-						GetBtwString(assign,  ": ", " -> ", name); 	
-						if(name != "error") {
-							pr_check = 1;
-							Get(file, assign);
-						}
-					} else {
-					if(ReadFileWithReturn(file, Var + BracketsBegin + Int + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
-						check = 2;
-						std::string intest_str;
-						GetBtwString(test, " -> ", " ->", intest_str);
-						intest = atoi(intest_str.c_str());
-					}
-					}
-				} else if(get == "string&") {
-					GetBtwString(assign, " -> ", " <-", get);
-					if(ReadFileWithReturn(file, Var + BracketsBegin + Str + "&" + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
-						check = 3;
-						std::string nil_str;
-						GetBtwString(test, " -> ", " <-", nil_str);
-					}	
-				} else if(get == "int&") {
-					GetBtwString(assign, " -> ", " <-", get);
-					if(ReadFileWithReturn(file, Var + BracketsBegin + Int + "&" + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
-						check = 4;
-						std::string nil_int;
-						GetBtwString(test, " -> ", " <-", nil_int);
-					}
-				} else if(get == "env") {
-					GetBtwString(assign, " -> ", " <-", get);
-					check = 5;
-					assign = getenv(get.c_str());
-					std::cout << assign;
-				} 
-				GetBtwString(arg, "[t", "s]", assign); 
-				if(assign == "hi") {
-					if(check == 1) { std::cout << test; } else if(check == 2) { std::cout << intest; } else if(check == 3) { std::cout << "nil"; } else if(check == 4) { std::cout << "0"; }
-				} else {
-					std::cout << assign;
-				}
-			} else if(assign == "newline") {
-				GetBtwString(arg, " \"", "\"", assign);
-				if(assign != "error") {
-					std::cout << assign << "\n";
-				} else {
-					std::cout << "\n";
-				}
-			} else if(FindObject(assign, "rcolorized") == true) {
-				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
-				std::string get, color_type, color;
-				GetBtwString(assign, "[", "]", get);
-				if(get != "error") {
-					GetBtwString(get, ":", ",", color_type);
-					GetBtwString(get, " ", ":", color);
-					GetBtwString(arg, " \"", "\" <-", assign);
-					if(assign == "error") {
-						GetBtwString(arg, " \"", "\"", assign);
-						colorized::PrintWhReset(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), "");
-					} else {
-						colorized::PrintWhReset(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
-					}
-				} else {
-					printf("colorized : Brackets error.\n");
-				}
-			} else if(FindObject(assign, "colorized") == true) {
-				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
-				std::string get, color_type, color;
-				GetBtwString(assign, "[", "]", get);
-				if(get != "error") {
-					GetBtwString(get, ":", ",", color_type);
-					GetBtwString(get, " ", ":", color);
-					GetBtwString(arg, " \"", "\" <-", assign);
-					if(assign == "error") {
-						GetBtwString(arg, " \"", "\"", assign);
-						colorized::PrintWith(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), "");
-					} else {
-						colorized::PrintWith(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
-					}
-				} else {
-					printf("colorized : Brackets error.\n");
-				}
-			} else if(assign == "error") {
-				GetBtwString(arg, " \"", "\"", assign);
-				std::cout << "print : Double quotes missing";
-			} else {
-				printf("print : Definition Error!\n");
-			}
-	}
-}
-
 std::string
 FInterpreter::FlaScriptImporter(std::string file, std::string get) {
 	std::string line;
@@ -382,41 +250,14 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
         		while(std::getline(f, linebyline)) {
         		// print(var[int]) -> " "
 			if(FindObject(linebyline, "print") == true) {
-				Print(file, linebyline);
+				FPrint pr;				
+				pr.Print(file, linebyline);
 			} 
 
 			// read(string&) -> type[cpu]
 			if(FindObject(linebyline, "read") == true) {
-				std::string assign;
-				GetBtwString(linebyline, "(", ")", assign);
-				
-				if(assign != "error" && assign == "string&") {
-					GetBtwString(linebyline, "type[", "]", assign);
-					if(assign != "error") {
-						systemInfo info;
-						if(assign == "cpu") {
-							fsplusplus::ReadCPU();
-						} else if(assign == "osname") {
-							std::cout << fsplusplus::ReadOSName();
-						} else if(assign == "uptime") {
-							std::cout << info.getUptime();
-						} else if(assign == "arch") {
-							std::cout << info.getArch();
-						} else if(assign == "username") {
-							std::cout << info.getUsername();
-						} else if(assign == "hostname") {
-							std::cout << info.getHostname();
-						} else if(assign == "shell") {
-							std::cout << info.getShell();
-						} else if(assign == "kernelname") {
-							std::cout << info.getSystem();
-						} else if(assign == "kernelrelease") {
-							std::cout << info.getKernel();
-						} else if(assign == "terminal") {
-							std::cout << info.getTerm();
-						}
-					} 
-				}
+				FRead read;
+				read.Read(linebyline);
 			}
 			
 			// var(string&) -> Hello -> Hello <-
@@ -471,16 +312,8 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 						
 			// exec(system -> scrift ->[->arg])
 			if(FindObject(linebyline, "exec") == true) {
-				std::string assign;
-				GetBtwString(linebyline, "(", ")", assign);
-				if(FindObject(assign, "system") == true) {
-						GetBtwString(assign, " -> ", " ->", assign);
-						if(assign != "error") {
-							system(assign.c_str());
-						} else {
-							printf("exec(system) : Arrow Error!\n");
-						}
-				}	
+				FExec execute;
+				execute.Exec(linebyline);	
         		} 
         		}
         	}

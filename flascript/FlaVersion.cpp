@@ -5,7 +5,7 @@
 #
 # */
 
-#include <Interpreter.hpp>
+#include <Interpreter/Interpreter.hpp>
 #include <FlaVersion.hpp>
 #include <iostream>
 #include <cstring>
