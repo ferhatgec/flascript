@@ -8,6 +8,7 @@
 #include <iostream>
 #include "../include/Interpreter.hpp"
 #include "../include/FlaScriptMain.hpp"
+#include "../include/FlaVersion.hpp"
 
 #include "../Library/FileSystemPlusPlus.h"
 
@@ -22,13 +23,13 @@ int main(int argc, char** argv) {
 		for(int i = 1; i < argc; i++) {
 			std::string arg(argv[i]);
 			if(arg.substr(0, 2) == "--") {
-				if(arg == "--help") {
+				if(arg == "--help" || arg == "--h") {
 					HelpFunction();
 					exit(EXIT_SUCCESS);
-				} else if(arg == "--h") {
-					HelpFunction();
-					exit(EXIT_SUCCESS);
-				} else if(arg == "--b" || arg == "--build") {
+				} else if(arg == "--version" || arg == "--v") {
+					FlaVersion vers;
+					std::cout << vers.VersionAlgorithm() << "\n";
+				} else if(arg == "--build" || arg == "--b") {
 					FInterpreter interp;
 					std::getline(std::cin, arg);
 					interp.FlaScriptInterpreter(arg);
