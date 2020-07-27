@@ -3,4 +3,9 @@
 
 ![FlaScript](docs/resource/FlaScript.png)
 
-###### Fegeya FlaScript licensed with MIT License.
+```
+ print(colorized[:1, 33:]) -> "Hello FlaScript! (Yellow)" <-
+```
+
+
+##### Fegeya FlaScript licensed with MIT License.
