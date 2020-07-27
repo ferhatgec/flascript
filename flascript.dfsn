@@ -1,0 +1,8 @@
+main() {
+	{<name>"FlaScript"}#tag[projectname]
+	{<lang>"C++"}#tag[programminglanguage]
+	{<author>"Ferhat Gecdogan"}#tag[creator]
+	{<license>"MIT License"}#tag[mitlicense]
+	{<extension>".fls"}#tag[file_extension]
+	{<type>"Scripting language"}#tag[langtype]
+}end
