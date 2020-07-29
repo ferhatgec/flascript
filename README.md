@@ -3,8 +3,15 @@
 
 ![FlaScript](docs/resource/FlaScript.png)
 
-```
- print(colorized[:1, 33:]) -> "Hello FlaScript! (Yellow)" <-
+```go
+func -> PrintWithColor() {
+    print(colorized[:1, 33:]) -> "Whoa! Hello developer!" <-
+    print(newline)
+}
+
+main() -> main {
+    func -> PrintWithColor()
+}
 ```
 
 
