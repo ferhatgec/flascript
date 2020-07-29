@@ -24,6 +24,10 @@ public:
 	std::string OtherBracketBegin = "(";
 	std::string OtherBracketEnd = ")";
 	
+	// Curly Brackets
+	std::string CurlyBracketsBegin = "{";
+	std::string CurlyBracketsEnd = "}";
+
 	// Variables
 	std::string Var = "var";
 	std::string Int = "int";
@@ -45,6 +49,7 @@ public:
 	std::string Exec = "exec";
 	std::string System = "system";
 	
+	std::string Whitespace = " ";
 } Tokenizer;
 
 #endif // TOKENIZER_HPP

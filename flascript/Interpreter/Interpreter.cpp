@@ -14,6 +14,7 @@
 #include <Interpreter/Print.hpp>
 #include <Interpreter/Exec.hpp>
 #include <Interpreter/String.hpp>
+#include <Interpreter/Function.hpp>
 
 // Libraries
 #include "../Library/FileSystemPlusPlus.h"
@@ -185,6 +186,145 @@ FInterpreter::FlaScriptImporter(std::string file, std::string get) {
 }
 
 void 
+FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
+	Tokenizer token;
+	std::string strarg;
+	std::istringstream argline(arg); 
+        while (std::getline(argline, strarg)) {
+        	// Single Comment Line
+        	if(FindObject(strarg, token.SingleCommentLine) == true) {
+        		strarg.erase();
+        	}
+        	
+        	// Single Comment Line
+        	if(FindObject(strarg, token.CommentLineBegin) == true) {
+			std::string assign;
+			GetBtwString(strarg, token.CommentLineBegin, token.CommentLineEnd, assign);
+			if(assign != "error") {
+				 strarg = EraseAllSubString(file, token.CommentLineBegin + assign + token.CommentLineEnd);
+			} else {
+				/*if(FCommentLine(file, "</") == true) {
+				} else {
+					printf("token.CommentLine Error\n");
+				}*/
+			}	       	
+        	}
+        	        	
+		// var[int] -> 100 -> a
+		if(FindObject(strarg, "var") == true) {
+			std::string assign;
+			GetBtwString(strarg, "[", "]", assign);
+			if(assign == "int") {
+				GetBtwString(strarg, " -> ", " <-", assign);
+				load = atoi(assign.c_str());
+			} else if(assign == "int&") {
+				// var(int&) -> Argc <-
+				GetBtwString(strarg, " -> ", " <-", assign);
+				load = 0;
+			} else if(assign == "string") {
+				// var(string) -> test -> abc
+				GetBtwString(strarg, " -> ", " <-", assign);
+				loadstr = assign;
+			} else if(assign == "string&") {
+				GetBtwString(strarg, " -> ", " <-", assign);
+				loadstr = assign;
+			}		
+		} 
+		
+		// import " " -> name <- 
+		if(FindObject(strarg, "import") == true) {
+			std::string assign;
+			GetBtwString(strarg, " \"", "\"", assign);
+		}
+		
+		// func() -> test {
+		if(FindObject(strarg, "func()") == true) {
+			std::string assign;
+			GetBtwString(strarg, "func() -> ", " {", assign);
+			// Assign = Function name 
+			GetBtwString(alltext, "func() -> " + assign + " {", "}", alltext);
+			//Print(file, alltext);
+		}
+        	
+		// print(var[int]) -> " "
+		if(FindObject(strarg, "print") == true) {
+			FPrint pr;				
+			pr.Print(file, strarg);
+		} 
+
+		// read(string&) -> type[cpu]
+		if(FindObject(strarg, "read") == true) {
+			FRead read;
+			read.Read(strarg);
+		}
+			
+		// var(string&) -> Hello -> Hello <-
+		// input(get[string] ->  ->) [this]
+		if(FindObject(strarg, "input") == true) {
+			std::string assign;
+			GetBtwString(strarg, "(", ")", assign);
+			if(FindObject(assign, "get") == true) {
+				std::string get;
+				GetBtwString(assign, "[", "]", get); 
+				if(get == "string") {
+					std::cin >> inp;
+					GetBtwString(strarg, " -> ", " ->", assign);
+					if(ReadFileWithReturn(file, Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
+						test = Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace + inp + Whitespace + ArrowKey + Whitespace + assign + Whitespace + LeftArrowKey;
+					}			 
+				} 
+		} else if(assign == "string") {std::cin >> inp;}}
+			
+		// get[string]: Hello -> "test.flsh"
+		if(FindObject(strarg, "get") == true) {
+			Get(file, strarg);
+		}
+
+		// random(:1, 12:) -> print
+		if(FindObject(strarg, "random") == true) {
+			std::string assign;
+			std::string first, second;
+			GetBtwString(strarg, "(", ")", assign);
+			if(assign == "error") {
+				printf("main() : random : brackets error. random(:, :)\n");
+			}
+			GetBtwString(assign, ":", ", ", first);
+			if(first == "error") {
+				srand(time(NULL));
+				int number = atoi(assign.c_str());
+				std::cout << random(0, number);	
+			} else {
+				GetBtwString(assign, ", ", " :", second);
+				if(second == "error") {
+					printf("main() : random : second number is not defined. random(..., 2:)\n"); 
+				}
+				int first_number = atoi(first.c_str());
+				int second_number = atoi(second.c_str());
+				srand(time(NULL));
+				std::cout << random(first_number, second_number);
+			}
+				
+		}
+
+		// executepp("TestExec", "fetcheya")
+		if(FindObject(strarg, "executepp") == true) {
+			FExec execute;
+			execute.ExecutePp(strarg);
+		}
+				
+		// exec(system -> scrift ->[->arg])
+		if(FindObject(strarg, "exec") == true) {
+			FExec execute;
+			execute.Exec(strarg);	
+        	} 
+		// EraseAllSubstring(string["Hello FlaScript!", "ll"])
+		if(FindObject(strarg, "EraseAllSubstring") == true) {
+			FString st;
+			std::cout << st.EraseAllSubString(strarg);
+		}
+}
+}
+void 
 FInterpreter::FlaScriptInterpreter(std::string file) {
 	Tokenizer token;
 	std::string line;
@@ -237,21 +377,17 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			std::string assign;
 			GetBtwString(line, " \"", "\"", assign);
 		}
-		
-		// func() -> test {
-		if(FindObject(line, "func()") == true) {
-			std::string assign;
-			GetBtwString(line, "func() -> ", " {", assign);
-			// Assign = Function name 
-			GetBtwString(alltext, "func() -> " + assign + " {", "}", alltext);
-			//Print(file, alltext);
-		}
-		
+
         	if(FindObject(line, "main() -> main {") == true) {
         		Read(file);
         		GetBtwString(alltext, "main() -> main {", "}", alltext);
         		std::istringstream f(alltext);
         		while(std::getline(f, linebyline)) {
+			// func -> Test()
+			if(FindObject(linebyline, "func -> ") == true) {
+				FFunction fnc;
+				fnc.Function(file, linebyline);
+			}
         		// print(var[int]) -> " "
 			if(FindObject(linebyline, "print") == true) {
 				FPrint pr;				
