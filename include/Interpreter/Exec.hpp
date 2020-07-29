@@ -14,6 +14,7 @@
 class FExec {
 public:
 	void Exec(std::string);
+	void ExecutePp(std::string);
 };
 
 #endif // EXEC_HPP

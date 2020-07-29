@@ -16,6 +16,7 @@
 #include "../../Library/FileSystemPlusPlus.h"
 #include "../../Library/Colorized.hpp"
 #include "../../Library/SystemInfo.hpp"
+#include "../../Library/ExecutePlusPlus.hpp"
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -37,8 +38,27 @@ FExec::Exec(std::string arg) {
 			if(assign != "error") {
 				system(assign.c_str());
 			} else {
-				printf("exec(system) : Arrow Error!\n");
+				printf("exec(system) : Arrow Error.\n");
 			}
 		}	
 	} 
+}
+
+// executepp("ExecuteTest", "git") 
+void 
+FExec::ExecutePp(std::string arg) {
+	FInterpreter inp;
+	if(inp.FindObject(arg, "executepp") == true) {
+		std::string assign, first;
+		inp.GetBtwString(arg, "(", ")", assign);
+		inp.GetBtwString(assign, "\"", "\",", first);
+		if(first != "error") {
+			inp.GetBtwString(assign, ", \"", "\"", assign);
+			if(assign != "error") {			
+				ExecutePlusPlus ex;
+				ex.ExecuteName(first.c_str());
+				ex.RunFunction(assign.c_str());		
+			}  
+		}
+	}	
 }

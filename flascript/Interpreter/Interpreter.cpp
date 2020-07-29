@@ -313,7 +313,13 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				}
 				
 			}
-						
+			
+			// executepp("TestExec", "fetcheya")
+			if(FindObject(linebyline, "executepp") == true) {
+				FExec execute;
+				execute.ExecutePp(linebyline);
+			}
+				
 			// exec(system -> scrift ->[->arg])
 			if(FindObject(linebyline, "exec") == true) {
 				FExec execute;

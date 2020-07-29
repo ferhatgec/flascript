@@ -6,6 +6,6 @@
 </
 
 main() -> main {
-	executepp("TestExecute", "git") // Runs git.
-	executepp("TestExecute", "test123") // Gets error.
-}
+	EraseAllSubstring(string["Hello FlaScript!?!?", "!?"]) // Output: Hello FlaScript
+	print(newline)
+} 
