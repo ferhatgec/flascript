@@ -15,6 +15,7 @@
 #include <Interpreter/Exec.hpp>
 #include <Interpreter/String.hpp>
 #include <Interpreter/Function.hpp>
+#include <Interpreter/Definitions.hpp>
 
 // Libraries
 #include "../Library/FileSystemPlusPlus.h"
@@ -209,7 +210,17 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				}*/
 			}	       	
         	}
-        	        	
+        	
+		/* if {
+			ifdef(linux)
+			   // Code here
+		   endif}
+		*/
+		if(FindObject(strarg, token.If) == true) {
+			FDefinition def;
+			def.OSDefinition(file, strarg);
+		}
+	        	
 		// var[int] -> 100 -> a
 		if(FindObject(strarg, "var") == true) {
 			std::string assign;
@@ -350,7 +361,16 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				}
 			}	       	
         	}
-        	        	
+        	        
+		/* if {
+			ifdef(linux)
+			   // Code here
+		   endif}
+		*/
+		if(FindObject(line, token.If) == true) {
+			FDefinition def;
+			def.OSDefinition(file, line);
+		}	
 		// var[int] -> 100 -> a
 		if(FindObject(line, "var") == true) {
 			std::string assign;

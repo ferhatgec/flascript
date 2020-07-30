@@ -1,15 +1,9 @@
-/> MIT License
-#
-# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
-# Distributed under the terms of the MIT License.
-# 
-</
-
-func -> ExecuteThis() {
-	print(colorized[:1, 33:]) -> "Hello FlaScript! (Yellow)" <-
+if {
+    ifdef(freebsd) -> 
+	print(string) -> "FreeBSD!"
 	print(newline)
-}
+endif}
 
 main() -> main {
-	func -> ExecuteThis()
+	
 }

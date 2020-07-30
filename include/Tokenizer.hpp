@@ -49,6 +49,11 @@ public:
 	std::string Exec = "exec";
 	std::string System = "system";
 	
+	// Definitions
+	std::string If = "if {";
+	std::string Ifdef = "ifdef";
+	std::string endif = "endif}";
+	
 	std::string Whitespace = " ";
 } Tokenizer;
 
