@@ -53,6 +53,18 @@ FDefinition::OSDefinition(std::string file, std::string arg) {
 					#ifdef __FreeBSD__
 						inp.FlaScriptInterpreterWithArg(file, read);
 					#endif				
+				} else if(type == "syllable") {
+					#ifdef __SYLLABLE__
+						inp.FlaScriptInterpreterWithArg(file, read);
+					#endif
+				} else if(type == "os2") {
+					#ifdef OS2
+						inp.FlaScriptInterpreterWithArg(file, read);
+					#endif
+				} else if(type == "plan9") {
+					#ifdef EPLAN9
+						inp.FlaScriptInterpreterWithArg(file, read);
+					#endif
 				} else if(type == "win64") {
 					#ifdef _WIN64
 						inp.FlaScriptInterpreterWithArg(file, read);
