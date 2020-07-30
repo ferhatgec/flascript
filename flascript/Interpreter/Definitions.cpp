@@ -61,8 +61,28 @@ FDefinition::OSDefinition(std::string file, std::string arg) {
 					#ifdef __NetBSD__
 						inp.FlaScriptInterpreterWithArg(file, read);
 					#endif
+				} else if(type == "gnuhurd") {
+					#ifdef __gnu_hurd__
+						inp.FlaScriptInterpreterWithArg(file, read);
+					#endif 
+				} else if(type == "gnu_linux") {
+					#ifdef __gnu_linux__
+						inp.FlaScriptInterpreterWithArg(file, read);
+					#endif
 				} else if(type == "morphos") {
 					#ifdef __MORPHOS__
+						inp.FlaScriptInterpreterWithArg(file, read);
+					#endif
+				} else if(type == "macos") {
+					#ifdef __APPLE__ && __MACH__
+						inp.FlaScriptInterpreterWithArg(file, read);
+					#endif
+				} else if(type == "dragonfly") {
+					#ifdef __DragonFly__
+						inp.FlaScriptInterpreterWithArg(file, read);
+					#endif
+				} else if(type == "beos") {
+					#ifdef __BEOS__
 						inp.FlaScriptInterpreterWithArg(file, read);
 					#endif
 				} else if(type == "syllable") {
