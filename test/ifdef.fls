@@ -1,0 +1,9 @@
+if {
+    ifdef(freebsd) -> 
+	print(string) -> "FreeBSD!"
+	print(newline)
+endif}
+
+main() -> main {
+	
+}
