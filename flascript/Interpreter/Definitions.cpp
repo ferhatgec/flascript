@@ -53,6 +53,18 @@ FDefinition::OSDefinition(std::string file, std::string arg) {
 					#ifdef __FreeBSD__
 						inp.FlaScriptInterpreterWithArg(file, read);
 					#endif				
+				} else if(type == "openbsd") {
+					#ifdef __OpenBSD__
+						inp.FlaScriptInterpreterWithArg(file, read);
+					#endif
+				} else if(type == "netbsd") {
+					#ifdef __NetBSD__
+						inp.FlaScriptInterpreterWithArg(file, read);
+					#endif
+				} else if(type == "morphos") {
+					#ifdef __MORPHOS__
+						inp.FlaScriptInterpreterWithArg(file, read);
+					#endif
 				} else if(type == "syllable") {
 					#ifdef __SYLLABLE__
 						inp.FlaScriptInterpreterWithArg(file, read);
