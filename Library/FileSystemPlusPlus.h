@@ -382,6 +382,9 @@ namespace fsplusplus {
 	}
 	
 	static std::string ReadOSName() {
+		#ifdef __FreeBSD__
+		return "FreeBSD";
+		#else
     		std::string line;
     		std::ifstream readfile("/etc/os-release");
     		if(readfile.is_open()) {
@@ -395,21 +398,38 @@ namespace fsplusplus {
     		} else {
         		printf("Unable to open file\n");
     		}
-		return "null";	
+		return "null";
+		#endif	
 	}
 	
 	
 	static void ReadCPU() {
     		std::string line;
-    		std::ifstream readfile("/proc/cpuinfo");
-    		if(readfile.is_open()) {
+		#ifdef __FreeBSD__
+    		std::ifstream readfile("/var/run/dmesg.boot");
+		#else
+		std::ifstream readfile("/proc/cpuinfo");	
+		#endif    		
+		if(readfile.is_open()) {
         	while (std::getline(readfile, line)) {
+			#ifdef __FreeBSD__
+			if(line.find("CPU: ") == 0) {
+				line = EraseAllSubString(line, "CPU: ");
+				if(line.length() >= 20) {
+					line = line.substr(0, 40);
+				}
+				printf(line.c_str());
+				printf("\n");
+				return;
+        		}
+			#else
         		if(line.find("model name	: ") == 0) {
 				line = EraseAllSubString(line, "model name	: ");
 				printf(line.c_str());
 				printf("\n");
 				return;
         		}
+			#endif
         	}
         	readfile.close();
     	} else {
