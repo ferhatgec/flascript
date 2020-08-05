@@ -56,6 +56,9 @@ FRead::Read(std::string arg) {
 					std::cout << info.getKernel();
 				} else if(assign == "terminal") {
 					std::cout << info.getTerm();
+				} else {
+					assign = getenv(assign.c_str());
+					std::cout << assign;
 				}
 			} 
 		}

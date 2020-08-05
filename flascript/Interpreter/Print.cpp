@@ -126,7 +126,11 @@ FPrint::Print(std::string file, std::string arg) {
 				std::string get, color_type, color;
 				inp.GetBtwString(assign, "[", "]", get);
 				if(get != "error") {
-					inp.GetBtwString(get, ":", ",", color_type);
+					if(strstr(get.c_str(), ":1,")) {
+						color_type = 1;
+					} else {
+						inp.GetBtwString(get, ":", ",", color_type);
+					}					
 					inp.GetBtwString(get, " ", ":", color);
 					inp.GetBtwString(arg, " \"", "\" <-", assign);
 					if(assign == "error") {
@@ -143,7 +147,11 @@ FPrint::Print(std::string file, std::string arg) {
 				std::string get, color_type, color;
 				inp.GetBtwString(assign, "[", "]", get);
 				if(get != "error") {
-					inp.GetBtwString(get, ":", ",", color_type);
+					if(strstr(get.c_str(), ":1,")) {
+						color_type = 1;
+					} else {
+						inp.GetBtwString(get, ":", ",", color_type);
+					}
 					inp.GetBtwString(get, " ", ":", color);
 					inp.GetBtwString(arg, " \"", "\" <-", assign);
 					if(assign == "error") {

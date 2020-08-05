@@ -6,7 +6,7 @@
 </
 
 main() -> main {
-print(rcolorized[:1, 33:]) -> "Hello FlaScript! (Yellow)" <-
+print(rcolorized[:11, 33:]) -> "Hello FlaScript! (Yellow)" <-
 print(string) -> "Hello World! (Yellow)"
 // EOL (End of Line) arrow operator is calling the RESET_COLOR
 }

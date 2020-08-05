@@ -15,31 +15,35 @@
 #define EXIT_SUCCESS 0
 
 void HelpFunction() {
-	printf("Fegeya FlaScript\nflascript --b : Interprets your FlaScript code\nflascript -v : Shows version\n");
+	printf("Fegeya FlaScript\nflascript --b  <source> : Interprets your FlaScript code\nflascript --v || --version : Shows version\n");
 }
 
 int main(int argc, char** argv) {
+	std::string copy_arg, reg;
 	if(argc > 1) {
-		for(int i = 1; i < argc; i++) {
+        	for(int i = 1; i < argc; i++) {
 			std::string arg(argv[i]);
-			if(arg.substr(0, 2) == "--") {
-				if(arg == "--help" || arg == "--h") {
-					HelpFunction();
-					exit(EXIT_SUCCESS);
-				} else if(arg == "--version" || arg == "--v") {
-					FlaVersion vers;
-					std::cout << vers.VersionAlgorithm() << "\n";
-				} else if(arg == "--build" || arg == "--b") {
-					FInterpreter interp;
-					std::getline(std::cin, arg);
-					interp.FlaScriptInterpreter(arg);
-				}
-			} else {
-				HelpFunction();
-			}
+			reg = argv[1];
+			copy_arg = arg;
 		}
+	
         } else {
         	HelpFunction();
-        }
+	}
+	
+	if(reg.substr(0, 2) == "--") {
+		if(reg == "--build" || reg == "--b") {
+			FInterpreter interp;
+			interp.FlaScriptInterpreter(copy_arg);
+		} else if(reg == "--help" || reg == "--h") {
+			HelpFunction();
+			exit(EXIT_SUCCESS);
+		} else if(reg == "--version" || reg == "--v") {
+			FlaVersion vers;
+			std::cout << vers.VersionAlgorithm() << "\n";
+		} else {
+			HelpFunction();
+		}
+	}
 	return 0;
 }
