@@ -1,9 +1,16 @@
-if {
-    ifdef(freebsd) -> 
-	print(string) -> "FreeBSD!"
-	print(newline)
-endif}
+func -> PrintWithColor() {
+    print(colorized[:11, 33:]) -> "Whoa! Hello developer!" <-
+    print(newline)
+}
+
+func -> WowTest() {
+    func -> PrintWithColor()
+}
+
+func -> WowTest2() {
+    func -> WowTest()
+}
 
 main() -> main {
-	
+    func -> WowTest2()
 }
