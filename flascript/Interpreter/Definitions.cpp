@@ -114,3 +114,33 @@ FDefinition::OSDefinition(std::string file, std::string arg) {
 		}
 	}
 }
+
+// defin[arg] -> function <-
+// Calling : put[arg]
+void
+FDefinition::ValueDefinition(std::string file, std::string arg) {
+	FInterpreter inp;
+	FFunction func;
+	FTokenizer token;
+	std::string assign, type;
+	if(inp.FindObject(arg, "defin") == true) {		
+		inp.GetBtwString(arg, "[", "]", assign);
+		if(assign != "error") {
+			inp.GetBtwString(arg, "-> ", " <-", type);
+			if(type != "error") {}
+		}	
+	} else if(inp.FindObject(arg, "put") == true) {
+		inp.GetBtwString(arg, "[", "]", assign);
+		type = func.FRead(file);
+		if(assign != "error") { // defin[arg] -> asd <-
+			if(inp.FindObject(type, token.Definition + "[" + assign + "]" + token.Whitespace + token.RightArrowSign) == true) {
+				inp.GetBtwString(type, token.Definition + "[" + assign + "]" + token.Whitespace + token.RightArrowSign, 
+				token.LeftArrowSign, assign);
+				if(assign != "error") {
+					inp.FlaScriptInterpreterWithArg(file, assign);
+				}
+			}
+		}
+	}
+}
+

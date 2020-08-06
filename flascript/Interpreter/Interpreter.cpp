@@ -268,6 +268,12 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			pr.Print(file, strarg);
 		} 
 
+		// put[<defin>]
+		if(FindObject(strarg, "put") == true) {
+			FDefinition def;
+			def.ValueDefinition(file, strarg);
+		}
+
 		// read(string&) -> type[cpu]
 		if(FindObject(strarg, "read") == true) {
 			FRead read;
@@ -413,11 +419,18 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				FFunction fnc;
 				fnc.Function(file, linebyline);
 			}
+
         		// print(var[int]) -> " "
 			if(FindObject(linebyline, "print") == true) {
 				FPrint pr;				
 				pr.Print(file, linebyline);
 			} 
+
+			// put[<defin>]
+			if(FindObject(linebyline, "put") == true) {
+				FDefinition def;
+				def.ValueDefinition(file, linebyline);
+			}
 
 			// read(string&) -> type[cpu]
 			if(FindObject(linebyline, "read") == true) {

@@ -14,6 +14,7 @@
 class FDefinition {
 public:
 	void OSDefinition(std::string, std::string);
+	void ValueDefinition(std::string, std::string);
 };
 
 #endif // DEFINITIONS_HPP
