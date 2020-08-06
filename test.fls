@@ -1,8 +1,10 @@
-defin[hello] -> print(string) -> "Hello World!" <-
-defin[pr] -> put[hello] <-
 defin[slashn] -> print(newline) <-
 
-main() -> main {
-    put[pr]
+func -> PrintWithColor() {
+    print(colorized[:1, 33:]) -> "Whoa! Hello developer!" <-
     put[slashn]
+}
+
+main() -> main {
+    func -> PrintWithColor()
 }

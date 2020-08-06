@@ -1,0 +1,8 @@
+defin[hello] -> print(string) -> "Hello World!" <-
+defin[pr] -> put[hello] <-
+defin[slashn] -> print(newline) <-
+
+main() -> main {
+    put[pr]
+    put[slashn]
+}
