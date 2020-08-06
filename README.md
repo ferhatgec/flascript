@@ -4,9 +4,11 @@
 ![FlaScript](docs/resource/FlaScript.png)
 
 ```go
+defin[slashn] -> print(newline) <-
+
 func -> PrintWithColor() {
     print(colorized[:1, 33:]) -> "Whoa! Hello developer!" <-
-    print(newline)
+    put[slashn]
 }
 
 main() -> main {
@@ -14,5 +16,4 @@ main() -> main {
 }
 ```
 
-
-##### Fegeya FlaScript licensed with MIT License.
+#### Fegeya FlaScript licensed under the terms of MIT License.
