@@ -3,7 +3,7 @@
 
 ![FlaScript](docs/resource/FlaScript.png)
 
-A taste of FlaScript
+## A taste of FlaScript
 ```go
 defin[slashn] -> print(newline) <-
 
