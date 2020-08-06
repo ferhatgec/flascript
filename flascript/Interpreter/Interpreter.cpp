@@ -158,14 +158,11 @@ FInterpreter::Get(std::string file, std::string arg) {
 			if(comp == name) {
 				std::string text;
 				GetBtwString(test, ": ", " -> ", text);
-				if(pr_check == 1)  { // print
-					if(type == "string") {
-						std::cout << text;
-					} else if(type == "int") {
-						std::cout << atoi(text.c_str());
-					}
-					pr_check = 0;
-				}  else {
+				if(type == "string") {
+					std::cout << text;
+				} else if(type == "int") {
+					std::cout << atoi(text.c_str());
+				} else {
 				}
 			} 
 		}
@@ -297,8 +294,8 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				} 
 		} else if(assign == "string") {std::cin >> inp;}}
 			
-		// get[string]: Hello -> "test.flsh"
-		if(FindObject(strarg, "get") == true) {
+		// header[string]: Hello -> "test.flsh"
+		if(FindObject(strarg, "header") == true) {
 			Get(file, strarg);
 		}
 
@@ -457,8 +454,9 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					std::cin >> inp;
 				}
 			}
-			// get[string]: Hello -> "test.flsh"
-			if(FindObject(linebyline, "get") == true) {
+
+			// header[string]: Hello -> "test.flsh"
+			if(FindObject(linebyline, "header") == true) {
 				Get(file, linebyline);
 			}
 

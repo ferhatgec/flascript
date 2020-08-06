@@ -12,6 +12,7 @@
 #include <Interpreter/Interpreter.hpp>
 #include <Interpreter/Print.hpp>
 #include <Interpreter/String.hpp>
+#include <Interpreter/Function.hpp>
 
 // Libraries
 #include "../../Library/FileSystemPlusPlus.h"
@@ -26,13 +27,14 @@
 #define GetCurrentDir getcwd
 #endif
 
-static int pr_check, check, intest, load;
+static int check, intest, load;
 static std::string inputted, loadstr, test, alltext, linebyline;
+FInterpreter inp;
+FFunction func;
 
 void
 FPrint::Print(std::string file, std::string arg) {
 	Tokenizer token;
-	FInterpreter inp;
 	if(inp.FindObject(arg, "print") == true) {
 			std::string assign;
 			inp.GetBtwString(arg, "(", ")", assign);
@@ -59,9 +61,8 @@ FPrint::Print(std::string file, std::string arg) {
 					inp.GetBtwString(assign, " ->", " ->", get); // var(string) -> test -> abc
 					if(get == "error") {
 						std::string name;
-						inp.GetBtwString(assign,  ": ", " -> ", name); 	
+						inp.GetBtwString(assign,  ": ", " -> ", name); 							
 						if(name != "error") {
-							pr_check = 1;
 							inp.Get(file, assign);
 						}
 					} else {
@@ -77,14 +78,15 @@ FPrint::Print(std::string file, std::string arg) {
 						std::string name;
 						inp.GetBtwString(assign,  ": ", " -> ", name); 	
 						if(name != "error") {
-							pr_check = 1;
 							inp.Get(file, assign);
 						}
 					} else {
-					if(inp.ReadFileWithReturn(file, inp.Var + inp.BracketsBegin + inp.Int + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace) == true) {
+					std::string ret;
+					ret = func.FRead(file);
+					if(inp.FindObject(ret, inp.Var + inp.BracketsBegin + inp.Int + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace) == true) {
 						check = 2;
 						std::string intest_str;
-						inp.GetBtwString(test, " -> ", " ->", intest_str);
+						inp.GetBtwString(ret, inp.Var + inp.BracketsBegin + inp.Int + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace, " ->", intest_str);
 						intest = atoi(intest_str.c_str());
 					}
 					}
