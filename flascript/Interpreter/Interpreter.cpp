@@ -33,15 +33,7 @@
 FInterpreter::FInterpreter() { }
 FInterpreter::~FInterpreter() { }
 
-int pr_check;
-int check;
-int intest;
-int load;
-std::string inp;
-std::string loadstr;
-std::string test;
-std::string alltext;
-std::string linebyline;
+std::string inp, test, alltext, linebyline;
 
 int random(int min_num, int max_num) {
     int result=0,low_num=0,hi_num=0;
@@ -229,18 +221,14 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			GetBtwString(strarg, "[", "]", assign);
 			if(assign == "int") {
 				GetBtwString(strarg, " -> ", " <-", assign);
-				load = atoi(assign.c_str());
 			} else if(assign == "int&") {
 				// var(int&) -> Argc <-
 				GetBtwString(strarg, " -> ", " <-", assign);
-				load = 0;
 			} else if(assign == "string") {
 				// var(string) -> test -> abc
 				GetBtwString(strarg, " -> ", " <-", assign);
-				loadstr = assign;
 			} else if(assign == "string&") {
 				GetBtwString(strarg, " -> ", " <-", assign);
-				loadstr = assign;
 			}		
 		} 
 		
@@ -385,18 +373,14 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			GetBtwString(line, "[", "]", assign);
 			if(assign == "int") {
 				GetBtwString(line, " -> ", " <-", assign);
-				load = atoi(assign.c_str());
 			} else if(assign == "int&") {
 				// var(int&) -> Argc <-
 				GetBtwString(line, " -> ", " <-", assign);
-				load = 0;
 			} else if(assign == "string") {
 				// var(string) -> test -> abc
 				GetBtwString(line, " -> ", " <-", assign);
-				loadstr = assign;
 			} else if(assign == "string&") {
 				GetBtwString(line, " -> ", " <-", assign);
-				loadstr = assign;
 			}		
 		} 
 		
