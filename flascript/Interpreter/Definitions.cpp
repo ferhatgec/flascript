@@ -15,9 +15,9 @@
 #include <Interpreter/Function.hpp>
 
 // Libraries
-#include "../../Library/FileSystemPlusPlus.h"
-#include "../../Library/Colorized.hpp"
-#include "../../Library/SystemInfo.hpp"
+#include <FileSystemPlusPlus.h>
+#include <Colorized.hpp>
+#include <SystemInfo.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>

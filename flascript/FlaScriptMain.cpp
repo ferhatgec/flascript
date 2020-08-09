@@ -10,7 +10,7 @@
 #include <FlaScriptMain.hpp>
 #include <FlaVersion.hpp>
 
-#include "../Library/FileSystemPlusPlus.h"
+#include <FileSystemPlusPlus.h>
 
 #define EXIT_SUCCESS 0
 
