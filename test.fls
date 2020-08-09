@@ -1,7 +1,15 @@
+import("stdlib/output/Colorized.flsh") -> color <-
+
+
 func -> Test() {
 	return var(string) -> Hello world! <-
 }
 
 main() -> main {
-    print(func) -> Test() <-
+    put[color -> BOLD_LIGHT_RED <-]
+    print(string) -> "Bold light red."
+    print(newline)
+    put[color -> BLACK_COLOR <-]
+    print(string) -> "Default."
+    print(newline)
 }

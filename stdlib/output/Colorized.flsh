@@ -1,0 +1,44 @@
+/> MIT License
+#
+# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
+# Distributed under the terms of the MIT License.
+# 
+</
+
+/> Default colors </
+defin[RED] -> print(rcolorized[:11, 31:]) <-
+defin[GREEN] -> print(rcolorized[:11, 32:]) <-
+defin[YELLOW] -> print(rcolorized[:11, 33:]) <-
+defin[BLUE] -> print(rcolorized[:11, 34:]) <-
+defin[MAGENTA] -> print(rcolorized[:11, 35:]) <-
+defin[CYAN] -> print(rcolorized[:11, 36:]) <-
+defin[WHITE] -> print(rcolorized[:11, 37:]) <-
+
+/> Default light colors </
+defin[LIGHT_RED] -> print(rcolorized[:11, 91:]) <-
+defin[LIGHT_GREEN] -> print(rcolorized[:11, 92:]) <-
+defin[LIGHT_YELLOW] -> print(rcolorized[:11, 93:]) <-
+defin[LIGHT_BLUE] -> print(rcolorized[:11, 94:]) <-
+defin[LIGHT_MAGENTA] -> print(rcolorized[:11, 95:]) <-
+defin[LIGHT_CYAN] -> print(rcolorized[:11, 96:]) <-
+defin[LIGHT_WHITE] -> print(rcolorized[:11, 97:]) <-
+
+/> Bold colors </
+defin[BOLD_RED] -> print(rcolorized[:11, 31:]) <-
+defin[BOLD_GREEN] -> print(rcolorized[:11, 32:]) <-
+defin[BOLD_YELLOW] -> print(rcolorized[:11, 33:]) <-
+defin[BOLD_BLUE] -> print(rcolorized[:11, 34:]) <-
+defin[BOLD_MAGENTA] -> print(rcolorized[:11, 35:]) <-
+defin[BOLD_CYAN] -> print(rcolorized[:11, 36:]) <-
+defin[BOLD_WHITE] -> print(rcolorized[:11, 37:]) <-
+
+/> Bold light colors </
+defin[BOLD_LIGHT_RED] -> print(rcolorized[:11, 91:]) <-
+defin[BOLD_LIGHT_GREEN] -> print(rcolorized[:11, 92:]) <-
+defin[BOLD_LIGHT_YELLOW] -> print(rcolorized[:11, 93:]) <-
+defin[BOLD_LIGHT_BLUE] -> print(rcolorized[:11, 94:]) <-
+defin[BOLD_LIGHT_MAGENTA] -> print(rcolorized[:11, 95:]) <-
+defin[BOLD_LIGHT_CYAN] -> print(rcolorized[:11, 96:]) <-
+defin[BOLD_LIGHT_WHITE] -> print(rcolorized[:11, 97:]) <-
+
+defin[BLACK_COLOR] -> printf(rcolorized[:0, 00:]) <-
