@@ -1,4 +1,10 @@
 main() -> main {
+	print(string) -> "Use with Root permission"
+	print(newline)
+	print(string) -> "Creating STL directory"
 	executepp("FlaScript Installer", "mkdir /usr/include/flascript")
 	executepp("FlaScript Installer", "cp -r ../stdlib/ /usr/include/flascript/")
+	print(newline)	
+	print(string) -> "Installing to /bin/"
+	executepp("FlaScript Installer", "cp fla /bin/") 
 }
