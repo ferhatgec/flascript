@@ -1,0 +1,10 @@
+import("color.flsh") -> colors <-
+
+main() -> main {
+    put[colors -> BOLD_RED_COLOR <-]
+    print(string) -> "Hello world!"
+    put[colors -> slashn <-]
+    put[colors -> BOLD_CYAN_COLOR <-]
+    print(string) -> "Hello, FlaScript!"
+    put[colors -> slashn <-]
+}
