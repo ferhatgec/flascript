@@ -43,7 +43,7 @@ FImport::Import(std::string file, std::string arg) {
 	FInterpreter inp;
 	FFunction func;
 	FTokenizer token;
-	std::string assign, type, put;
+	std::string assign, type, put, fnc;
 	if(inp.FindObject(arg, "import") == true) {		
 		inp.GetBtwString(arg, "(\"", "\")", assign);
 		if(assign != "error") {
@@ -66,11 +66,22 @@ FImport::Import(std::string file, std::string arg) {
 						inp.GetBtwString(type, "import(\"", "\") -> " + assign, assign);
 						if(assign != "error") {
 							type = func.FRead(assign);
-							inp.GetBtwString(arg, " -> ", " <-", put);
-							if(put != "error") {
-								inp.GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
-								if(type != "error") {
-									inp.FlaScriptInterpreterWithArg(assign, type);
+							if(inp.FindObject(arg, "func ->") == true) {
+								inp.GetBtwString(arg, "[", " -> ", fnc);
+								inp.GetBtwString(arg, fnc + " -> ", " <-", put);
+								if(put != "error") {
+									inp.GetBtwString(type, put + " {", "}", type);									
+									if(type != "error") {
+										inp.FlaScriptInterpreterWithArg(assign, type);
+									}
+								}
+							} else {
+								inp.GetBtwString(arg, " -> ", " <-", put);
+								if(put != "error") {
+									inp.GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
+									if(type != "error") {
+										inp.FlaScriptInterpreterWithArg(assign, type);
+									}
 								}
 							}						
 						}
