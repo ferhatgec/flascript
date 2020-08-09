@@ -260,7 +260,6 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				FImport imp;
 				imp.Import(file, strarg);
 			} else {
-				std::cout << "wop";
 				FDefinition def;
 				def.ValueDefinition(file, strarg);
 			}		
