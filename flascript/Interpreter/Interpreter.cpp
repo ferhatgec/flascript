@@ -200,7 +200,7 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				}*/
 			}	       	
         	}
-        	
+
 		// func -> Test()
 		if(FindObject(strarg, "func -> ") == true) {
 			FFunction fnc;

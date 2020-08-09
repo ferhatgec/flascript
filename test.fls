@@ -1,5 +1,7 @@
-import("test.flsh") -> colors <-
+func -> Test() {
+	return var(string) -> Hello world! <-
+}
 
 main() -> main {
-    put[colors -> func -> HelloWorld() <-]
+    print(func) -> Test() <-
 }

@@ -73,6 +73,12 @@ FFunction::FRead(std::string file) {
 	}.
 */
 
+/*
+	int : func -> Test() {
+		return 1
+	}
+*/
+
 void
 FFunction::Function(std::string file, std::string arg) {
 	std::string assign, type;
@@ -90,7 +96,7 @@ FFunction::Function(std::string file, std::string arg) {
 		printf("func -> ..()   : Whitespace error.\n");
 		printf("             ^^^\n");
 	}
-
+	
 	if(inp.FindObject(type, arg + token.Whitespace + token.CurlyBracketsBegin) == true) {
 		inp.GetBtwString(type, arg + token.Whitespace + token.CurlyBracketsBegin, "}", assign);
 		if(assign != "error") {

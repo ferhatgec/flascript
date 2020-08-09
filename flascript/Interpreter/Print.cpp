@@ -32,9 +32,12 @@ static std::string inputted, loadstr, test, alltext, linebyline;
 FInterpreter inp;
 FFunction func;
 
+
+// print(func) -> Hello() <-
 void
 FPrint::Print(std::string file, std::string arg) {
 	Tokenizer token;
+	FFunction fnc;
 	if(inp.FindObject(arg, "print") == true) {
 			std::string assign;
 			inp.GetBtwString(arg, "(", ")", assign);
@@ -53,6 +56,39 @@ FPrint::Print(std::string file, std::string arg) {
 				std::cout << input;
 			} else if(assign == "last") {
 				std::cout << inputted;
+			} else if(assign == "func") {
+				inp.GetBtwString(arg, "-> ", " <-", assign);
+				if(assign != "error") {
+					std::string fn = fnc.FRead(file);
+					inp.GetBtwString(fn, "func -> " + assign + " {", "}", assign);
+					if(assign != "error") {
+						if(inp.FindObject(assign, "return") == true) {
+							// var(int) -> 12 <-
+							inp.GetBtwString(assign, "var(", ")", fn);
+							if(fn != "error") {
+								if(fn == "int") {
+									inp.GetBtwString(assign, " -> ", " <-", fn);
+									if(fn != "error") std::cout << atoi(fn.c_str());	
+								} else if(fn == "string") {
+									inp.GetBtwString(assign, " -> ", " <-", fn);
+									if(fn != "error") std::cout << fn;
+								} else if(fn == "int&") {
+									std::cout << 0;
+								} else if(fn == "string&") {
+									std::cout << "null";
+								} else {
+									std::cout << "var(" + fn + ") This variable not defined:" << fn << "\n";  
+								}
+							} else {
+								// return get[int] -> abc <-
+								inp.GetBtwString(assign, "get[", "]", fn);
+								if(fn != "error") {
+									
+								}			
+							}
+						} 
+					}				
+				}
 			} else if(inp.FindObject(assign, "get") == true) {
 				// print(get[string] -> test ->) ->this
 				std::string get;
