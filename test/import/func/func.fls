@@ -1,0 +1,5 @@
+import("hello.flsh") -> pr <-
+
+main() -> main {
+    put[pr -> func -> HelloWorld() <-]
+}
