@@ -1,0 +1,7 @@
+func -> Test() {
+	return var(string) -> Hello world! <-
+}
+
+main() -> main {
+    print(func) -> Test() <-
+}
