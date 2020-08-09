@@ -1,5 +1,4 @@
-import("stdlib/output/Colorized.flsh") -> color <-
-
+import(<output/Colorized.flsh>) -> color <-
 
 func -> Test() {
 	return var(string) -> Hello world! <-

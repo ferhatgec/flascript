@@ -1,0 +1,4 @@
+main() -> main {
+	executepp("FlaScript Installer", "mkdir /usr/include/flascript")
+	executepp("FlaScript Installer", "cp -r ../stdlib/ /usr/include/flascript/")
+}

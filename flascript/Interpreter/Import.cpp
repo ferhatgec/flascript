@@ -38,6 +38,21 @@
 
 bool check = false;
 
+std::string FReadImport(std::string file) {
+	std::string line, text;
+    	std::ifstream readfile(("/usr/include/flascript/" + file).c_str());
+    	if(readfile.is_open()) {
+       		while (std::getline(readfile, line)) {
+        		text.append(line + "\n");
+        	}	
+        	readfile.close();
+		return text;
+    	} else {
+        	printf("Unable to open file\n"); 
+ 	}
+	return "null";
+}
+
 void
 FImport::Import(std::string file, std::string arg) {
 	FInterpreter inp;
@@ -54,6 +69,12 @@ FImport::Import(std::string file, std::string arg) {
 				std::cout << "import(\"" <<
 				assign << "\")" << " : File not found.\n"; 
 			}			
+		} else {
+			inp.GetBtwString(arg, "(<", ">)", assign);
+			if(assign != "error") {
+				type = FReadImport(assign);
+				if(type != "null") { check = true; }
+			}
 		}	
 	} else if(inp.FindObject(arg, "put") == true) {
 		inp.GetBtwString(arg, "[", "]", assign);
@@ -63,32 +84,32 @@ FImport::Import(std::string file, std::string arg) {
 				if(assign != "error") {				
 					type = func.FRead(file);
 					if(type != "null") {
-						inp.GetBtwString(type, "import(\"", "\") -> " + assign, assign);
-						if(assign != "error") {
-							type = func.FRead(assign);
-							if(inp.FindObject(arg, "func ->") == true) {
-								inp.GetBtwString(arg, "[", " -> ", fnc);
-								inp.GetBtwString(arg, fnc + " -> ", " <-", put);
-								if(put != "error") {
-									inp.GetBtwString(type, put + " {", "}", type);									
-									if(type != "error") {
-										inp.FlaScriptInterpreterWithArg(assign, type);
-									}
-								}
-							} else {
-								inp.GetBtwString(arg, " -> ", " <-", put);
-								if(put != "error") {
-									inp.GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
-									if(type != "error") {
-										inp.FlaScriptInterpreterWithArg(assign, type);
-									}
-								}
-							}						
+						std::string file;
+						inp.GetBtwString(type, "import(\"", "\") -> " + assign, file);
+						if(file != "error") {
+							type = func.FRead(file);					
+						} else {
+							inp.GetBtwString(type, "import(<", ">) -> " + assign, file);
+							if(file != "error") type = FReadImport(file);
 						}
+						if(inp.FindObject(arg, "func ->") == true) {
+							inp.GetBtwString(arg, "[", " -> ", fnc);
+							inp.GetBtwString(arg, fnc + " -> ", " <-", put);
+							if(put != "error") {
+								inp.GetBtwString(type, put + " {", "}", type);									
+								if(type != "error") inp.FlaScriptInterpreterWithArg(file, type);
+							}
+						} else {
+							inp.GetBtwString(arg, " -> ", " <-", put);
+							if(put != "error") {
+								inp.GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
+								if(type != "error") inp.FlaScriptInterpreterWithArg(assign, type);
+							}
+						}
+							
 					}
 				}
 			}
 		}
 	}
-}
-
+}	
