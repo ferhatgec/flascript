@@ -1,10 +1,10 @@
-defin[slashn] -> print(newline) <-
-
-func -> PrintWithColor() {
-    print(colorized[:1, 96:]) -> "Whoa! Hello developer!" <-
-    put[slashn]
-}
+import("test.flsh") -> colors <-
 
 main() -> main {
-    func -> PrintWithColor()
+    put[colors -> BOLD_RED_COLOR <-]
+    print(string) -> "Hello world!"
+    put[colors -> slashn <-]
+    put[colors -> BOLD_CYAN_COLOR <-]
+    print(string) -> "Hello, FlaScript!"
+    put[colors -> slashn <-]
 }

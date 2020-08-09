@@ -5,6 +5,10 @@
 # 
 </
 
+defin[BOLD_CYAN_COLOR] -> print(rcolorized[:11, 36:]) <-
+defin[BOLD_RED_COLOR] -> print(rcolorized[:11, 31:]) <-
+defin[slashn] -> print(newline) <-
+
 var[int]: 12123 -> Hello <-
 
 main() -> main {

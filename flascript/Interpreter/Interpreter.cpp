@@ -16,6 +16,7 @@
 #include <Interpreter/String.hpp>
 #include <Interpreter/Function.hpp>
 #include <Interpreter/Definitions.hpp>
+#include <Interpreter/Import.hpp>
 
 // Libraries
 #include "../Library/FileSystemPlusPlus.h"
@@ -255,8 +256,14 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 
 		// put[<defin>]
 		if(FindObject(strarg, "put") == true) {
-			FDefinition def;
-			def.ValueDefinition(file, strarg);
+			if(FindObject(strarg, "->") == true) {
+				FImport imp;
+				imp.Import(file, strarg);
+			} else {
+				std::cout << "wop";
+				FDefinition def;
+				def.ValueDefinition(file, strarg);
+			}		
 		}
 
 		// read(string&) -> type[cpu]
@@ -357,7 +364,13 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				}
 			}	       	
         	}
-        	        
+			
+		// import " " -> name <- 
+		if(FindObject(line, "import") == true) {
+			FImport imp;
+			imp.Import(file, line);
+		}
+		        	      	  
 		/* if {
 			ifdef(linux)
 			   // Code here
@@ -407,10 +420,16 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				pr.Print(file, linebyline);
 			} 
 
+			
 			// put[<defin>]
 			if(FindObject(linebyline, "put") == true) {
-				FDefinition def;
-				def.ValueDefinition(file, linebyline);
+				if(FindObject(linebyline, "-> ") == true) {
+					FImport imp;
+					imp.Import(file, linebyline);
+				} else {	 
+					FDefinition def;
+					def.ValueDefinition(file, linebyline);		
+				}			
 			}
 
 			// read(string&) -> type[cpu]
