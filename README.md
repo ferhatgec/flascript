@@ -1,5 +1,5 @@
 # Fegeya FlaScript
-## Fegeya FlaScript is new generation scripting language.
+## Fegeya FlaScript is new generation programming language.
 
 ![FlaScript](docs/resource/FlaScript.png)
 
