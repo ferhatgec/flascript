@@ -1,0 +1,50 @@
+/> MIT License
+#
+# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
+# Distributed under the terms of the MIT License.
+#
+</
+
+func -> GetCPUName() {
+  read(string&) -> type[cpu]
+}
+
+func -> GetOSName() {
+  read(string&) -> type[osname]
+}
+
+func -> GetUptime() {
+  read(string&) -> type[uptime]
+}
+
+func -> GetArch() {
+  read(string&) -> type[arch]
+}
+
+func -> GetUsername() {
+  read(string&) -> type[username]
+}
+
+func -> GetHostname() {
+  read(string&) -> type[hostname]
+}
+
+func -> GetShell() {
+  read(string&) -> type[shell]
+}
+
+func -> GetKernelName() {
+  read(string&) -> type[kernelname]
+}
+
+func -> GetKernelRelease() {
+  read(string&) -> type[kernelrelease]
+}
+
+func -> GetTerminal() {
+  read(string&) -> type[terminal]
+}
+
+func -> GetDesktopEnv() {
+  read(string&) -> type[XDG_CURRENT_DESKTOP]
+}
