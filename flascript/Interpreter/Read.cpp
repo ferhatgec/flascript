@@ -60,7 +60,7 @@ FRead::Read(std::string arg) {
 					assign = getenv(assign.c_str());
 					std::cout << assign;
 				}
-			} 
+			}
 		}
 	}
 }

@@ -1,14 +1,5 @@
-import(<output/Colorized.flsh>) -> color <-
-
-func -> Test() {
-	return var(string) -> Hello world! <-
-}
+import(<info/SystemInfo.flsh>) -> color <-
 
 main() -> main {
-    put[color -> BOLD_LIGHT_RED <-]
-    print(string) -> "Bold light red."
-    print(newline)
-    put[color -> BLACK_COLOR <-]
-    print(string) -> "Default."
-    print(newline)
+    put[color -> func -> GetCPUName() <-]
 }

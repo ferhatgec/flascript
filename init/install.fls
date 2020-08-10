@@ -3,8 +3,8 @@ main() -> main {
 	print(newline)
 	print(string) -> "Creating STL directory"
 	executepp("FlaScript Installer", "mkdir /usr/include/flascript")
-	executepp("FlaScript Installer", "cp -r ../stdlib/ /usr/include/flascript/")
-	print(newline)	
+	executepp("FlaScript Installer", "cp -rf ./stdlib/ /usr/include/flascript/")
+	print(newline)
 	print(string) -> "Installing to /bin/"
-	executepp("FlaScript Installer", "cp fla /bin/") 
+	executepp("FlaScript Installer", "cp fla /bin/")
 }
