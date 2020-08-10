@@ -49,7 +49,7 @@ FPrint::Print(std::string file, std::string arg) {
 				if(assign == "int") {
 					inp.GetBtwString(arg, " \"", "\"", assign);
 					std::cout << atoi(assign.c_str());
-				} 
+				}
 			} else if(assign == "input") {
 				std::string input;
 				std::cin >> input;
@@ -68,7 +68,7 @@ FPrint::Print(std::string file, std::string arg) {
 							if(fn != "error") {
 								if(fn == "int") {
 									inp.GetBtwString(assign, " -> ", " <-", fn);
-									if(fn != "error") std::cout << atoi(fn.c_str());	
+									if(fn != "error") std::cout << atoi(fn.c_str());
 								} else if(fn == "string") {
 									inp.GetBtwString(assign, " -> ", " <-", fn);
 									if(fn != "error") std::cout << fn;
@@ -77,42 +77,49 @@ FPrint::Print(std::string file, std::string arg) {
 								} else if(fn == "string&") {
 									std::cout << "null";
 								} else {
-									std::cout << "var(" + fn + ") This variable not defined:" << fn << "\n";  
+									std::cout << "var(" + fn + ") This variable not defined:" << fn << "\n";
 								}
 							} else {
 								// return get[int] -> abc <-
 								inp.GetBtwString(assign, "get[", "]", fn);
 								if(fn != "error") {
-									
-								}			
+
+								}
 							}
-						} 
-					}				
+						}
+					}
 				}
 			} else if(inp.FindObject(assign, "get") == true) {
 				// print(get[string] -> test ->) ->this
 				std::string get;
 				inp.GetBtwString(assign, "[", "]", get);
 				if(get == "string") {
-					inp.GetBtwString(assign, " ->", " ->", get); // var(string) -> test -> abc
+					inp.GetBtwString(assign, " -> ", " <-", get); // var(string) -> test -> abc
 					if(get == "error") {
 						std::string name;
-						inp.GetBtwString(assign,  ": ", " -> ", name); 							
+						inp.GetBtwString(assign,  ": ", " -> ", name);
 						if(name != "error") {
 							inp.Get(file, assign);
 						}
 					} else {
 					// var(string)
-					if(inp.ReadFileWithReturn(file, inp.Var + inp.BracketsBegin + inp.Str + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace) == true) {
-						inp.GetBtwString(test, " -> ", " -> ", test);
-						check = 1;
+					std::string rt;
+					rt = func.FRead(file);
+					inp.GetBtwString(rt, inp.Var + inp.BracketsBegin + inp.Str + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace, " -> ", test);
+					if(test != "error") {
+							inp.GetBtwString(rt,  inp.Var + inp.BracketsBegin + inp.Str + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace, " -> ", rt);
+							if(rt != "error") {
+								inp.GetBtwString(rt, " -> ", " <-", rt);
+								if(rt == get)	std::cout << test;
+							}
 					}
-					}
+				}
+					check = 1;
 				} else if(get == "int") {
-					inp.GetBtwString(assign, " ->", " ->", get);
+					inp.GetBtwString(assign, " -> ", " ->", get);
 					if(get == "error") {
 						std::string name;
-						inp.GetBtwString(assign,  ": ", " -> ", name); 	
+						inp.GetBtwString(assign,  ": ", " -> ", name);
 						if(name != "error") {
 							inp.Get(file, assign);
 						}
@@ -132,7 +139,7 @@ FPrint::Print(std::string file, std::string arg) {
 						check = 3;
 						std::string nil_str;
 						inp.GetBtwString(test, " -> ", " <-", nil_str);
-					}	
+					}
 				} else if(get == "int&") {
 					inp.GetBtwString(assign, " -> ", " <-", get);
 					if(inp.ReadFileWithReturn(file, inp.Var + inp.BracketsBegin + inp.Int + "&" + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace) == true) {
@@ -145,8 +152,8 @@ FPrint::Print(std::string file, std::string arg) {
 					check = 5;
 					assign = getenv(get.c_str());
 					std::cout << assign;
-				} 
-				inp.GetBtwString(arg, "[t", "s]", assign); 
+				}
+				inp.GetBtwString(arg, "[t", "s]", assign);
 				if(assign == "hi") {
 					if(check == 1) { std::cout << test; } else if(check == 2) { std::cout << intest; } else if(check == 3) { std::cout << "nil"; } else if(check == 4) { std::cout << "0"; }
 				} else {
@@ -168,7 +175,7 @@ FPrint::Print(std::string file, std::string arg) {
 						color_type = 1;
 					} else {
 						inp.GetBtwString(get, ":", ",", color_type);
-					}					
+					}
 					inp.GetBtwString(get, " ", ":", color);
 					inp.GetBtwString(arg, " \"", "\" <-", assign);
 					if(assign == "error") {
