@@ -8,6 +8,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <cstdarg>
 #include <Tokenizer.hpp>
 #include <Interpreter/Interpreter.hpp>
 #include <Interpreter/Print.hpp>
@@ -32,13 +33,48 @@ static std::string inputted, loadstr, test, alltext, linebyline;
 FInterpreter inp;
 FFunction func;
 
+int fprintf(const char *format, ...);
 
 // print(func) -> Hello() <-
 void
 FPrint::Print(std::string file, std::string arg) {
 	Tokenizer token;
 	FFunction fnc;
-	if(inp.FindObject(arg, "print") == true) {
+  if(inp.FindObject(arg, "fprintf") == true) { // fprintf(<%string>[:"test":, :"hello":])
+	 std::string assign, type;
+	 inp.GetBtwString(arg, "(<%", ">[", type);
+	 if(type == "string") {
+		 inp.GetBtwString(arg, ">[", "])", type);
+		 if(type != "error") {
+			 inp.GetBtwString(type, ":\"", "\":, ", assign);
+			 if(assign != "error") {
+				 std::string data;
+				 data.append(assign);
+				 for(;;) {
+					 inp.GetBtwString(type, ", :\"", "\":", assign);
+				   if(assign != "error") {
+					  	data.append(assign);
+							type = inp.EraseAllSubString(type, ", :\"" + assign + "\":");
+				   } else {
+						 	break;
+					 }
+				 }
+				 fprintf(data.c_str());
+			 } else {
+				 inp.GetBtwString(type, ":\"", "\":", assign);
+				 if(assign != "error") {
+					 fprintf(assign.c_str());
+				 } else {
+					 std::cout << "fprintf(<>, [:\"\":])\n";
+					 std::cout << "              ^^^^ : Double quotes missing\n";
+				 }
+			 }
+		 } else {
+			 std::cout << "fprintf(<%string>[:)...:])\n";
+			 std::cout << "                   ^^^^\n";
+		 }
+	 }
+ } else if(inp.FindObject(arg, "print") == true) {
 			std::string assign;
 			inp.GetBtwString(arg, "(", ")", assign);
 			if(assign == "string") {
@@ -215,4 +251,17 @@ FPrint::Print(std::string file, std::string arg) {
 				printf("print : Definition Error!\n");
 			}
 	}
+}
+
+/*
+	Implementation of GNU LibC Printf
+*/
+int fprintf(const char *format, ...) {
+ 	va_list arg;
+  int done;
+
+  va_start (arg, format);
+  done = vfprintf (stdout, format, arg);
+  va_end (arg);
+  return done;
 }

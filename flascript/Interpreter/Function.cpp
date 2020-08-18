@@ -51,18 +51,18 @@ FFunction::FRead(std::string file) {
     	if(readfile.is_open()) {
        		while (std::getline(readfile, line)) {
         		text.append(line + "\n");
-        	}	
+        	}
         	readfile.close();
 		return text;
     	} else {
-        	printf("Unable to open file\n"); 
+        	printf("Unable to open file\n");
  	}
 	return "null";
 }
 
 /*
 * Function call. Example:
-	main() -> main {	
+	main() -> main {
 		func() -> PrintHello()
 	}
 
@@ -88,7 +88,7 @@ FFunction::Function(std::string file, std::string arg) {
 	//if(inp.FindObject(arg, " ") == true) {
 	for(int t = 0; t != arg.length(); t++) {
 		if(arg[t] == ' ') {
-			arg = arg.erase(0, 1);		
+			arg = arg.erase(0, 1);
 		}
 	}
         //}
@@ -96,7 +96,7 @@ FFunction::Function(std::string file, std::string arg) {
 		printf("func -> ..()   : Whitespace error.\n");
 		printf("             ^^^\n");
 	}
-	
+
 	if(inp.FindObject(type, arg + token.Whitespace + token.CurlyBracketsBegin) == true) {
 		inp.GetBtwString(type, arg + token.Whitespace + token.CurlyBracketsBegin, "}", assign);
 		if(assign != "error") {
@@ -104,3 +104,14 @@ FFunction::Function(std::string file, std::string arg) {
 		}
 	}
 }
+
+
+/*
+  func -> printc(:string str, color& cl:) {
+	print(...)
+  }
+
+  main() -> main {
+	func -> printc("Hello world!", [:11, 33:])
+  }
+*/
