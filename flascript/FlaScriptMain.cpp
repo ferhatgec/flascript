@@ -15,7 +15,8 @@
 #define EXIT_SUCCESS 0
 
 void HelpFunction() {
-	printf("Fegeya FlaScript\nflascript --b  <source> : Interprets your FlaScript code\nflascript --v || --version : Shows version\n");
+	std::cout << "Fegeya FlaScript\nflascript --b || --build  <source> : Interprets your FlaScript code\n" <<
+	"flascript --v || --version : Shows version\n";
 }
 
 int main(int argc, char** argv) {
@@ -26,11 +27,11 @@ int main(int argc, char** argv) {
 			reg = argv[1];
 			copy_arg = arg;
 		}
-	
+
         } else {
         	HelpFunction();
 	}
-	
+
 	if(reg.substr(0, 2) == "--") {
 		if(reg == "--build" || reg == "--b") {
 			FInterpreter interp;

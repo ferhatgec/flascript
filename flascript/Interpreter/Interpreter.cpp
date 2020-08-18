@@ -50,30 +50,30 @@ int random(int min_num, int max_num) {
      return result;
 }
 
-// Get Between String    
-void 
-FInterpreter::GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
-    int start = oStr.find(sStr1);   
-    if (start >= 0) {       
-      std::string tstr = oStr.substr(start + sStr1.length());        
-      int stop = tstr.find(sStr2);      
-      if (stop >1)          
+// Get Between String
+void
+FInterpreter::GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {
+    int start = oStr.find(sStr1);
+    if (start >= 0) {
+      std::string tstr = oStr.substr(start + sStr1.length());
+      int stop = tstr.find(sStr2);
+      if (stop >1)
         rStr = oStr.substr(start + sStr1.length(), stop);
       else
-        rStr ="error";  
+        rStr ="error";
     }
     else
-       rStr = "error"; 
-}    
+       rStr = "error";
+}
 
-std::string 
+std::string
 FInterpreter::EraseAllSubString(std::string & mainString, const std::string & erase) {
     size_t pos = std::string::npos;
     while((pos = mainString.find(erase)) != std::string::npos) {
         mainString.erase(pos, erase.length());
     }
     return mainString;
-} 
+}
 
 bool
 FInterpreter::FindObject(std::string object, std::string find) {
@@ -98,9 +98,9 @@ FInterpreter::ReadFileWithReturn(std::string file, std::string argument) {
         }
         readfile.close();
     	} else {
-        	printf("Unable to open file\n");
+        	std::cout << "Unable to open file\n";
     	}
-	return false;
+	    return false;
 }
 
 
@@ -117,9 +117,9 @@ FInterpreter::FCommentLine(std::string file, std::string argument) {
         }
         readfile.close();
     	} else {
-        	printf("Unable to open file\n");
+          std::cout << "Unable to open file\n";
     	}
-	return false;
+	    return false;
 }
 
 void
@@ -132,11 +132,11 @@ FInterpreter::Read(std::string file) {
         }
         readfile.close();
     	} else {
-        	printf("Unable to open file\n");
+        	std::cout << "Unable to open file\n";
     	}
 }
 
-void 
+void
 FInterpreter::Get(std::string file, std::string arg) {
 	if(FindObject(arg, "get") == true) {
 		std::string assign;
@@ -157,7 +157,7 @@ FInterpreter::Get(std::string file, std::string arg) {
 					std::cout << atoi(text.c_str());
 				} else {
 				}
-			} 
+			}
 		}
 	}
 }
@@ -176,17 +176,17 @@ FInterpreter::FlaScriptImporter(std::string file, std::string get) {
 	return "null";
 }
 
-void 
+void
 FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 	Tokenizer token;
 	std::string strarg;
-	std::istringstream argline(arg); 
+	std::istringstream argline(arg);
         while (std::getline(argline, strarg)) {
         	// Single Comment Line
         	if(FindObject(strarg, token.SingleCommentLine) == true) {
         		strarg.erase();
         	}
-        	
+
         	// Single Comment Line
         	if(FindObject(strarg, token.CommentLineBegin) == true) {
 			std::string assign;
@@ -198,10 +198,11 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				} else {
 					printf("token.CommentLine Error\n");
 				}*/
-			}	       	
+			}
         	}
 
 		// func -> Test()
+    // func -> Test(<string>:"test", <int>1234:)
 		if(FindObject(strarg, "func -> ") == true) {
 			FFunction fnc;
 			fnc.Function(file, strarg);
@@ -215,7 +216,7 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			FDefinition def;
 			def.OSDefinition(file, strarg);
 		}
-	        	
+
 		// var[int] -> 100 -> a
 		if(FindObject(strarg, "var") == true) {
 			std::string assign;
@@ -230,29 +231,29 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				GetBtwString(strarg, " -> ", " <-", assign);
 			} else if(assign == "string&") {
 				GetBtwString(strarg, " -> ", " <-", assign);
-			}		
-		} 
-		
-		// import " " -> name <- 
+			}
+		}
+
+		// import " " -> name <-
 		if(FindObject(strarg, "import") == true) {
 			std::string assign;
 			GetBtwString(strarg, " \"", "\"", assign);
 		}
-		
+
 		// func() -> test {
 		if(FindObject(strarg, "func()") == true) {
 			std::string assign;
 			GetBtwString(strarg, "func() -> ", " {", assign);
-			// Assign = Function name 
+			// Assign = Function name
 			GetBtwString(alltext, "func() -> " + assign + " {", "}", alltext);
 			//Print(file, alltext);
 		}
-        	
+
 		// print(var[int]) -> " "
 		if(FindObject(strarg, "print") == true) {
-			FPrint pr;				
+			FPrint pr;
 			pr.Print(file, strarg);
-		} 
+		}
 
 		// put[<defin>]
 		if(FindObject(strarg, "put") == true) {
@@ -262,7 +263,7 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			} else {
 				FDefinition def;
 				def.ValueDefinition(file, strarg);
-			}		
+			}
 		}
 
 		// read(string&) -> type[cpu]
@@ -270,7 +271,7 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			FRead read;
 			read.Read(strarg);
 		}
-			
+
 		// var(string&) -> Hello -> Hello <-
 		// input(get[string] ->  ->) [this]
 		if(FindObject(strarg, "input") == true) {
@@ -278,16 +279,16 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			GetBtwString(strarg, "(", ")", assign);
 			if(FindObject(assign, "get") == true) {
 				std::string get;
-				GetBtwString(assign, "[", "]", get); 
+				GetBtwString(assign, "[", "]", get);
 				if(get == "string") {
 					std::cin >> inp;
 					GetBtwString(strarg, " -> ", " ->", assign);
 					if(ReadFileWithReturn(file, Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
 						test = Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace + inp + Whitespace + ArrowKey + Whitespace + assign + Whitespace + LeftArrowKey;
-					}			 
-				} 
+					}
+				}
 		} else if(assign == "string") {std::cin >> inp;}}
-			
+
 		// header[string]: Hello -> "test.flsh"
 		if(FindObject(strarg, "header") == true) {
 			Get(file, strarg);
@@ -299,24 +300,24 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			std::string first, second;
 			GetBtwString(strarg, "(", ")", assign);
 			if(assign == "error") {
-				printf("main() : random : brackets error. random(:, :)\n");
+			  std::cout << "main() : random : Brackets error. random(:, :)\n";
 			}
 			GetBtwString(assign, ":", ", ", first);
 			if(first == "error") {
 				srand(time(NULL));
 				int number = atoi(assign.c_str());
-				std::cout << random(0, number);	
+				std::cout << random(0, number);
 			} else {
 				GetBtwString(assign, ", ", " :", second);
 				if(second == "error") {
-					printf("main() : random : second number is not defined. random(..., 2:)\n"); 
+				  std::cout << "main() : random : Second number is not defined. random(..., 2:)\n";
 				}
 				int first_number = atoi(first.c_str());
 				int second_number = atoi(second.c_str());
 				srand(time(NULL));
 				std::cout << random(first_number, second_number);
 			}
-				
+
 		}
 
 		// executepp("TestExec", "fetcheya")
@@ -324,12 +325,12 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			FExec execute;
 			execute.ExecutePp(strarg);
 		}
-				
+
 		// exec(system -> scrift ->[->arg])
 		if(FindObject(strarg, "exec") == true) {
 			FExec execute;
-			execute.Exec(strarg);	
-        	} 
+			execute.Exec(strarg);
+        	}
 		// EraseAllSubstring(string["Hello FlaScript!", "ll"])
 		if(FindObject(strarg, "EraseAllSubstring") == true) {
 			FString st;
@@ -337,7 +338,7 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 		}
 }
 }
-void 
+void
 FInterpreter::FlaScriptInterpreter(std::string file) {
 	Tokenizer token;
 	std::string line;
@@ -349,7 +350,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
         	if(FindObject(line, token.SingleCommentLine) == true) {
         		line.erase();
         	}
-        	
+
         	// Single Comment Line
         	if(FindObject(line, token.CommentLineBegin) == true) {
 			std::string assign;
@@ -359,17 +360,17 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			} else {
 				if(FCommentLine(file, "</") == true) {
 				} else {
-					printf("token.CommentLine Error\n");
+					std::cout << "token.CommentLine Error\n";
 				}
-			}	       	
-        	}
-			
-		// import " " -> name <- 
+			}
+    	}
+
+		// import " " -> name <-
 		if(FindObject(line, "import") == true) {
 			FImport imp;
 			imp.Import(file, line);
 		}
-		        	      	  
+
 		/* if {
 			ifdef(linux)
 			   // Code here
@@ -378,7 +379,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 		if(FindObject(line, token.If) == true) {
 			FDefinition def;
 			def.OSDefinition(file, line);
-		}	
+		}
 		// var[int] -> 100 -> a
 		if(FindObject(line, "var") == true) {
 			std::string assign;
@@ -393,10 +394,10 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				GetBtwString(line, " -> ", " <-", assign);
 			} else if(assign == "string&") {
 				GetBtwString(line, " -> ", " <-", assign);
-			}		
-		} 
-		
-		// import " " -> name <- 
+			}
+		}
+
+		// import " " -> name <-
 		if(FindObject(line, "import") == true) {
 			std::string assign;
 			GetBtwString(line, " \"", "\"", assign);
@@ -415,20 +416,20 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 
         		// print(var[int]) -> " "
 			if(FindObject(linebyline, "print") == true) {
-				FPrint pr;				
+				FPrint pr;
 				pr.Print(file, linebyline);
-			} 
+			}
 
-			
+
 			// put[<defin>]
 			if(FindObject(linebyline, "put") == true) {
 				if(FindObject(linebyline, "-> ") == true) {
 					FImport imp;
 					imp.Import(file, linebyline);
-				} else {	 
+				} else {
 					FDefinition def;
-					def.ValueDefinition(file, linebyline);		
-				}			
+					def.ValueDefinition(file, linebyline);
+				}
 			}
 
 			// read(string&) -> type[cpu]
@@ -436,7 +437,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				FRead read;
 				read.Read(linebyline);
 			}
-			
+
 			// var(string&) -> Hello -> Hello <-
 			// input(get[string] ->  ->) [this]
 			if(FindObject(linebyline, "input") == true) {
@@ -444,14 +445,14 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				GetBtwString(linebyline, "(", ")", assign);
 				if(FindObject(assign, "get") == true) {
 					std::string get;
-					GetBtwString(assign, "[", "]", get); 
+					GetBtwString(assign, "[", "]", get);
 					if(get == "string") {
 						std::cin >> inp;
 						GetBtwString(linebyline, " -> ", " ->", assign);
 						if(ReadFileWithReturn(file, Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
 							test = Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace + inp + Whitespace + ArrowKey + Whitespace + assign + Whitespace + LeftArrowKey;
-						}			 
-					} 
+						}
+					}
 				} else if(assign == "string") {
 					std::cin >> inp;
 				}
@@ -468,37 +469,37 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				std::string first, second;
 				GetBtwString(linebyline, "(", ")", assign);
 				if(assign == "error") {
-					printf("main() : random : brackets error. random(:, :)\n");
+					std::cout << "main() : random : brackets error. random(:, :)\n";
 				}
 				GetBtwString(assign, ":", ", ", first);
 				if(first == "error") {
 					srand(time(NULL));
 					int number = atoi(assign.c_str());
-					std::cout << random(0, number);	
+					std::cout << random(0, number);
 				} else {
 					GetBtwString(assign, ", ", " :", second);
 					if(second == "error") {
-						printf("main() : random : second number is not defined. random(..., 2:)\n"); 
+						std::cout << "main() : random : second number is not defined. random(..., 2:)\n";
 					}
 					int first_number = atoi(first.c_str());
 					int second_number = atoi(second.c_str());
 					srand(time(NULL));
 					std::cout << random(first_number, second_number);
 				}
-				
+
 			}
-			
+
 			// executepp("TestExec", "fetcheya")
 			if(FindObject(linebyline, "executepp") == true) {
 				FExec execute;
 				execute.ExecutePp(linebyline);
 			}
-				
+
 			// exec(system -> scrift ->[->arg])
 			if(FindObject(linebyline, "exec") == true) {
 				FExec execute;
-				execute.Exec(linebyline);	
-        		} 
+				execute.Exec(linebyline);
+        		}
 			// EraseAllSubstring(string["Hello FlaScript!", "ll"])
 			if(FindObject(linebyline, "EraseAllSubstring") == true) {
 				FString st;
@@ -508,6 +509,6 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
         	}
 	}
 	} else {
-		printf("Unable to open file\n");
+		std::cout << "Unable to open file\n";
 	}
 }

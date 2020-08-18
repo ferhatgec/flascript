@@ -28,8 +28,8 @@
 #endif
 
 /*
-* if { 
-   ifdef(__linux__) 
+* if {
+   ifdef(__linux__)
       // Code here
 * endif}
 */
@@ -48,11 +48,11 @@ FDefinition::OSDefinition(std::string file, std::string arg) {
 				if(type == "linux") {
 					#ifdef __linux__
 						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif				
+					#endif
 				} else if(type == "freebsd") {
 					#ifdef __FreeBSD__
 						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif				
+					#endif
 				} else if(type == "openbsd") {
 					#ifdef __OpenBSD__
 						inp.FlaScriptInterpreterWithArg(file, read);
@@ -64,7 +64,7 @@ FDefinition::OSDefinition(std::string file, std::string arg) {
 				} else if(type == "gnuhurd") {
 					#ifdef __gnu_hurd__
 						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif 
+					#endif
 				} else if(type == "gnu_linux") {
 					#ifdef __gnu_linux__
 						inp.FlaScriptInterpreterWithArg(file, read);
@@ -106,11 +106,11 @@ FDefinition::OSDefinition(std::string file, std::string arg) {
 						inp.FlaScriptInterpreterWithArg(file, read);
 					#endif
 				} else {
-					printf("ifdef( ) : Unsupported definition.\n");
-					printf("     ^^^\n");
+					std::cout << "ifdef( ) : Unsupported definition.\n";
+					std::cout << "     ^^^\n";
 					inp.FlaScriptInterpreterWithArg(file, read);
 				}
-			} 
+			}
 		}
 	}
 }
@@ -123,18 +123,18 @@ FDefinition::ValueDefinition(std::string file, std::string arg) {
 	FFunction func;
 	FTokenizer token;
 	std::string assign, type;
-	if(inp.FindObject(arg, "defin") == true) {		
+	if(inp.FindObject(arg, "defin") == true) {
 		inp.GetBtwString(arg, "[", "]", assign);
 		if(assign != "error") {
 			inp.GetBtwString(arg, "-> ", " <-", type);
 			if(type != "error") {}
-		}	
+		}
 	} else if(inp.FindObject(arg, "put") == true) {
 		inp.GetBtwString(arg, "[", "]", assign);
 		type = func.FRead(file);
 		if(assign != "error") { // defin[arg] -> asd <-
 			if(inp.FindObject(type, token.Definition + "[" + assign + "]" + token.Whitespace + token.RightArrowSign) == true) {
-				inp.GetBtwString(type, token.Definition + "[" + assign + "]" + token.Whitespace + token.RightArrowSign, 
+				inp.GetBtwString(type, token.Definition + "[" + assign + "]" + token.Whitespace + token.RightArrowSign,
 				token.LeftArrowSign, assign);
 				if(assign != "error") {
 					inp.FlaScriptInterpreterWithArg(file, assign);
@@ -143,4 +143,3 @@ FDefinition::ValueDefinition(std::string file, std::string arg) {
 		}
 	}
 }
-

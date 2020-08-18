@@ -221,7 +221,7 @@ FPrint::Print(std::string file, std::string arg) {
 						colorized::PrintWhReset(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
 					}
 				} else {
-					printf("colorized : Brackets error.\n");
+					std::cout << "colorized : Brackets error.\n";
 				}
 			} else if(inp.FindObject(assign, "colorized") == true) {
 				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
@@ -242,13 +242,13 @@ FPrint::Print(std::string file, std::string arg) {
 						colorized::PrintWith(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
 					}
 				} else {
-					printf("colorized : Brackets error.\n");
+					std::cout << "colorized : Brackets error.\n";
 				}
 			} else if(assign == "error") {
 				inp.GetBtwString(arg, " \"", "\"", assign);
 				std::cout << "print : Double quotes missing";
 			} else {
-				printf("print : Definition Error!\n");
+				std::cout << "print : Definition Error!\n";
 			}
 	}
 }

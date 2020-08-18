@@ -30,9 +30,9 @@
 
 /* test.flsh:
  defin[BOLD_RED_COLOR] -> print... <-
- 
+
  test.fls
- import("test.flsh") -> test 
+ import("test.flsh") -> test
  put[test -> BOLD_RED_COLOR <-]
 */
 
@@ -44,11 +44,11 @@ std::string FReadImport(std::string file) {
     	if(readfile.is_open()) {
        		while (std::getline(readfile, line)) {
         		text.append(line + "\n");
-        	}	
+        	}
         	readfile.close();
 		return text;
     	} else {
-        	printf("Unable to open file\n"); 
+        	std::cout << "import : Unable to open file\n"; 
  	}
 	return "null";
 }
@@ -59,7 +59,7 @@ FImport::Import(std::string file, std::string arg) {
 	FFunction func;
 	FTokenizer token;
 	std::string assign, type, put, fnc;
-	if(inp.FindObject(arg, "import") == true) {		
+	if(inp.FindObject(arg, "import") == true) {
 		inp.GetBtwString(arg, "(\"", "\")", assign);
 		if(assign != "error") {
 			type = func.FRead(assign);
@@ -67,27 +67,27 @@ FImport::Import(std::string file, std::string arg) {
 				check = true;
 			} else {
 				std::cout << "import(\"" <<
-				assign << "\")" << " : File not found.\n"; 
-			}			
+				assign << "\")" << " : File not found.\n";
+			}
 		} else {
 			inp.GetBtwString(arg, "(<", ">)", assign);
 			if(assign != "error") {
 				type = FReadImport(assign);
 				if(type != "null") { check = true; }
 			}
-		}	
+		}
 	} else if(inp.FindObject(arg, "put") == true) {
 		inp.GetBtwString(arg, "[", "]", assign);
 		if(assign != "error") {
 			if(check == true) {
 				inp.GetBtwString(arg, "[", " -> ", assign);
-				if(assign != "error") {				
+				if(assign != "error") {
 					type = func.FRead(file);
 					if(type != "null") {
 						std::string file;
 						inp.GetBtwString(type, "import(\"", "\") -> " + assign, file);
 						if(file != "error") {
-							type = func.FRead(file);					
+							type = func.FRead(file);
 						} else {
 							inp.GetBtwString(type, "import(<", ">) -> " + assign, file);
 							if(file != "error") type = FReadImport(file);
@@ -96,7 +96,7 @@ FImport::Import(std::string file, std::string arg) {
 							inp.GetBtwString(arg, "[", " -> ", fnc);
 							inp.GetBtwString(arg, fnc + " -> ", " <-", put);
 							if(put != "error") {
-								inp.GetBtwString(type, put + " {", "}", type);									
+								inp.GetBtwString(type, put + " {", "}", type);
 								if(type != "error") inp.FlaScriptInterpreterWithArg(file, type);
 							}
 						} else {
@@ -106,10 +106,10 @@ FImport::Import(std::string file, std::string arg) {
 								if(type != "error") inp.FlaScriptInterpreterWithArg(assign, type);
 							}
 						}
-							
+
 					}
 				}
 			}
 		}
 	}
-}	
+}

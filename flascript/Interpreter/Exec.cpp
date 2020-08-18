@@ -29,7 +29,7 @@
 // exec(system -> scrift ->[->arg])
 void
 FExec::Exec(std::string arg) {
-	FInterpreter inp;	
+	FInterpreter inp;
 	if(inp.FindObject(arg, "exec") == true) {
 		std::string assign;
 		inp.GetBtwString(arg, "(", ")", assign);
@@ -38,14 +38,14 @@ FExec::Exec(std::string arg) {
 			if(assign != "error") {
 				system(assign.c_str());
 			} else {
-				printf("exec(system) : Arrow Error.\n");
+				std::cout << "exec(system) : Arrow Error.\n";
 			}
-		}	
-	} 
+		}
+	}
 }
 
-// executepp("ExecuteTest", "git") 
-void 
+// executepp("ExecuteTest", "git")
+void
 FExec::ExecutePp(std::string arg) {
 	FInterpreter inp;
 	if(inp.FindObject(arg, "executepp") == true) {
@@ -54,11 +54,11 @@ FExec::ExecutePp(std::string arg) {
 		inp.GetBtwString(assign, "\"", "\",", first);
 		if(first != "error") {
 			inp.GetBtwString(assign, ", \"", "\"", assign);
-			if(assign != "error") {			
+			if(assign != "error") {
 				ExecutePlusPlus ex;
 				ex.ExecuteName(first.c_str());
-				ex.RunFunction(assign.c_str());		
-			}  
+				ex.RunFunction(assign.c_str());
+			}
 		}
-	}	
+	}
 }
