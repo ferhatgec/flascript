@@ -35,12 +35,22 @@ FFunction func;
 
 int fprintf(const char *format, ...);
 
-// print(func) -> Hello() <-
+/*
+	Standart:
+		print(string) -> Hello World! <-
+		
+	C-Like: 
+		fprintf(<%string>[:"Hello ":, :"World!":])
+		fprintln(<%string>[:"Hello ":, :"World!":])
+			: print(string) -> Hello  <-
+			: print(string) -> World! <-
+			: print(newline)
+*/
 void
 FPrint::Print(std::string file, std::string arg) {
 	Tokenizer token;
 	FFunction fnc;
-  if(inp.FindObject(arg, "fprintf") == true) { // fprintf(<%string>[:"test":, :"hello":])
+  if(inp.FindObject(arg, "fprintf") == true || inp.FindObject(arg, "fprintln") == true) { // fprintf(<%string>[:"test":, :"hello":])
 	 std::string assign, type;
 	 inp.GetBtwString(arg, "(<%", ">[", type);
 	 if(type == "string") {
@@ -60,18 +70,21 @@ FPrint::Print(std::string file, std::string arg) {
 					 }
 				 }
 				 fprintf(data.c_str());
+				 /*
+				 	fprintln = fprintf ... + newline
+				 */
+				 if(inp.FindObject(arg, "fprintln") == true) std::cout << "\n";
 			 } else {
 				 inp.GetBtwString(type, ":\"", "\":", assign);
 				 if(assign != "error") {
 					 fprintf(assign.c_str());
 				 } else {
-					 std::cout << "fprintf(<>, [:\"\":])\n";
-					 std::cout << "              ^^^^ : Double quotes missing\n";
+					 std::cout << arg << "\n              ^^^^ : Double quotes missing\n";
 				 }
 			 }
 		 } else {
-			 std::cout << "fprintf(<%string>[:)...:])\n";
-			 std::cout << "                   ^^^^\n";
+			 std::cout << arg;
+			 std::cout << "\n                   ^^^^\n";
 		 }
 	 }
  } else if(inp.FindObject(arg, "print") == true) {
