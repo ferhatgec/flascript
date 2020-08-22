@@ -12,6 +12,7 @@
 #include <Tokenizer.hpp>
 #include <Interpreter/Interpreter.hpp>
 #include <Interpreter/Read.hpp>
+#include <ExecutePlusPlus.hpp>
 
 // Libraries
 #include <FileSystemPlusPlus.h>
@@ -61,6 +62,9 @@ FRead::Read(std::string arg) {
 					std::cout << __TIME__;
 				} else if(assign == "date") {
 					std::cout << __DATE__;
+				} else if(assign == "branch") {
+					ExecutePlusPlus ex;
+					std::cout << ex.ExecWithOutput("git branch | grep \"^\*\" | sed 's/^..//'");	
 				} else if(assign == "version") {
 					FlaVersion ver;
 					std::cout << ver.VersionAlgorithm() << "\n"; 
