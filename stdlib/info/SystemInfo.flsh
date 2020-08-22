@@ -56,3 +56,7 @@ func -> GetTime() {
 func -> GetDate() {
   read(string&) -> type[date]
 }
+
+func -> GetGitBranch() {
+  execout(-> git branch | grep "^\*" | sed 's/^..//' <-)
+}
