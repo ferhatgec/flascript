@@ -35,6 +35,9 @@ FFunction func;
 
 int fprintf(const char *format, ...);
 
+void SetTitle(std::string title);
+
+
 /*
 	Standart:
 		print(string) -> Hello World! <-
@@ -137,6 +140,23 @@ FPrint::Print(std::string file, std::string arg) {
 							}
 						}
 					}
+				}
+			} else if(assign == "dynamic") {
+				/*	
+					print(dynamic) -> set[title] -> "Hello world!" <-		
+				*/
+				std::string type;
+				inp.GetBtwString(arg, "set[", "]", type);
+				if(type == "title") {
+					inp.GetBtwString(arg, "\"", "\"", type);
+					if(type != "error") {
+						SetTitle(type);
+					} else {
+						std::cout << "print : dynamic : \"......\" : Parse error.\n";
+						std::cout << "		 ^^^^^^^^^\n";
+					}
+				} else {
+					std::cout << type << "  : Not defined type.\n";
 				}
 			} else if(inp.FindObject(assign, "get") == true) {
 				// print(get[string] -> test ->) ->this
@@ -277,4 +297,12 @@ int fprintf(const char *format, ...) {
   done = vfprintf (stdout, format, arg);
   va_end (arg);
   return done;
+}
+
+/*
+	Terminal title
+*/
+
+void SetTitle(std::string title) {
+	std::cout << "\e]2; " + title + " \a";
 }
