@@ -1,3 +1,6 @@
+import(<info/SystemInfo.flsh>) -> time <-
 main() -> main {
-    fprintln(<%string>[:"Hello":, :"FlaScript!":, :"1234567890":])
+    print(string) -> "Time: "
+    put[time -> func -> GetTime() <-]
+    print(newline)
 }

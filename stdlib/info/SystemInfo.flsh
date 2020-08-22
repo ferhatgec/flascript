@@ -48,3 +48,11 @@ func -> GetTerminal() {
 func -> GetDesktopEnv() {
   read(string&) -> type[XDG_CURRENT_DESKTOP]
 }
+
+func -> GetTime() {
+  read(string&) -> type[time]
+}
+
+func -> GetDate() {
+  read(string&) -> type[date]
+}

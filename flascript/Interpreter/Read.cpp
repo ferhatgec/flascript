@@ -8,6 +8,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <FlaVersion.hpp>
 #include <Tokenizer.hpp>
 #include <Interpreter/Interpreter.hpp>
 #include <Interpreter/Read.hpp>
@@ -56,6 +57,13 @@ FRead::Read(std::string arg) {
 					std::cout << info.getKernel();
 				} else if(assign == "terminal") {
 					std::cout << info.getTerm();
+				} else if(assign == "time") {
+					std::cout << __TIME__;
+				} else if(assign == "date") {
+					std::cout << __DATE__;
+				} else if(assign == "version") {
+					FlaVersion ver;
+					std::cout << ver.VersionAlgorithm() << "\n"; 
 				} else {
 					assign = getenv(assign.c_str());
 					std::cout << assign;
