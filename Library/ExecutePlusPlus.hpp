@@ -166,5 +166,27 @@ public:
 	    if (execFlag == 2) 
 	          ExecuteArgsPiped(parsedArgs, parsedArgsPiped); 
 	}
+
+	std::string ExecWithOutput(std::string command) {
+   		char buffer[128];
+   		std::string result = "";
+
+   		// Open pipe to file
+   		FILE* pipe = popen(command.c_str(), "r");
+   		if (!pipe) {
+      			return "popen failed!";
+   		}
+
+   		// read till end of process:
+   		while (!feof(pipe)) {
+
+      		// Use buffer to read and add to result
+      		if (fgets(buffer, 128, pipe) != NULL)
+         		result += buffer;
+   		}
+
+   		pclose(pipe);
+   		return result;
+	}
 };
 #endif // EXECUTE_PLUS_PLUS_HPP

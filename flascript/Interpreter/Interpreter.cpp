@@ -419,8 +419,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				FPrint pr;
 				pr.Print(file, linebyline);
 			}
-
-
+			
 			// put[<defin>]
 			if(FindObject(linebyline, "put") == true) {
 				if(FindObject(linebyline, "-> ") == true) {
@@ -490,7 +489,8 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			}
 
 			// executepp("TestExec", "fetcheya")
-			if(FindObject(linebyline, "executepp") == true) {
+			if(FindObject(linebyline, "executepp") == true || 
+			FindObject(linebyline, "execout") == true) {
 				FExec execute;
 				execute.ExecutePp(linebyline);
 			}

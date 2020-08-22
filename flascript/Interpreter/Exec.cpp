@@ -44,11 +44,20 @@ FExec::Exec(std::string arg) {
 	}
 }
 
-// executepp("ExecuteTest", "git")
+/* 
+	executepp("ExecuteTest", "git")
+	execout(-> git <-)
+*/
 void
 FExec::ExecutePp(std::string arg) {
 	FInterpreter inp;
-	if(inp.FindObject(arg, "executepp") == true) {
+	if(inp.FindObject(arg, "execout") == true) {
+		std::string assign;
+		inp.GetBtwString(arg, "execout(-> ", " <-)", assign);
+		ExecutePlusPlus ex;
+		assign = ex.ExecWithOutput(assign.c_str());
+		std::cout << assign;		 
+	} else if(inp.FindObject(arg, "executepp") == true) {
 		std::string assign, first;
 		inp.GetBtwString(arg, "(", ")", assign);
 		inp.GetBtwString(assign, "\"", "\",", first);
