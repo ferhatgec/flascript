@@ -30,12 +30,18 @@
 #endif
 
 /*
-	main() -> main {
-		var(int) -> 3.14159265359 -> PI <-
+	var(int) -> 3.14159265359 -> PI <-
 
+	#pi ->
 		if[var(int) -> PI <- (==) var(int) -> 3.14159265359 <-] -> {
 			print(string) -> "Passed"
+		} else -> {
+			print(string) -> "Failed"
 		} <-
+	#pi <-
+
+	main() -> main {
+		statement[#pi]
 	}
 */
 
@@ -63,11 +69,23 @@ FStatement::IfStatement(std::string file, std::string arg) {
 									FFunction fnc;
 									std::string read = fnc.FRead(file);									
 									inp.GetBtwString(read, "if[var(int) -> " + type + " <- (==) var(int) -> " + assign + " <-] -> {",
+										"} else -> {", read);
+									if(read != "error") {
+										inp.FlaScriptInterpreterWithArg(file, read);
+									} else {
+										inp.GetBtwString(read, "if[var(int) -> " + type + " <- (==) var(int) -> " + assign + " <-] -> {",
 										"} <-", read);
+										if(read == "error")
+											std::cout << "if : Parse error. if[] -> {\n....\n} <-";
+									}								
+								} else {
+									FFunction fnc;
+									std::string read = fnc.FRead(file);
+									inp.GetBtwString(read, "else -> {", "} <-", read);
 									if(read != "error")
 										inp.FlaScriptInterpreterWithArg(file, read);
 									else
-										std::cout << "if : Parse error. if[] -> {\n....\n} <-";
+										std::cout << "if..else : Parse error. else -> {\n....\n} <-";
 								}
 							}						
 						} 
