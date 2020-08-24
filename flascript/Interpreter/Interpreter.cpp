@@ -17,6 +17,7 @@
 #include <Interpreter/Function.hpp>
 #include <Interpreter/Definitions.hpp>
 #include <Interpreter/Import.hpp>
+#include <Interpreter/Statement.hpp>
 
 // Libraries
 #include <FileSystemPlusPlus.h>
@@ -202,7 +203,7 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
         	}
 
 		// func -> Test()
-    // func -> Test(<string>:"test", <int>1234:)
+    		// func -> Test(<string>:"test", <int>1234:)
 		if(FindObject(strarg, "func -> ") == true) {
 			FFunction fnc;
 			fnc.Function(file, strarg);
@@ -380,22 +381,6 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			FDefinition def;
 			def.OSDefinition(file, line);
 		}
-		// var[int] -> 100 -> a
-		if(FindObject(line, "var") == true) {
-			std::string assign;
-			GetBtwString(line, "[", "]", assign);
-			if(assign == "int") {
-				GetBtwString(line, " -> ", " <-", assign);
-			} else if(assign == "int&") {
-				// var(int&) -> Argc <-
-				GetBtwString(line, " -> ", " <-", assign);
-			} else if(assign == "string") {
-				// var(string) -> test -> abc
-				GetBtwString(line, " -> ", " <-", assign);
-			} else if(assign == "string&") {
-				GetBtwString(line, " -> ", " <-", assign);
-			}
-		}
 
 		// import " " -> name <-
 		if(FindObject(line, "import") == true) {
@@ -406,21 +391,27 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
         	if(FindObject(line, "main() -> main {") == true) {
         		Read(file);
         		GetBtwString(alltext, "main() -> main {", "}", alltext);
-        		std::istringstream f(alltext);
-        		while(std::getline(f, linebyline)) {
-			// func -> Test()
+        		std::istringstream f(alltext);     		
+			while(std::getline(f, linebyline)) {
+			/* statement[#pi] */
+			if(FindObject(linebyline, "statement") == true) {
+				FStatement stat;
+				stat.StatementParser(file, linebyline);
+			}
+			
+			/* func -> Test() */
 			if(FindObject(linebyline, "func -> ") == true) {
 				FFunction fnc;
 				fnc.Function(file, linebyline);
 			}
-
-        		// print(var[int]) -> " "
+			
+        		/* print(var[int]) -> " " */
 			if(FindObject(linebyline, "print") == true) {
 				FPrint pr;
 				pr.Print(file, linebyline);
 			}
 			
-			// put[<defin>]
+			/* put[<defin>] */
 			if(FindObject(linebyline, "put") == true) {
 				if(FindObject(linebyline, "-> ") == true) {
 					FImport imp;
@@ -431,14 +422,16 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				}
 			}
 
-			// read(string&) -> type[cpu]
+			/* read(string&) -> type[cpu] */
 			if(FindObject(linebyline, "read") == true) {
 				FRead read;
 				read.Read(linebyline);
 			}
 
-			// var(string&) -> Hello -> Hello <-
-			// input(get[string] ->  ->) [this]
+			/* 
+				var(string&) -> Hello -> Hello <-
+			   	input(get[string] ->  ->) [this]
+			*/			
 			if(FindObject(linebyline, "input") == true) {
 				std::string assign;
 				GetBtwString(linebyline, "(", ")", assign);
@@ -457,12 +450,12 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				}
 			}
 
-			// header[string]: Hello -> "test.flsh"
+			/* header[string]: Hello -> "test.flsh" */
 			if(FindObject(linebyline, "header") == true) {
 				Get(file, linebyline);
 			}
 
-			// random(:1, 12:) -> print
+			/* random(:1, 12:) -> print */
 			if(FindObject(linebyline, "random") == true) {
 				std::string assign;
 				std::string first, second;
@@ -488,19 +481,20 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 
 			}
 
-			// executepp("TestExec", "fetcheya")
+			/* executepp("TestExec", "fetcheya") */
 			if(FindObject(linebyline, "executepp") == true || 
 			FindObject(linebyline, "execout") == true) {
 				FExec execute;
 				execute.ExecutePp(linebyline);
 			}
 
-			// exec(system -> scrift ->[->arg])
+			/* exec(system -> scrift ->[->arg]) */
 			if(FindObject(linebyline, "exec") == true) {
 				FExec execute;
 				execute.Exec(linebyline);
         		}
-			// EraseAllSubstring(string["Hello FlaScript!", "ll"])
+		
+			/* EraseAllSubstring(string["Hello FlaScript!", "ll"]) */
 			if(FindObject(linebyline, "EraseAllSubstring") == true) {
 				FString st;
 				std::cout << st.EraseAllSubString(linebyline);

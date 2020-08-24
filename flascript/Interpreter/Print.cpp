@@ -51,8 +51,8 @@ void SetTitle(std::string title);
 */
 void
 FPrint::Print(std::string file, std::string arg) {
-	Tokenizer token;
-	FFunction fnc;
+  Tokenizer token;
+  FFunction fnc;
   if(inp.FindObject(arg, "fprintf") == true || inp.FindObject(arg, "fprintln") == true) { // fprintf(<%string>[:"test":, :"hello":])
 	 std::string assign, type;
 	 inp.GetBtwString(arg, "(<%", ">[", type);
