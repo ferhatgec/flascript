@@ -99,7 +99,7 @@ FPrint::Print(std::string file, std::string arg) {
 			} else if(inp.FindObject(assign, "var") == true) {
 				inp.GetBtwString(assign, "[", "]", assign);
 				if(assign == "int") {
-					inp.GetBtwString(arg, " \"", "\"", assign);
+					inp.GetBtwString(arg, " -> ", " <-", assign);
 					std::cout << atoi(assign.c_str());
 				}
 			} else if(assign == "input") {
