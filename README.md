@@ -17,4 +17,10 @@ main() -> main {
 }
 ```
 
+## Sources:
+* ![Documentations](docs/documentation/)
+* ![Tests](test/)
+* ![STL](stdlib/)
+
+
 #### Fegeya FlaScript licensed under the terms of MIT License.
