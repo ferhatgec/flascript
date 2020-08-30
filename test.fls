@@ -1,13 +1,11 @@
-var(int) -> 3.14159265359 -> PI <-
-
-#pi ->
-	if[var(int) -> PI <- (==) var(int) -> 3.14159265359 <-] -> {
-		print(string) -> "Passed"
+#checkroot ->
+	if[var(system) -> check[whoami] <- (==) var(string) -> root <-] -> {
+		print(string) -> "You are Super user! Yey! :^)"
 	} else -> {
-		print(string) -> "Failed"
+		print(string) -> ":) :) :)"
 	} <-
-#pi <-
+#checkroot <-
 
 main() -> main {
-	statement[#pi]
+	statement[#checkroot]
 }
