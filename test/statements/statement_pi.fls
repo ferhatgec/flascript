@@ -1,0 +1,13 @@
+var(int) -> 3.14159265359 -> PI <-
+
+#pi ->
+	if[var(int) -> PI <- (==) var(int) -> 3.14159265359 <-] -> {
+		print(string) -> "Passed"
+	} else -> {
+		print(string) -> "Failed"
+	} <-
+#pi <-
+
+main() -> main {
+	statement[#pi]
+}
