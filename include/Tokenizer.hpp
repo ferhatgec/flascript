@@ -55,6 +55,8 @@ public:
 	std::string endif = "endif}";
 	std::string Definition = "defin";
 	
+	std::string Exit = "exit";
+
 	std::string Whitespace = " ";
 } Tokenizer;
 
