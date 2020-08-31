@@ -62,8 +62,6 @@
 
 */
 
-
-
 void 
 FStatement::IfStatement(std::string file, std::string arg) {
 	std::string assign, type, compare, type2;
@@ -180,3 +178,23 @@ FStatement::StatementParser(std::string file, std::string arg) {
 	}
 }
 
+/*
+	exit(type)
+	
+	exit(success)
+	exit(failure)
+*/
+
+void
+FStatement::ExitStatement(std::string file, std::string arg) {
+	std::string assign, type;
+	FInterpreter inp;
+	FFunction fnc;
+	inp.GetBtwString(arg, "exit(", ")", type);
+	if(type == "success" || type == "SUCCESS")
+		exit(EXIT_SUCCESS); /* From cstdlib */
+	else if(type == "failure" || type == "FAILURE")
+		exit(EXIT_FAILURE); /* From cstdlib */
+	else
+		std::cout << "Warning: exit : Undefined type.\n";
+}

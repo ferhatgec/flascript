@@ -15,6 +15,8 @@ class FStatement {
 public:
 	void IfStatement(std::string, std::string);
 	void StatementParser(std::string, std::string);
+
+	void ExitStatement(std::string, std::string);
 };
 
 #endif // STATEMENT_HPP

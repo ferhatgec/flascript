@@ -7,5 +7,7 @@
 #checkroot <-
 
 main() -> main {
-	statement[#checkroot]
+	print(string) -> "Hello world!"
+	exit(success)
+	print(string) -> "Hello FlaScript!"
 }
