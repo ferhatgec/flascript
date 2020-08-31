@@ -1,10 +1,33 @@
-main() -> main {
-	print(string) -> "Use with Root permission"
-	print(newline)
+defin[slashn] -> print(newline) <-
+
+func -> Create() {
+	put[slashn]
 	print(string) -> "Creating STL directory"
+	
+	/> Create FlaScript library folder. </	
 	executepp("FlaScript Installer", "mkdir /usr/include/flascript")
+	
+	/> Copy </	
 	executepp("FlaScript Installer", "cp -rf ./stdlib/ /usr/include/flascript/")
-	print(newline)
-	print(string) -> "Installing to /bin/"
+	put[slashn]	
+
+	/> Copy object file </	
+	print(string) -> "Installing to /bin/"		
 	executepp("FlaScript Installer", "cp fla /bin/")
+}
+
+
+#checkroot ->
+	if[var(system) -> check[whoami] <- (==) var(string) -> root <-] -> {
+		print(string) -> "You are Super user! Yey! :^)"	
+		func -> Create()
+	} else -> {
+		print(string) -> "Use with Root permission!"
+	} <-
+#checkroot <-
+
+
+main() -> main {
+	/> Check user permission </
+	statement[#checkroot]
 }
