@@ -65,7 +65,7 @@ Only ```print(type) -> <-``` supports integer type.
 
 ```
 main() -> main {
-  print(var[int]) -> 1234567890 <-
+  print(var[int]) -> 1234567890 <-)
 }
 ```
 
