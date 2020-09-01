@@ -50,14 +50,14 @@ main() -> main {
 * 2 - string& (& = null || nil)
 * 3 - var[int]
 * 4 - int& (& = null || nil)
-* 5 - input (Under the construction)
-* 6 - last (Under the construction)
+* 5 - input (Yapim asamasinda)
+* 6 - last (Yapim asamasinda)
 * 7 - func
 * 8 - dynamic
 * 9 - get[] (string, int, string&, int&, env)
 * 10 - newline
 * 11 - colorized
-* 12 - rcolorized etc.
+* 12 - rcolorized vs.
 
 Bunlar, 'print' klasorunde olacak. Bekleyin!
 
