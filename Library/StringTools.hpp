@@ -69,7 +69,7 @@ namespace stringtools {
   		return sum;
 	}
 
-	int Count(std::string s, char ch) {
+	static int Count(std::string s, char ch) {
   		int count = 0;
 
 	 	for (int i = 0; i < s.size(); i++)
@@ -78,7 +78,7 @@ namespace stringtools {
   		return count;
 	}
 
-	int Counter(const char* str, int type) { // 1 = Vowel, 2 = Consonants, 3 = Numbers, 4 = Special characters
+	static int Counter(const char* str, int type) { // 1 = Vowel, 2 = Consonants, 3 = Numbers, 4 = Special characters
 		int v = 0, c = 0, n = 0, s = 0;
 		for (int i = 0; str[i]!='\0'; ++i) {
 			if (str[i] == 'a' || str[i] == 'e' || str[i] == 'i' || str[i] == 'o' || str[i] == 'u' || str[i] == 'A' ||

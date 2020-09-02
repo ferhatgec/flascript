@@ -6,17 +6,22 @@
 # */
 
 #include <iostream>
-#include <Interpreter/Interpreter.hpp>
 #include <FlaScriptMain.hpp>
 #include <FlaVersion.hpp>
 
+#include <Interpreter/Interpreter.hpp>
+#include <Debug/Debug_Interpreter.hpp>
+
+/* Library */
 #include <FileSystemPlusPlus.h>
 
 #define EXIT_SUCCESS 0
 
 void HelpFunction() {
-	std::cout << "Fegeya FlaScript\nflascript --b || --build  <source> : Interprets your FlaScript code\n" <<
-	"flascript --v || --version : Shows version\n";
+	std::cout << "Fegeya FlaScript\n" << 
+	"flascript --b || --build  <source> : Build & Run FlaScript code\n" <<
+	"flascript --d || --debug <source> : Debug FlaScript code\n" <<
+	"flascript --v || --version : Show version\n";
 }
 
 int main(int argc, char** argv) {
@@ -36,6 +41,9 @@ int main(int argc, char** argv) {
 		if(reg == "--build" || reg == "--b") {
 			FInterpreter interp;
 			interp.FlaScriptInterpreter(copy_arg);
+		} else if(reg == "--debug" || reg == "--d") {
+			Debug_FInterpreter interp;
+			interp.Debug_FlaScriptInterpreter(copy_arg);
 		} else if(reg == "--help" || reg == "--h") {
 			HelpFunction();
 			exit(EXIT_SUCCESS);
