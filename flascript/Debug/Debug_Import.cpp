@@ -49,7 +49,7 @@ static std::string FReadImport(std::string file) {
         	readfile.close();
 		return text;
     	} else {
-        	std::cout << "import : Unable to open file\n"; 
+        	std::cout << "Warning: import " + file + " : Unable to open file\n"; 
  	}
 	return "null";
 }
@@ -67,7 +67,7 @@ Debug_FImport::Debug_Import(std::string file, std::string arg) {
 			if(type != "null") {
 				check = true;
 			} else {
-				std::cout << "import(\"" <<
+				std::cout << "Error: import(\"" <<
 				assign << "\")" << " : File not found.\n";
 			}
 		} else {
@@ -112,5 +112,7 @@ Debug_FImport::Debug_Import(std::string file, std::string arg) {
 				}
 			}
 		}
+	} else {
+		std::cout << "Error: " + arg + " " + "Undefined function.\n";
 	}
 }

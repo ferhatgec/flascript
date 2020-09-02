@@ -107,7 +107,7 @@ Debug_FDefinition::Debug_OSDefinition(std::string file, std::string arg) {
 						inp.Debug_FlaScriptInterpreterWithArg(file, read);
 					#endif
 				} else {
-					std::cout << "ifdef( ) : Unsupported definition.\n";
+					std::cout << "Warning: ifdef( ) : Unsupported definition.\n";
 					std::cout << "     ^^^\n";
 					inp.Debug_FlaScriptInterpreterWithArg(file, read);
 				}
@@ -139,7 +139,7 @@ Debug_FDefinition::Debug_ValueDefinition(std::string file, std::string arg) {
 				token.LeftArrowSign, assign);
 				if(assign != "error") {
 					inp.Debug_FlaScriptInterpreterWithArg(file, assign);
-				}
+				} else std::cout << "Error: put[] Parser error..\n";
 			}
 		}
 	}

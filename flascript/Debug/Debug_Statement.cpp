@@ -109,7 +109,7 @@ Debug_FStatement::Debug_IfStatement(std::string file, std::string arg) {
 							}						
 						} 
 					} else {
-						std::cout << type2 << " : This type not integer, unable to compare with type1\n";
+						std::cout << "Warning: " + type2 + " : This type not integer, unable to compare with type1\n";
 					}
 				}  
 			}
@@ -142,7 +142,7 @@ Debug_FStatement::Debug_IfStatement(std::string file, std::string arg) {
 										assign + " <-] -> {", "} <-", data);
 									
 									if(data == "error")
-											std::cout << "if : Parse error. if[] -> {\n....\n} <-";
+											std::cout << "Error: if : Parse error. if[] -> {\n....\n} <-";
 									else
 											inp.Debug_FlaScriptInterpreterWithArg(file, data);						
 								}
@@ -157,7 +157,7 @@ Debug_FStatement::Debug_IfStatement(std::string file, std::string arg) {
 					} /* TODO: Add error messages. */
 				}
 			} else {
-				std::cout << "if : var(...) This type undefined!\n";
+				std::cout << "Error: if : var(...) This type undefined!\n";
 			}
 	    }
 	}
@@ -175,6 +175,8 @@ Debug_FStatement::Debug_StatementParser(std::string file, std::string arg) {
 		inp.Debug_GetBtwString(type, assign + " ->", assign + " <-", assign);
 		if(assign != "error") {
 			Debug_IfStatement(file, assign);
+		} else {
+			std::cout << "Error: " + arg + " " + "Parse error.\n";
 		}
 	}
 }

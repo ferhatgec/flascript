@@ -80,7 +80,7 @@ Debug_FPrint::Debug_Print(std::string file, std::string arg) {
 				 inp.Debug_GetBtwString(type, ":\"", "\":", assign);
 				 if(assign != "error") {}
 				 else
-					 std::cout << arg << "\n              ^^^^ : Double quotes missing\n";
+					 std::cout << "Error: " + arg + " " + "\n              ^^^^ : Double quotes missing\n";
 			 }
 		 } else {
 			 std::cout << arg;
@@ -129,6 +129,8 @@ Debug_FPrint::Debug_Print(std::string file, std::string arg) {
 								}
 							}
 						}
+					} else {
+						std::cout << "Error: " + arg + "func -> " + assign + " {\n....} : Parse error\n";
 					}
 				}
 			} else if(assign == "dynamic") {
@@ -141,11 +143,11 @@ Debug_FPrint::Debug_Print(std::string file, std::string arg) {
 					inp.Debug_GetBtwString(arg, "\"", "\"", type);
 					if(type != "error") {
 					} else {
-						std::cout << "print : dynamic : \"......\" : Parse error.\n";
+						std::cout << "Error: print : dynamic : \"......\" : Parse error.\n";
 						std::cout << "		 ^^^^^^^^^\n";
 					}
 				} else {
-					std::cout << type << "  : Not defined type.\n";
+					std::cout << "Error: " + type + "  : Undefined type.\n";
 				}
 			} else if(inp.Debug_FindObject(assign, "get") == true) {
 				// print(get[string] -> test ->) ->this
@@ -252,13 +254,13 @@ Debug_FPrint::Debug_Print(std::string file, std::string arg) {
 					
 					}
 				} else {
-					std::cout << "colorized : Brackets error.\n";
+					std::cout << "Error: colorized : Brackets error.\n";
 				}
 			} else if(assign == "error") {
 				inp.Debug_GetBtwString(arg, " \"", "\"", assign);
-				std::cout << "print : Double quotes missing";
+				std::cout << "Error: print : Double quotes missing\n";
 			} else {
-				std::cout << "print : Definition Error!\n";
+				std::cout << "Error: print : Definition Error!\n";
 			}
 	}
 }

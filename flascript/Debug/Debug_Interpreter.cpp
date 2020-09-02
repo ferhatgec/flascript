@@ -529,7 +529,7 @@ Debug_FInterpreter::Debug_FlaScriptInterpreter(std::string file) {
 					Debug_GetBtwString(linebyline, "(", ")", assign);
 
 					if(assign == "error")
-						std::cout << "main() : random : brackets error. random(:, :)\n";
+						std::cout << "Error: main() : random : Brackets error. random(:, :)\n";
 
 					Debug_GetBtwString(assign, ":", ", ", first);
 
@@ -540,7 +540,7 @@ Debug_FInterpreter::Debug_FlaScriptInterpreter(std::string file) {
 						Debug_GetBtwString(assign, ", ", " :", second);
 
 						if(second == "error") 
-							std::cout << "main() : random : second number is not defined. random(..., 2:)\n";
+							std::cout << "Error: main() : random : second number is not defined. random(..., 2:)\n";
 					
 						int first_number = atoi(first.c_str());
 						int second_number = atoi(second.c_str());

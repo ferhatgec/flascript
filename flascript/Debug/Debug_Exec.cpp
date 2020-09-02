@@ -38,7 +38,7 @@ Debug_FExec::Debug_Exec(std::string arg) {
 			inp.Debug_GetBtwString(assign, " -> ", " ->", assign);
 			if(assign != "error") {}
 		        else
-				std::cout << "exec(system) : Arrow Error.\n";
+				std::cout << "Error: exec(system -> ... ->) : Arrow Error.\n";
 		}
 	}
 }
@@ -62,7 +62,7 @@ Debug_FExec::Debug_ExecutePp(std::string arg) {
 		if(first != "error") {
 			inp.Debug_GetBtwString(assign, ", \"", "\"", assign);
 			if(assign != "error") {
-			}
+			} else std::cout << "Error: executepp(\"..\", \"...\") : Parser error.\n";
 		}
-	}
+	} else std::cout << "Error: " + arg + " " + "Undefined Execute function.\n";
 }

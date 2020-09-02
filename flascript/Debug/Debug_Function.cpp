@@ -40,7 +40,7 @@ Debug_FFunction::Debug_FReadFileWithReturn(std::string file, std::string argumen
         }
         readfile.close();
     	} else {
-        	printf("Unable to open file\n");
+        	std::cout << "Warning: " + argument + " " + "Unable to open file\n";
     	}
 	return false;
 }
@@ -56,7 +56,7 @@ Debug_FFunction::Debug_FRead(std::string file) {
         	readfile.close();
 		return text;
     	} else {
-        	printf("Unable to open file\n");
+        	std::cout << "Warning: " + file + " " + "Unable to open file\n";
  	}
 	return "null";
 }
@@ -94,14 +94,16 @@ Debug_FFunction::Debug_Function(std::string file, std::string arg) {
 	}
         //}
 	if(arg[arg.size() - 1] == ' ') {
-		printf("func -> ..()   : Whitespace error.\n");
-		printf("             ^^^\n");
+		std::cout << "Error" + arg + " " +  "Whitespace error.\n";
+		std::cout << "             ^^^\n";
 	}
 
 	if(inp.Debug_FindObject(type, arg + token.Whitespace + token.CurlyBracketsBegin) == true) {
 		inp.Debug_GetBtwString(type, arg + token.Whitespace + token.CurlyBracketsBegin, "}", assign);
 		if(assign != "error") {
 			inp.Debug_FlaScriptInterpreterWithArg(file, assign);
+		} else {
+			std::cout << "Error: " + arg + " " + "Tokenizer parse error.\n";
 		}
 	}
 }
