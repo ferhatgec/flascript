@@ -111,7 +111,43 @@ Debug_FStatement::Debug_IfStatement(std::string file, std::string arg) {
 					} else {
 						std::cout << "Warning: " + type2 + " : This type not integer, unable to compare with type1\n";
 					}
-				}  
+				}   else if(compare == "!=") {
+					inp.Debug_GetBtwString(assign, "(!=) var(", ") -> ", type2);
+					if(type2 == "int") { 
+						inp.Debug_GetBtwString(arg, "(!=) var(int) -> ", " <-] -> {", assign);
+						if(assign != "error") {
+							std::string variable = stringtools::FindStringWithReturn(file, "var(int) -> " + assign + " -> " + type + " <-");
+							if(variable != "null" || variable != "error") {
+								inp.Debug_GetBtwString(variable, "var(int) -> ", " -> ", variable); /* For compare */
+								if(variable != assign) {
+									Debug_FFunction fnc;
+									std::string read = fnc.Debug_FRead(file);
+									std::string data;									
+									inp.Debug_GetBtwString(read, "if[var(int) -> " + type + " <- (!=) var(int) -> " + assign + " <-] -> {",
+										"} else -> {", data);
+									if(data != "error") {
+										inp.Debug_FlaScriptInterpreterWithArg(file, data);
+									} else {
+										inp.Debug_GetBtwString(read, "if[var(int) -> " + type + " <- (!=) var(int) -> " + assign + " <-] -> {",
+										"} <-", data);
+										if(data == "error")
+											std::cout << "if : Parse error. if[] -> {\n....\n} <-";
+										else
+											inp.Debug_FlaScriptInterpreterWithArg(file, data);
+									}								
+								} else {
+									Debug_FFunction fnc;
+									std::string read = fnc.Debug_FRead(file);
+									inp.Debug_GetBtwString(read, "else -> {", "} <-", read);
+									if(read != "error")
+										inp.Debug_FlaScriptInterpreterWithArg(file, read);
+								}
+							}						
+						} 
+					} else {
+						std::cout << type2 << " : This type not integer, unable to compare with type1\n";
+					}
+				} else {}
 			}
 		} else if(type == "system") {
 			inp.Debug_GetBtwString(assign, "var(system) -> ", " <- (", type);
