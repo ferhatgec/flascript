@@ -66,33 +66,55 @@ void
 FStatement::IfStatement(std::string file, std::string arg) {
 	std::string assign, type, compare, type2;
 	FInterpreter inp;
+	
 	inp.GetBtwString(arg, "if[", "] -> {", assign);
 	if(assign != "error") {
+		/* Get type */
 		inp.GetBtwString(assign, "var(", ")", type);
 		if(type == "int") {
+			/* Get data */
 			inp.GetBtwString(assign, "var(int) -> ", " <- (", type);
 			if(type != "error") {
 				/* type : variable name */
 				inp.GetBtwString(assign, "<- (", ") ", compare);
+				/* 
+					compare operators:
+					==
+					!=
+					
+					TODO:
+						=>
+						<=
+						>
+						<
+						<=>
+						&& = null, nil
+				*/
 				if(compare == "==") { /* compare definitions */
+					/* Get second compare type */
 					inp.GetBtwString(assign, "(==) var(", ") -> ", type2);
 					if(type2 == "int") { 
+						/* Get second compare data */
 						inp.GetBtwString(arg, "(==) var(int) -> ", " <-] -> {", assign);
 						if(assign != "error") {
-							std::string variable = stringtools::FindStringWithReturn(file, "var(int) -> " + assign + " -> " + type + " <-");
+							/* var(int) -> .... */
+							std::string variable = stringtools::FindStringWithReturn(file, "var(int) -> " + assign + 
+								" -> " + type + " <-");
 							if(variable != "null" || variable != "error") {
 								inp.GetBtwString(variable, "var(int) -> ", " -> ", variable); /* For compare */
 								if(variable == assign) {
 									FFunction fnc;
 									std::string read = fnc.FRead(file);
 									std::string data;									
-									inp.GetBtwString(read, "if[var(int) -> " + type + " <- (==) var(int) -> " + assign + " <-] -> {",
-										"} else -> {", data);
+									inp.GetBtwString(read, "if[var(int) -> " + type + " <- (==) var(int) -> " + 
+										assign + " <-] -> {", "} else -> {", data);
+										
 									if(data != "error") {
 										inp.FlaScriptInterpreterWithArg(file, data);
 									} else {
-										inp.GetBtwString(read, "if[var(int) -> " + type + " <- (==) var(int) -> " + assign + " <-] -> {",
-										"} <-", data);
+										inp.GetBtwString(read, "if[var(int) -> " + type + 
+											" <- (==) var(int) -> " + assign + " <-] -> {", "} <-", data);
+											
 										if(data == "error")
 											std::cout << "if : Parse error. if[] -> {\n....\n} <-";
 										else
@@ -107,9 +129,9 @@ FStatement::IfStatement(std::string file, std::string arg) {
 								}
 							}						
 						} 
-					} else {
+					} /* else {
 						std::cout << type2 << " : This type not integer, unable to compare with type1\n";
-					}
+					}*/
 				} else if(compare == "!=") {
 					inp.GetBtwString(assign, "(!=) var(", ") -> ", type2);
 					if(type2 == "int") { 
@@ -143,9 +165,9 @@ FStatement::IfStatement(std::string file, std::string arg) {
 								}
 							}						
 						} 
-					} else {
+					} /* else {
 						std::cout << type2 << " : This type not integer, unable to compare with type1\n";
-					}
+					} */
 				} else {}
 			}
 		} else if(type == "string") {
@@ -158,15 +180,18 @@ FStatement::IfStatement(std::string file, std::string arg) {
 					if(type2 == "string") { 
 						inp.GetBtwString(arg, "(==) var(string) -> ", " <-] -> {", assign);
 						if(assign != "error") {
-							std::string variable = stringtools::FindStringWithReturn(file, "var(string) -> " + assign + " -> " + type + " <-");
+							std::string variable = stringtools::FindStringWithReturn(file, "var(string) -> " + assign + 
+								" -> " + type + " <-");
+								
 							if(variable != "null" || variable != "error") {
 								inp.GetBtwString(variable, "var(string) -> ", " -> ", variable); /* For compare */
 								if(variable == assign) {
 									FFunction fnc;
 									std::string read = fnc.FRead(file);
 									std::string data;									
-									inp.GetBtwString(read, "if[var(string) -> " + type + " <- (==) var(string) -> " + assign + " <-] -> {",
-										"} else -> {", data);
+									inp.GetBtwString(read, "if[var(string) -> " + type + " <- (==) var(string) -> " 
+										+ assign + " <-] -> {", "} else -> {", data);
+										
 									if(data != "error") {
 										inp.FlaScriptInterpreterWithArg(file, data);
 									} else {
@@ -186,23 +211,25 @@ FStatement::IfStatement(std::string file, std::string arg) {
 								}
 							}						
 						} 
-					} else {
+					} /* else {
 						std::cout << type2 << " : This type not integer, unable to compare with type1\n";
-					}
+					}*/
 				} else if(compare == "!=") {
 					inp.GetBtwString(assign, "(!=) var(", ") -> ", type2);
 					if(type2 == "string") { 
 						inp.GetBtwString(arg, "(!=) var(string) -> ", " <-] -> {", assign);
 						if(assign != "error") {
-							std::string variable = stringtools::FindStringWithReturn(file, "var(string) -> " + assign + " -> " + type + " <-");
+							std::string variable = stringtools::FindStringWithReturn(file, "var(string) -> " + 
+								assign + " -> " + type + " <-");
+								
 							if(variable != "null" || variable != "error") {
 								inp.GetBtwString(variable, "var(string) -> ", " -> ", variable); /* For compare */
 								if(variable != assign) {
 									FFunction fnc;
 									std::string read = fnc.FRead(file);
 									std::string data;									
-									inp.GetBtwString(read, "if[var(string) -> " + type + " <- (!=) var(string) -> " + assign + " <-] -> {",
-										"} else -> {", data);
+									inp.GetBtwString(read, "if[var(string) -> " + type + " <- (!=) var(string) -> " 
+										+ assign + " <-] -> {", "} else -> {", data);
 									if(data != "error") {
 										inp.FlaScriptInterpreterWithArg(file, data);
 									} else {
@@ -222,9 +249,9 @@ FStatement::IfStatement(std::string file, std::string arg) {
 								}
 							}						
 						} 
-					} else {
+					} /* else {
 						std::cout << type2 << " : This type not string, unable to compare with type1\n";
-					}
+					} */
 				} else {}
 			}
 		} else if(type == "system") {
@@ -255,10 +282,8 @@ FStatement::IfStatement(std::string file, std::string arg) {
 									inp.GetBtwString(read, "if[var(system) -> check[" + get_type + "] <- (==) var(string) -> " + 
 										assign + " <-] -> {", "} <-", data);
 									
-									if(data == "error")
-											std::cout << "if : Parse error. if[] -> {\n....\n} <-";
-									else
-											inp.FlaScriptInterpreterWithArg(file, data);						
+									if(data != "error")
+										inp.FlaScriptInterpreterWithArg(file, data);						
 								}
 							} else {
 								FFunction fnc;
@@ -270,9 +295,9 @@ FStatement::IfStatement(std::string file, std::string arg) {
 						}
 					} /* TODO: Add error messages. */
 				}
-			} else {
+			} /* else {
 				std::cout << "if : var(...) This type undefined!\n";
-			}
+			} */
 	    }
 	}
 }
@@ -310,6 +335,6 @@ FStatement::ExitStatement(std::string file, std::string arg) {
 		exit(EXIT_SUCCESS); /* From cstdlib */
 	else if(type == "failure" || type == "FAILURE")
 		exit(EXIT_FAILURE); /* From cstdlib */
-	else
-		std::cout << "Warning: exit : Undefined type.\n";
+	/* else
+		std::cout << "Warning: exit : Undefined type.\n"; */
 }
