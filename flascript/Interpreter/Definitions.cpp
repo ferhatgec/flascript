@@ -105,11 +105,11 @@ FDefinition::OSDefinition(std::string file, std::string arg) {
 					#ifdef _WIN32
 						inp.FlaScriptInterpreterWithArg(file, read);
 					#endif
-				} else {
+				}/* else {
 					std::cout << "ifdef( ) : Unsupported definition.\n";
 					std::cout << "     ^^^\n";
 					inp.FlaScriptInterpreterWithArg(file, read);
-				}
+				}*/
 			}
 		}
 	}

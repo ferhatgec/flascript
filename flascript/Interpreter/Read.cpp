@@ -64,10 +64,10 @@ FRead::Read(std::string arg) {
 					std::cout << __DATE__;
 				} else if(assign == "branch") {
 					ExecutePlusPlus ex;
-					std::cout << ex.ExecWithOutput("git branch | grep \"^\*\" | sed 's/^..//'");	
+					std::cout << ex.ExecWithOutput("git branch | grep \"^\*\" | sed 's/^..//'");
 				} else if(assign == "version") {
 					FlaVersion ver;
-					std::cout << ver.VersionAlgorithm() << "\n"; 
+					std::cout << ver.VersionAlgorithm() << "\n";
 				} else {
 					assign = getenv(assign.c_str());
 					std::cout << assign;

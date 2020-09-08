@@ -33,14 +33,14 @@ FFunction::FReadFileWithReturn(std::string file, std::string argument) {
     	std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
     	if(readfile.is_open()) {
         while (std::getline(readfile, line)) {
-        	if(inp.FindObject(line, argument) == true) {
+        	if(inp.FindObject(line, argument) == true)
         		return true;
-        	}
+
         }
         readfile.close();
-    	} else {
+    	} /*else {
         	printf("Unable to open file\n");
-    	}
+    	}*/
 	return false;
 }
 
@@ -49,14 +49,14 @@ FFunction::FRead(std::string file) {
 	std::string line, text;
     	std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
     	if(readfile.is_open()) {
-       		while (std::getline(readfile, line)) {
+       		while (std::getline(readfile, line))
         		text.append(line + "\n");
-        	}
+
         	readfile.close();
 		return text;
-    	} else {
+    	} /*else {
         	printf("Unable to open file\n");
- 	}
+ 	}*/
 	return "null";
 }
 
@@ -87,21 +87,20 @@ FFunction::Function(std::string file, std::string arg) {
 	type = FRead(file);
 	//if(inp.FindObject(arg, " ") == true) {
 	for(int t = 0; t != arg.length(); t++) {
-		if(arg[t] == ' ') {
+		if(arg[t] == ' ')
 			arg = arg.erase(0, 1);
-		}
+
 	}
-        //}
+        /*}
 	if(arg[arg.size() - 1] == ' ') {
 		printf("func -> ..()   : Whitespace error.\n");
 		printf("             ^^^\n");
-	}
+	}*/
 
 	if(inp.FindObject(type, arg + token.Whitespace + token.CurlyBracketsBegin) == true) {
 		inp.GetBtwString(type, arg + token.Whitespace + token.CurlyBracketsBegin, "}", assign);
-		if(assign != "error") {
+		if(assign != "error")
 			inp.FlaScriptInterpreterWithArg(file, assign);
-		}
 	}
 }
 

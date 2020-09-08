@@ -20,6 +20,7 @@
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -42,8 +43,8 @@ static void SetTitle(std::string title);
 /*
 	Standart:
 		print(string) -> Hello World! <-
-		
-	C-Like: 
+
+	C-Like:
 		fprintf(<%string>[:"Hello ":, :"World!":])
 		fprintln(<%string>[:"Hello ":, :"World!":])
 			: print(string) -> Hello  <-
@@ -65,33 +66,40 @@ Debug_FPrint::Debug_Print(std::string file, std::string arg) {
 				 std::string data;
 				 data.append(assign);
 				 for(;;) {
-					 inp.Debug_GetBtwString(type, ", :\"", "\":", assign);
-				   if(assign != "error") {
-					  	data.append(assign);
-							type = inp.Debug_EraseAllSubString(type, ", :\"" + assign + "\":");
-				   } else {
-						 	break;
-					 }
+				 	inp.Debug_GetBtwString(type, ", :\"", "\":", assign);
+				   	if(assign != "error") {
+						data.append(assign);
+						type = inp.Debug_EraseAllSubString(type, ", :\"" + assign + "\":");
+				   	} else
+						break;
 				 }
 				 /*
 				 	fprintln = fprintf ... + newline
 				 */
 			 } else {
-				 inp.Debug_GetBtwString(type, ":\"", "\":", assign);
-				 if(assign != "error") {}
-				 else
-					 std::cout << "Error: " + arg + " " + "\n              ^^^^ : Double quotes missing\n";
+			 	inp.Debug_GetBtwString(type, ":\"", "\":", assign);
+			 	if(assign == "error") {
+					BOLD_LIGHT_WHITE_COLOR
+ 					std::cout << file + ":" << WBOLD_RED_COLOR << " Error: " << WBOLD_LIGHT_WHITE_COLOR <<
+ 						"print(string) : Double quotes parse error. Add \"....\"\n";
 			 }
-		 } else {
-			 std::cout << arg;
-			 std::cout << "\n                   ^^^^\n";
-		 }
+		}
+	 	} else {
+			BOLD_LIGHT_WHITE_COLOR
+			std::cout << file + ":" << WBOLD_RED_COLOR << " Error: " << WBOLD_LIGHT_WHITE_COLOR <<
+				"fprint(f|ln)(<%string>[]) : Data parse error.\n";
+	 	}
 	 }
  } else if(inp.Debug_FindObject(arg, "print") == true) {
 			std::string assign;
 			inp.Debug_GetBtwString(arg, "(", ")", assign);
 			if(assign == "string") {
 				inp.Debug_GetBtwString(arg, " \"", "\"", assign);
+				if(assign == "error") {
+					BOLD_LIGHT_WHITE_COLOR
+					std::cout << file + ":" << WBOLD_RED_COLOR << " Error: " << WBOLD_LIGHT_WHITE_COLOR <<
+						"print(string) : Double quotes parse error. Add \"....\"\n";
+				}
 			} else if(inp.Debug_FindObject(assign, "var") == true) {
 				inp.Debug_GetBtwString(assign, "[", "]", assign);
 				if(assign == "int") {
@@ -119,7 +127,9 @@ Debug_FPrint::Debug_Print(std::string file, std::string arg) {
 								} else if(fn == "string&") {
 									std::cout << "null";
 								} else {
-									std::cout << "var(" + fn + ") This variable not defined:" << fn << "\n";
+									BOLD_LIGHT_WHITE_COLOR
+									std::cout << file + ":" << WBOLD_LIGHT_RED_COLOR << " Warning: " << WBOLD_LIGHT_WHITE_COLOR <<
+										"var(" + fn + ") : Variable not defined.\n";
 								}
 							} else {
 								// return get[int] -> abc <-
@@ -130,21 +140,23 @@ Debug_FPrint::Debug_Print(std::string file, std::string arg) {
 							}
 						}
 					} else {
-						std::cout << "Error: " + arg + "func -> " + assign + " {\n....} : Parse error\n";
+						BOLD_LIGHT_WHITE_COLOR
+						std::cout << file + ":" << WBOLD_RED_COLOR << " Error: " << WBOLD_LIGHT_WHITE_COLOR <<
+							"func -> " + assign + " {..} : Curly brackets parse error.\n";
 					}
 				}
 			} else if(assign == "dynamic") {
-				/*	
-					print(dynamic) -> set[title] -> "Hello world!" <-		
+				/*
+					print(dynamic) -> set[title] -> "Hello world!" <-
 				*/
 				std::string type;
 				inp.Debug_GetBtwString(arg, "set[", "]", type);
 				if(type == "title") {
 					inp.Debug_GetBtwString(arg, "\"", "\"", type);
-					if(type != "error") {
-					} else {
-						std::cout << "Error: print : dynamic : \"......\" : Parse error.\n";
-						std::cout << "		 ^^^^^^^^^\n";
+					if(type == "error") {
+						BOLD_LIGHT_WHITE_COLOR
+						std::cout << file + ":" << WBOLD_RED_COLOR << " Error: " << WBOLD_LIGHT_WHITE_COLOR <<
+							"print(dynamic) : Parse error.\n";
 					}
 				} else {
 					std::cout << "Error: " + type + "  : Undefined type.\n";
@@ -251,7 +263,7 @@ Debug_FPrint::Debug_Print(std::string file, std::string arg) {
 					if(assign == "error") {
 						inp.Debug_GetBtwString(arg, " \"", "\"", assign);
 					} else {
-					
+
 					}
 				} else {
 					std::cout << "Error: colorized : Brackets error.\n";

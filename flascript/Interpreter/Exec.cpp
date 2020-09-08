@@ -35,11 +35,11 @@ FExec::Exec(std::string arg) {
 		inp.GetBtwString(arg, "(", ")", assign);
 		if(inp.FindObject(assign, "system") == true) {
 			inp.GetBtwString(assign, " -> ", " ->", assign);
-			if(assign != "error") {
+			if(assign != "error")
 				system(assign.c_str());
-			} else {
+			/*else {
 				std::cout << "exec(system) : Arrow Error.\n";
-			}
+			}*/
 		}
 	}
 }

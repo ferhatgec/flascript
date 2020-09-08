@@ -18,7 +18,7 @@
 #define EXIT_SUCCESS 0
 
 void HelpFunction() {
-	std::cout << "Fegeya FlaScript\n" << 
+	std::cout << "Fegeya FlaScript\n" <<
 	"flascript --b  || --build  <source> : Build & Run FlaScript code\n" <<
 	"flascript --d  || --debug <source> : Debug FlaScript code\n" <<
 	"flascript --ba || --buildall <source> : [Under the construction] Debug & Build & Run\n" <<
@@ -56,9 +56,8 @@ int main(int argc, char** argv) {
 		} else if(reg == "--version" || reg == "--v") {
 			FlaVersion vers;
 			std::cout << vers.VersionAlgorithm() << "\n";
-		} else {
+		} else
 			HelpFunction();
-		}
 	}
 	return 0;
 }

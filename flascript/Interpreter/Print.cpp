@@ -41,8 +41,8 @@ void SetTitle(std::string title);
 /*
 	Standart:
 		print(string) -> Hello World! <-
-		
-	C-Like: 
+
+	C-Like:
 		fprintf(<%string>[:"Hello ":, :"World!":])
 		fprintln(<%string>[:"Hello ":, :"World!":])
 			: print(string) -> Hello  <-
@@ -79,11 +79,11 @@ FPrint::Print(std::string file, std::string arg) {
 				 if(inp.FindObject(arg, "fprintln") == true) std::cout << "\n";
 			 } else {
 				 inp.GetBtwString(type, ":\"", "\":", assign);
-				 if(assign != "error") {
+				 if(assign != "error")
 					 fprintf(assign.c_str());
-				 } else {
+				 /* } else {
 					 std::cout << arg << "\n              ^^^^ : Double quotes missing\n";
-				 }
+				 } */
 			 }
 		 } else {
 			 std::cout << arg;
@@ -95,7 +95,8 @@ FPrint::Print(std::string file, std::string arg) {
 			inp.GetBtwString(arg, "(", ")", assign);
 			if(assign == "string") {
 				inp.GetBtwString(arg, " \"", "\"", assign);
-				std::cout << assign;
+				if(assign != "error")
+					std::cout << assign;
 			} else if(inp.FindObject(assign, "var") == true) {
 				inp.GetBtwString(assign, "[", "]", assign);
 				if(assign == "int") {
@@ -128,9 +129,9 @@ FPrint::Print(std::string file, std::string arg) {
 									std::cout << 0;
 								} else if(fn == "string&") {
 									std::cout << "null";
-								} else {
+								} /* else {
 									std::cout << "var(" + fn + ") This variable not defined:" << fn << "\n";
-								}
+								} */
 							} else {
 								// return get[int] -> abc <-
 								inp.GetBtwString(assign, "get[", "]", fn);
@@ -142,22 +143,22 @@ FPrint::Print(std::string file, std::string arg) {
 					}
 				}
 			} else if(assign == "dynamic") {
-				/*	
-					print(dynamic) -> set[title] -> "Hello world!" <-		
+				/*
+					print(dynamic) -> set[title] -> "Hello world!" <-
 				*/
 				std::string type;
 				inp.GetBtwString(arg, "set[", "]", type);
 				if(type == "title") {
 					inp.GetBtwString(arg, "\"", "\"", type);
-					if(type != "error") {
+					if(type != "error")
 						SetTitle(type);
-					} else {
+					/*} else {
 						std::cout << "print : dynamic : \"......\" : Parse error.\n";
 						std::cout << "		 ^^^^^^^^^\n";
-					}
-				} else {
+					} */
+				} /*else {
 					std::cout << type << "  : Not defined type.\n";
-				}
+				}*/
 			} else if(inp.FindObject(assign, "get") == true) {
 				// print(get[string] -> test ->) ->this
 				std::string get;
@@ -167,9 +168,8 @@ FPrint::Print(std::string file, std::string arg) {
 					if(get == "error") {
 						std::string name;
 						inp.GetBtwString(assign,  ": ", " -> ", name);
-						if(name != "error") {
+						if(name != "error")
 							inp.Get(file, assign);
-						}
 					} else {
 					// var(string)
 					std::string rt;
@@ -232,9 +232,8 @@ FPrint::Print(std::string file, std::string arg) {
 				inp.GetBtwString(arg, " \"", "\"", assign);
 				if(assign != "error") {
 					std::cout << assign << "\n";
-				} else {
+				} else
 					std::cout << "\n";
-				}
 			} else if(inp.FindObject(assign, "rcolorized") == true) {
 				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
 				std::string get, color_type, color;
@@ -250,12 +249,11 @@ FPrint::Print(std::string file, std::string arg) {
 					if(assign == "error") {
 						inp.GetBtwString(arg, " \"", "\"", assign);
 						colorized::PrintWhReset(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), "");
-					} else {
+					} else
 						colorized::PrintWhReset(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
-					}
-				} else {
+				} /*else {
 					std::cout << "colorized : Brackets error.\n";
-				}
+				}*/
 			} else if(inp.FindObject(assign, "colorized") == true) {
 				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
 				std::string get, color_type, color;
@@ -271,18 +269,18 @@ FPrint::Print(std::string file, std::string arg) {
 					if(assign == "error") {
 						inp.GetBtwString(arg, " \"", "\"", assign);
 						colorized::PrintWith(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), "");
-					} else {
+					} else
 						colorized::PrintWith(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
-					}
-				} else {
+				/*} else {
 					std::cout << "colorized : Brackets error.\n";
-				}
-			} else if(assign == "error") {
+				} */
+			}/* else if(assign == "error") {
 				inp.GetBtwString(arg, " \"", "\"", assign);
 				std::cout << "print : Double quotes missing";
 			} else {
 				std::cout << "print : Definition Error!\n";
-			}
+			}*/
+		}
 	}
 }
 
@@ -290,13 +288,13 @@ FPrint::Print(std::string file, std::string arg) {
 	Implementation of GNU LibC Printf
 */
 int fprintf(const char *format, ...) {
- 	va_list arg;
-  int done;
+	va_list arg;
+  	int done;
 
-  va_start (arg, format);
-  done = vfprintf (stdout, format, arg);
-  va_end (arg);
-  return done;
+  	va_start (arg, format);
+  	done = vfprintf (stdout, format, arg);
+  	va_end (arg);
+  	return done;
 }
 
 /*

@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cstring>
 
-std::string 
+std::string
 FlaVersion::Time() {
 	FInterpreter intp;
 	std::string ftime(__TIME__); // Convert

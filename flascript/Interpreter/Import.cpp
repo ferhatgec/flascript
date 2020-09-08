@@ -42,14 +42,14 @@ std::string FReadImport(std::string file) {
 	std::string line, text;
     	std::ifstream readfile(("/usr/include/flascript/" + file).c_str());
     	if(readfile.is_open()) {
-       		while (std::getline(readfile, line)) {
+       		while (std::getline(readfile, line))
         		text.append(line + "\n");
-        	}
+        	
         	readfile.close();
 		return text;
-    	} else {
-        	std::cout << "import : Unable to open file\n"; 
- 	}
+    	} /*else {
+        	std::cout << "import : Unable to open file\n";
+ 	}*/
 	return "null";
 }
 
@@ -63,12 +63,12 @@ FImport::Import(std::string file, std::string arg) {
 		inp.GetBtwString(arg, "(\"", "\")", assign);
 		if(assign != "error") {
 			type = func.FRead(assign);
-			if(type != "null") {
+			if(type != "null")
 				check = true;
-			} else {
+			/*else {
 				std::cout << "import(\"" <<
 				assign << "\")" << " : File not found.\n";
-			}
+			}*/
 		} else {
 			inp.GetBtwString(arg, "(<", ">)", assign);
 			if(assign != "error") {
