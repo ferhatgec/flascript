@@ -9,6 +9,6 @@
 #define FLA_SCRIPT_MAIN_HPP
 
 #include <iostream>
-#include "../Library/FileSystemPlusPlus.h"
+
 
 #endif // FLA_SCRIPT_MAIN_HPP

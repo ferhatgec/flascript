@@ -16,4 +16,4 @@ public:
 	void Print(std::string, std::string);
 };
 
-#endif // INTERPRETER_HPP
+#endif // PRINT_HPP

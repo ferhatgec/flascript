@@ -6,7 +6,7 @@
 # */
 
 #ifndef DEBUG_INTERPRETER_HPP
-#define INTERPRETER_HPP
+#define DEBUG_INTERPRETER_HPP
 
 #include <iostream>
 #include "../Library/FileSystemPlusPlus.h"
@@ -37,4 +37,4 @@ public:
 	std::string Debug_EraseAllSubString(std::string &, const std::string &);	
 };
 
-#endif // INTERPRETER_HPP
+#endif // DEBUG_INTERPRETER_HPP
