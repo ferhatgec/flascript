@@ -396,11 +396,15 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 		/*
 			Code execution.
 		*/
-        	if(FindObject(line, "main() -> main {") == true) {
+        	if(FindObject(line, "() -> main {") == true) {
         		Read(file);
+        		
 			/* Get content. */
-			GetBtwString(alltext, "main() -> main {", "}", alltext);
-
+			if(FindObject(line, "main() -> main {") == true)
+				GetBtwString(alltext, "main() -> main {", "}", alltext);
+			else
+				GetBtwString(alltext, "() -> main {", "}", alltext);
+			
 			/* Read line-by-line */
 			std::istringstream f(alltext);
 

@@ -8,6 +8,6 @@ var(string) -> Fegeya FlaScript -> project name <-
 	} <-
 #project_name <-
 
-main() -> main {
+() -> main {
 	statement[#project_name]
 }
