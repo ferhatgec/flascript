@@ -8,9 +8,15 @@
 ```
 main() -> main {
   /> Your code here. </
-}
+} main;
 ```
 
+### Other uses:
+```
+() -> main {
+  /> Your code here. </
+} main;
+```
 ## Write Hello World!
 
 First, FlaScript has ~3 different output option.
@@ -18,6 +24,7 @@ First, FlaScript has ~3 different output option.
 * 1 - print
 * 2 - fprintf || fprintln
 * 3 - execout
+* 4 - executepp
 
 ### 1 - ```print```
 
@@ -27,7 +34,7 @@ First, FlaScript has ~3 different output option.
 ```
 main() -> main {
   print(string) -> "Hello World!"
-}
+} main;
 ```
 
 #### Output:
@@ -38,7 +45,7 @@ main() -> main {
 main() -> main {
   print(string) -> "Hello World!"
   print(newline)
-}
+} main;
 ```
 
 #### Output:
@@ -71,7 +78,7 @@ These, will be in the 'print' folder. Wait up.
 ```
 main() -> main {
   fprintf(<%string>[:"Hello ":, :"FlaScript!":, :" 1234567890":])
-}
+} main;
 ```
 
 #### Output:
@@ -81,7 +88,7 @@ main() -> main {
 ```
 main() -> main {
   fprintln(<%string>[:"Hello ":, :"FlaScript!":, :" 1234567890":])
-}
+} main;
 ```
 
 #### Output:
@@ -97,11 +104,25 @@ main() -> main {
 ```
 main() -> main {
 	execout(-> echo Hello World! <-)
-}
+} main;
 ```
 
 #### Output:
 ```Hello World!``` (newline)
+
+### 4 - ```executepp```
+
+```executepp``` implementation of ExecutePlusPlus library.
+
+#### Example:
+```
+main() -> main {
+  executepp("ExecuteName", "whoami")
+} main;
+```
+
+#### Output:
+```root```
 
 * Tip:
 ```execout(-> your command here <-)```
