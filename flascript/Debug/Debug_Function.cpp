@@ -18,6 +18,7 @@
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -82,11 +83,11 @@ Debug_FFunction::Debug_FRead(std::string file) {
 
 void
 Debug_FFunction::Debug_Function(std::string file, std::string arg) {
-	std::string assign, type;
+	std::string assign, type, name;
 	Debug_FInterpreter inp;
 	FTokenizer token;
 	type = Debug_FRead(file);
-	//if(inp.FindObject(arg, " ") == true) {
+	/*if(inp.FindObject(arg, " ") == true) {
 	for(int t = 0; t != arg.length(); t++) {
 		if(arg[t] == ' ') {
 			arg = arg.erase(0, 1);
@@ -96,15 +97,22 @@ Debug_FFunction::Debug_Function(std::string file, std::string arg) {
 	if(arg[arg.size() - 1] == ' ') {
 		std::cout << "Error" + arg + " " +  "Whitespace error.\n";
 		std::cout << "             ^^^\n";
-	}
+	}*/
 
+	if(stringtools::GetBetweenString(arg, "func -> ", "()") != "error") {
+		arg = "func -> " + stringtools::GetBetweenString(arg, "func -> ", "()") + "()";
+	} else {
+
+		
+	}
+	
+
+	name = stringtools::GetBetweenString(arg, " -> ", "()");
+	
 	if(inp.Debug_FindObject(type, arg + token.Whitespace + token.CurlyBracketsBegin) == true) {
-		inp.Debug_GetBtwString(type, arg + token.Whitespace + token.CurlyBracketsBegin, "}", assign);
-		if(assign != "error") {
+		inp.Debug_GetBtwString(type, arg + token.Whitespace + token.CurlyBracketsBegin, "} " + name + ";", assign);
+		if(assign != "error")
 			inp.Debug_FlaScriptInterpreterWithArg(file, assign);
-		} else {
-			std::cout << "Error: " + arg + " " + "Tokenizer parse error.\n";
-		}
 	}
 }
 

@@ -86,7 +86,7 @@ FFunction::Function(std::string file, std::string arg) {
 	FInterpreter inp;
 	FTokenizer token;
 	type = FRead(file);
-	//if(inp.FindObject(arg, " ") == true) {
+	/*if(inp.FindObject(arg, " ") == true) {
 	for(int t = 1; t != arg.length(); t++) {
 		if(arg[t] == ' ') {
 			arg = arg.erase(0, 1); 
@@ -99,9 +99,9 @@ FFunction::Function(std::string file, std::string arg) {
 		printf("             ^^^\n");
 	}*/
 
-	if(strstr(arg.c_str(), "func ->")) {}
-	else
-		arg = "f" + arg;
+	if(stringtools::GetBetweenString(arg, "func -> ", "()") != "error") {
+		arg = "func -> " + stringtools::GetBetweenString(arg, "func -> ", "()") + "()";
+	} else {}
 	
 
 	name = stringtools::GetBetweenString(arg, " -> ", "()");

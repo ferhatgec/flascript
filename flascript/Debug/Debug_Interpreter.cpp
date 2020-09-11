@@ -24,6 +24,7 @@
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -224,8 +225,36 @@ Debug_FInterpreter::Debug_FlaScriptInterpreterWithArg(std::string file, std::str
 			func -> Test()
 		*/
 		if(Debug_FindObject(strarg, "func -> ") == true) {
-			Debug_FFunction fnc;
-			fnc.Debug_Function(file, strarg);
+			if(stringtools::GetBetweenString(strarg, ": ", " <") != "error") {
+				std::string assign = stringtools::GetBetweenString(strarg, ": ", " <");
+				if(assign != "error") {
+					std::string function = stringtools::EraseAllSubString(strarg, " : " + assign + " <");
+					if(function == "error")
+						std::cout << file + ":" << WBOLD_RED_COLOR << " Parse error: " << WBOLD_LIGHT_WHITE_COLOR <<
+							"func -> ..() : .... < : Parse error.\n";
+			
+					strarg = stringtools::GetBetweenString(function, " -> ", "()");
+					if(strarg == "error")
+						std::cout << file + ":" << WBOLD_RED_COLOR << " Parse error: " << WBOLD_LIGHT_WHITE_COLOR <<
+ 							"func -> ..() : .. < : Parenthese parse error. Add ().. : .. <\n";
+
+					strarg = "put[" + assign + " -> " + "func -> " + strarg + "()" + " <-]";
+					
+					if(strarg == "error")
+						std::cout << file + ":" << WBOLD_RED_COLOR << " Generate error: " << WBOLD_LIGHT_WHITE_COLOR <<
+ 							"func -> ..() : put[] generate error.\n";
+
+					if(Debug_FindObject(strarg, "->") == true) {
+						Debug_FImport imp;
+						imp.Debug_Import(file, strarg);
+				} else {
+					Debug_FDefinition def;
+					def.Debug_ValueDefinition(file, strarg);
+				}
+			} else {
+				Debug_FFunction fnc;
+				fnc.Debug_Function(file, strarg);
+			}
 		}
 
 		/* 
@@ -349,7 +378,7 @@ Debug_FInterpreter::Debug_FlaScriptInterpreterWithArg(std::string file, std::str
 		}	
 	}
 }
-
+}
 /*
 	FlaScript's main interpreter.
 */
@@ -461,8 +490,40 @@ Debug_FInterpreter::Debug_FlaScriptInterpreter(std::string file) {
 					func -> Test() 
 				*/
 				if(Debug_FindObject(linebyline, "func -> ") == true) {
-					Debug_FFunction fnc;
-					fnc.Debug_Function(file, linebyline);
+					if(stringtools::GetBetweenString(linebyline, ": ", " <") != "error") {
+						std::string assign = stringtools::GetBetweenString(linebyline, ": ", " <");
+						if(assign != "error") {
+							std::string function = stringtools::EraseAllSubString(linebyline, " : " + assign + " <");
+							if(function == "error")
+								std::cout << file + ":" << WBOLD_RED_COLOR << " Parse error: " << WBOLD_LIGHT_WHITE_COLOR <<
+									"func -> ..() : .... < : Parse error.\n";
+
+							linebyline = stringtools::GetBetweenString(function, " -> ", "()");
+							
+							if(linebyline == "error")
+								std::cout << file + ":" << WBOLD_RED_COLOR << " Function error: " << WBOLD_LIGHT_WHITE_COLOR <<
+									"func -> ...() : Name error.\n";
+
+							linebyline = "put[" + assign + " -> " + "func -> " + linebyline + "()" + " <-]";
+							
+							if(linebyline == "error")
+								std::cout << file + ":" << WBOLD_RED_COLOR << " Parse error: " << WBOLD_LIGHT_WHITE_COLOR <<
+		 							"func -> ..() : .. < : Parenthese parse error. Add ().. : .. <\n";
+							
+							if(Debug_FindObject(linebyline, "->") == true) {
+								Debug_FImport imp;
+								imp.Debug_Import(file, linebyline);
+							} else {
+								Debug_FDefinition def;
+								def.Debug_ValueDefinition(file, linebyline);
+							}
+						}
+
+						linebyline.erase();
+					} else {
+						Debug_FFunction fnc;
+						fnc.Debug_Function(file, linebyline);
+					}
 				}
 			
         			/* 
@@ -576,7 +637,7 @@ Debug_FInterpreter::Debug_FlaScriptInterpreter(std::string file) {
         		}
        		}
 	}
-	} else {
-		std::cout << "Unable to open file\n";
-	}
+	} else 
+		std::cout << file + ":" << WBOLD_LIGHT_RED_COLOR << "Warning: " << WBOLD_LIGHT_WHITE_COLOR <<
+		 	"Unable to open file.\n";
 }

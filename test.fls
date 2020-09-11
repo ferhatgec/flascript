@@ -8,8 +8,11 @@ func -> Test() {
         put[colors -> BLACK_COLOR <-]
 } Test;
 
+func -> HelloWorld() {
+        print(string) -> "Hello, world!"
+} HelloWorld;
+
 () -> main {
         print(string) -> "Terminal: "
-        put[sysinfo -> func -> GetTerminal() <-]
-	func -> Test()
+        func -> GetTerminal() : sysinfo <
 } main;

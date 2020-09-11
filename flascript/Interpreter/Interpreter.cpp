@@ -23,6 +23,7 @@
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -213,11 +214,24 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 		}
 
 		/*
-			func -> Test()
+			func -> Test() : sysinfo <
 		*/
 		if(FindObject(strarg, "func -> ") == true) {
-			FFunction fnc;
-			fnc.Function(file, strarg);
+			if(stringtools::GetBetweenString(strarg, ": ", " <") != "error") {
+				std::string assign = stringtools::GetBetweenString(strarg, ": ", " <");
+				std::string function = stringtools::EraseAllSubString(strarg, " : " + assign + " <");
+				strarg = "put[" + assign + " -> " +  function + " <-]";
+				if(FindObject(strarg, "->") == true) {
+					FImport imp;
+					imp.Import(file, strarg);
+				} else {
+					FDefinition def;
+					def.ValueDefinition(file, strarg);
+				}
+			} else {
+				FFunction fnc;
+				fnc.Function(file, strarg);
+			}
 		}
 
 		/*
@@ -455,8 +469,26 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					func -> Test()
 				*/
 				if(FindObject(linebyline, "func -> ") == true) {
-					FFunction fnc;
-					fnc.Function(file, linebyline);
+					if(stringtools::GetBetweenString(linebyline, ": ", " <") != "error") {
+						std::string assign = stringtools::GetBetweenString(linebyline, ": ", " <");
+						if(assign != "error") {
+							std::string function = stringtools::EraseAllSubString(linebyline, " : " + assign + " <");
+							linebyline = stringtools::GetBetweenString(function, " -> ", "()");
+							linebyline = "put[" + assign + " -> " + "func -> " + linebyline + "()" + " <-]";
+							if(FindObject(linebyline, "->") == true) {
+								FImport imp;
+								imp.Import(file, linebyline);
+							} else {
+								FDefinition def;
+								def.ValueDefinition(file, linebyline);
+							}
+						}
+
+						linebyline.erase();
+					} else {
+						FFunction fnc;
+						fnc.Function(file, linebyline);
+					}
 				}
 
         			/*
