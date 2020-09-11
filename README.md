@@ -5,16 +5,20 @@
 
 ## A taste of FlaScript
 ```go
+import(<stdlib/output/Colorized.flsh>) -> color <-
+
 defin[slashn] -> print(newline) <-
 
 func -> PrintWithColor() {
-    print(colorized[:1, 33:]) -> "Whoa! Hello developer!" <-
+    put[color -> RED <-]
+    print(string) -> "Whoa! Hello developer!" 
+    put[color -> BLACK_COLOR <-]
     put[slashn]
-}
+} PrintWithColor;
 
 main() -> main {
     func -> PrintWithColor()
-}
+} main;
 ```
 
 ## Sources:
