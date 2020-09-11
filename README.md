@@ -1,7 +1,18 @@
+
+<img src="docs/resource/FlaScript_Logo.png" align="left"
+     alt="Fegeya FlaScript logo by @ferhatgec" width="52" height="52">
+     
 # Fegeya FlaScript
 ## Fegeya FlaScript is new generation programming language.
 
-![FlaScript](docs/resource/FlaScript.png)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/ferhatgec/flascript)
+![GitHub issues](https://img.shields.io/github/issues/ferhatgec/flascript)
+![GitHub](https://img.shields.io/github/license/ferhatgec/flascript)
+
+* ![Documentations](docs/documentation/)
+* ![Tests](test/)
+* ![STL](stdlib/)
+
 
 ## A taste of FlaScript
 ```go
@@ -21,10 +32,6 @@ main() -> main {
 } main;
 ```
 
-## Sources:
-* ![Documentations](docs/documentation/)
-* ![Tests](test/)
-* ![STL](stdlib/)
 
-
+     
 #### Fegeya FlaScript licensed under the terms of MIT License.
