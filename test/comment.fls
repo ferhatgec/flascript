@@ -12,4 +12,4 @@ main() -> main {
 This is multiple comment line
 </
 print -> "FlaScript test"
-}
+} main;

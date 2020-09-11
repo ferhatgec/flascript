@@ -7,4 +7,4 @@
 
 main() -> main {
 exec(system -> uname ->)
-}
+} main;

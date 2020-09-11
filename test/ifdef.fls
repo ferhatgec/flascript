@@ -6,4 +6,4 @@ endif}
 
 main() -> main {
 	
-}
+} main;

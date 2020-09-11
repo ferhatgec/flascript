@@ -8,8 +8,8 @@
 func -> ExecuteThis() {
 	print(colorized[:1, 33:]) -> "Hello FlaScript! (Yellow)" <-
 	print(newline)
-}
+} ExecuteThis;
 
 main() -> main {
 	func -> ExecuteThis()
-}
+} main;

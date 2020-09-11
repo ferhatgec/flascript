@@ -20,6 +20,7 @@
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -60,59 +61,91 @@ Debug_FImport::Debug_Import(std::string file, std::string arg) {
 	Debug_FFunction func;
 	FTokenizer token;
 	std::string assign, type, put, fnc;
-	if(inp.Debug_FindObject(arg, "import") == true) {
-		inp.Debug_GetBtwString(arg, "(\"", "\")", assign);
+	/*if(inp.FindObject(arg, "import") == true) {
+		inp.GetBtwString(arg, "import(\"", "\")", assign);
 		if(assign != "error") {
-			type = func.Debug_FRead(assign);
-			if(type != "null") {
+			type = func.FRead(assign);
+			if(type != "null")
 				check = true;
-			} else {
-				std::cout << "Error: import(\"" <<
+			else {
+				std::cout << "import(\"" <<
 				assign << "\")" << " : File not found.\n";
 			}
 		} else {
-			inp.Debug_GetBtwString(arg, "(<", ">)", assign);
+			inp.GetBtwString(arg, "import(<", ">)", assign);
 			if(assign != "error") {
 				type = FReadImport(assign);
 				if(type != "null") { check = true; }
 			}
 		}
-	} else if(inp.Debug_FindObject(arg, "put") == true) {
+	} else */if(inp.Debug_FindObject(arg, "put") == true) {
 		inp.Debug_GetBtwString(arg, "[", "]", assign);
 		if(assign != "error") {
-			if(check == true) {
-				inp.Debug_GetBtwString(arg, "[", " -> ", assign);
-				if(assign != "error") {
-					type = func.Debug_FRead(file);
-					if(type != "null") {
-						std::string file;
-						inp.Debug_GetBtwString(type, "import(\"", "\") -> " + assign, file);
-						if(file != "error") {
-							type = func.Debug_FRead(file);
-						} else {
-							inp.Debug_GetBtwString(type, "import(<", ">) -> " + assign, file);
-							if(file != "error") type = FReadImport(file);
-						}
-						if(inp.Debug_FindObject(arg, "func ->") == true) {
-							inp.Debug_GetBtwString(arg, "[", " -> ", fnc);
-							inp.Debug_GetBtwString(arg, fnc + " -> ", " <-", put);
-							if(put != "error") {
-								inp.Debug_GetBtwString(type, put + " {", "}", type);
-								if(type != "error") inp.Debug_FlaScriptInterpreterWithArg(file, type);
+			/*if(check == true) {*/
+			inp.Debug_GetBtwString(arg, "[", " -> ", assign);
+			if(assign != "error") {
+				type = func.Debug_FRead(file);
+				//std::cout << "Code: \n" + type;
+				if(type != "null") {
+					std::string strarg, file;
+					std::istringstream argline(type);
+    					while (std::getline(argline, strarg)) {
+						if(strstr(strarg.c_str(), "import")) {
+						        inp.Debug_GetBtwString(strarg, "import(\"", "\") -> " + assign + " <-", file);
+							if(file != "error") {
+								type = func.Debug_FRead(file);
+							} else {
+								inp.Debug_GetBtwString(strarg, "import(<", ">) -> " + assign + " <-", file);
+								if(file != "error") 
+                                                                        type = FReadImport(file);
+                                                                else
+                                                                        std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
+                                                                                WBOLD_LIGHT_WHITE_COLOR << "import(<>) : Parse error.\n" <<
+                                                                                WBLACK_COLOR;
 							}
-						} else {
-							inp.Debug_GetBtwString(arg, " -> ", " <-", put);
-							if(put != "error") {
-								inp.Debug_GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
-								if(type != "error") inp.Debug_FlaScriptInterpreterWithArg(assign, type);
-							}
-						}
 
+                                                        if(inp.Debug_FindObject(arg, "func ->") == true) {
+						                inp.Debug_GetBtwString(arg, "[", " -> ", fnc);
+						                inp.Debug_GetBtwString(arg, fnc + " -> ", " <-", put);
+                						if(put != "error") {
+		                		        		std::string parse = stringtools::GetBetweenString(put,
+				                        			"func -> ", "()");
+							
+                                                                        if(parse != "error") {
+							                        inp.Debug_GetBtwString(type, 
+                								        put + " {", "} " + parse + ";", type);
+			
+                                                				if(type != "error") 
+                                                                                        inp.Debug_FlaScriptInterpreterWithArg(file, type);
+                                                                                else
+                                                                                        std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
+                                                                                                WBOLD_LIGHT_WHITE_COLOR << "put[..func] : \n" <<
+                                                                                                "func -> {..} ...; : Parse error.\n" << WBLACK_COLOR;
+			                			        }
+					                        } else
+                                                                        std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
+                                                                                WBOLD_LIGHT_WHITE_COLOR << "put[..func] : Left/Right Arrow key parse error.\n" <<
+                                                                                WBLACK_COLOR;
+					                } else {
+                						inp.Debug_GetBtwString(arg, " -> ", " <-", put);
+		                				if(put != "error") {
+				                			inp.Debug_GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
+						                	if(type != "error") 
+                                                                                inp.Debug_FlaScriptInterpreterWithArg(assign, type);
+                                                                        else
+                                                                                std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
+                                                                                        WBOLD_LIGHT_WHITE_COLOR << "put[...<-] : \n" <<
+                                                                                        "defin[...] ->...<- : Definition error.\n" << WBLACK_COLOR;
+						                } else
+                                                                        std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
+                                                                                WBOLD_LIGHT_WHITE_COLOR << "put[..func] : \n" <<
+                                                                                "defin[...] ->..<- : Left/Right Arrow key parse error.\n" << WBLACK_COLOR;
+					                }
+						}
 					}
 				}
 			}
-		}
-	} else {
-		std::cout << "Error: " + arg + " " + "Undefined function.\n";
+		/*}*/
 	}
+        }
 }

@@ -8,4 +8,4 @@
 main() -> main {
 print(string) -> "Hello FlaScript!"
 // print -> "Hello FlaScript! This code gets a error, because EOL hasn't double quotes sign.
-}
+} main;

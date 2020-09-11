@@ -9,5 +9,5 @@
 var(string&) -> Hello <-
 main() -> main {
 print(get[string&] -> Hello) [this]
-}
+} main;
 

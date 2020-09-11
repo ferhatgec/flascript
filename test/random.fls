@@ -7,4 +7,4 @@
 
 main() -> main {
 random(400)
-}
+} main;

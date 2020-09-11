@@ -1,7 +1,7 @@
 func -> Test() {
 	return var(string) -> Hello world! <-
-}
+} Test;
 
 main() -> main {
     print(func) -> Test() <-
-}
+} main;

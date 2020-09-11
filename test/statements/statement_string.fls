@@ -10,4 +10,4 @@ var(string) -> Fegeya FlaScript -> project name <-
 
 main() -> main {
 	statement[#project_name]
-}
+} main;

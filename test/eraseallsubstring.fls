@@ -8,4 +8,4 @@
 main() -> main {
 	EraseAllSubstring(string["Hello FlaScript!?!?", "!?"]) // Output: Hello FlaScript
 	print(newline)
-} 
+} main;

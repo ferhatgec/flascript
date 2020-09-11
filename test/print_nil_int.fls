@@ -9,5 +9,5 @@
 var(int&) -> Argc <-
 main() -> main {
 print(get[int&] -> Argc) [this]
-}
+} main;
 

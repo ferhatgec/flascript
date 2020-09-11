@@ -8,4 +8,4 @@
 
 main() -> main {
 	statement[#checkroot]
-}
+} main;

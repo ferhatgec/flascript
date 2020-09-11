@@ -8,4 +8,4 @@
 var[string]: Hello FlaScript! -> Hello <-
 
 main() -> main {
-}
+} main;

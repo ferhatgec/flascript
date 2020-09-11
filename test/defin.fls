@@ -5,4 +5,4 @@ defin[slashn] -> print(newline) <-
 main() -> main {
     put[pr]
     put[slashn]
-}
+} main;

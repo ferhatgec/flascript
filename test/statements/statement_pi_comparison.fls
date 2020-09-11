@@ -10,4 +10,4 @@ var(int) -> 3.14159265359 -> PI <-
 
 main() -> main {
 	statement[#pi]
-}
+} main;

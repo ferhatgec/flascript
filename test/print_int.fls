@@ -9,4 +9,4 @@ var(int) -> 2005 -> Hello <-
 
 main() -> main {
 print(get[int] -> Number ->) [this]
-}
+} main;

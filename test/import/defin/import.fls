@@ -7,4 +7,4 @@ main() -> main {
     put[colors -> BOLD_CYAN_COLOR <-]
     print(string) -> "Hello, FlaScript!"
     put[colors -> slashn <-]
-}
+} main;

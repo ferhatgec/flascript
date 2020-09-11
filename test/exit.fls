@@ -2,4 +2,4 @@ main() -> main {
 	print(string) -> "Hello world!"
         exit(success)
 	print(string) -> "Hello FlaScript!"
-}
+} main;

@@ -9,4 +9,4 @@ var(string) -> Hello FlaScript! -> Hello <-
 
 main() -> main {
 print(get[string] -> Hello <-) [this]
-}
+} main;

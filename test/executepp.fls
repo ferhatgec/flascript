@@ -8,4 +8,4 @@
 main() -> main {
 	executepp("TestExecute", "git") // Runs git.
 	executepp("TestExecute", "test123") // Gets error.
-}
+} main;

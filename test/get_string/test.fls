@@ -9,4 +9,4 @@ import "test.flsh"
 
 main() -> main {
 print(get[string]: Hello -> "test.flsh") [this]
-}
+} main;

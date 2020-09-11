@@ -9,20 +9,20 @@ func -> ExecuteThis() {
 	/> RColorized </
 	print(rcolorized[:11, 33:]) -> "Hello FlaScript! (Yellow)" <-
 	print(newline)
-}
+} ExecuteThis;
 
 func -> LuckyNumber() {
 	/> Bold Yellow. </
 	print(string) -> "Your lucky number: "
 	random(15)
 	print(newline)
-}
+} LuckyNumber;
 
 func -> PrintThis() {
 	func -> ExecuteThis()
 	func -> LuckyNumber()
-}
+} PrintThis;
 
 main() -> main {
 	func -> PrintThis()
-}
+} main;

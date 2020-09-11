@@ -9,4 +9,4 @@ var[int]: 2005 -> Hello <-
 
 main() -> main {
 print(colorized[:1, 31:]) -> "Hello FlaScript!" <-
-}
+} main;

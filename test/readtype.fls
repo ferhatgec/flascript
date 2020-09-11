@@ -9,4 +9,4 @@ main() -> main {
 /> Reads System Architecture </
 read(string&) -> type[arch]
 print(newline)
-}
+} main;
