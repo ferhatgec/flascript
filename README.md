@@ -1,6 +1,6 @@
 
 <img src="docs/resource/FlaScript_Logo.png" align="left"
-     alt="Fegeya FlaScript logo by @ferhatgec" width="52" height="52">
+     alt="Fegeya FlaScript logo by @ferhatgec" width="60" height="60">
      
 # Fegeya FlaScript
 ## Fegeya FlaScript is new generation programming language.
