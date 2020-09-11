@@ -8,7 +8,14 @@
 ```
 main() -> main {
   /> Kodunu buraya yazacaksin. </
-}
+} main;
+```
+
+### Diger kullanim:
+```
+() -> main {
+  /> Kodunu buraya yazacaksin. </
+} main;
 ```
 
 ## Hello World! yazdirmak.
@@ -18,6 +25,7 @@ Oncelikle, FlaScript ~3 farkli cikis opsiyonuna sahiptir.
 * 1 - print
 * 2 - fprintf || fprintln
 * 3 - execout
+* 4 - executepp
 
 ### 1 - ```print```
 
@@ -27,7 +35,7 @@ Oncelikle, FlaScript ~3 farkli cikis opsiyonuna sahiptir.
 ```
 main() -> main {
   print(string) -> "Hello World!"
-}
+} main;
 ```
 
 #### Cikti:
@@ -38,7 +46,7 @@ main() -> main {
 main() -> main {
   print(string) -> "Hello World!"
   print(newline)
-}
+} main;
 ```
 
 #### Cikti:
@@ -71,7 +79,7 @@ Bunlar, 'print' klasorunde olacak. Bekleyin!
 ```
 main() -> main {
   fprintf(<%string>[:"Hello ":, :"FlaScript!":, :" 1234567890":])
-}
+} main;
 ```
 
 #### Cikti:
@@ -81,7 +89,7 @@ main() -> main {
 ```
 main() -> main {
   fprintln(<%string>[:"Hello ":, :"FlaScript!":, :" 1234567890":])
-}
+} main;
 ```
 
 #### Cikti:
@@ -96,12 +104,29 @@ main() -> main {
 #### Ornek:
 ```
 main() -> main {
-	execout(-> echo Hello World! <-)
-}
+  execout(-> echo Hello World! <-)
+} main;
 ```
 
 #### Cikti:
 ```Hello World!``` (Yeni satira gecer)
+
+### 4 - ```executepp```
+
+```executepp``` ExecutePlusPlus kutuphanesinin uyarlamasidir.
+
+#### Ornek:
+
+```
+main() -> main {
+  executepp("KomutAdi", "whoami")
+} main;
+```
+
+#### Cikti:
+
+```root```
+
 
 * Tip:
 ```execout(-> Komutlarin buraya. <-)```
