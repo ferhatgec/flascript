@@ -401,9 +401,9 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
         		
 			/* Get content. */
 			if(FindObject(line, "main() -> main {") == true)
-				GetBtwString(alltext, "main() -> main {", "}", alltext);
+				GetBtwString(alltext, "main() -> main {", "} main;", alltext);
 			else
-				GetBtwString(alltext, "() -> main {", "}", alltext);
+				GetBtwString(alltext, "() -> main {", "} main;", alltext);
 			
 			/* Read line-by-line */
 			std::istringstream f(alltext);

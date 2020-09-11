@@ -17,6 +17,7 @@
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -70,35 +71,43 @@ FFunction::FRead(std::string file) {
 	func -> PrintHello() {
 		print(string) -> "Hello!"
 		print(newline)
-	}.
+	} PrintHello;
 */
 
 /*
 	int : func -> Test() {
 		return 1
-	}
+	} Test;
 */
 
 void
 FFunction::Function(std::string file, std::string arg) {
-	std::string assign, type;
+	std::string assign, type, name;
 	FInterpreter inp;
 	FTokenizer token;
 	type = FRead(file);
 	//if(inp.FindObject(arg, " ") == true) {
-	for(int t = 0; t != arg.length(); t++) {
-		if(arg[t] == ' ')
-			arg = arg.erase(0, 1);
-
+	for(int t = 1; t != arg.length(); t++) {
+		if(arg[t] == ' ') {
+			arg = arg.erase(0, 1); 
+		}
 	}
+
         /*}
 	if(arg[arg.size() - 1] == ' ') {
 		printf("func -> ..()   : Whitespace error.\n");
 		printf("             ^^^\n");
 	}*/
 
+	if(strstr(arg.c_str(), "func ->")) {}
+	else
+		arg = "f" + arg;
+	
+
+	name = stringtools::GetBetweenString(arg, " -> ", "()");
+	
 	if(inp.FindObject(type, arg + token.Whitespace + token.CurlyBracketsBegin) == true) {
-		inp.GetBtwString(type, arg + token.Whitespace + token.CurlyBracketsBegin, "}", assign);
+		inp.GetBtwString(type, arg + token.Whitespace + token.CurlyBracketsBegin, "} " + name + ";", assign);
 		if(assign != "error")
 			inp.FlaScriptInterpreterWithArg(file, assign);
 	}
@@ -108,7 +117,7 @@ FFunction::Function(std::string file, std::string arg) {
 /*
   func -> printc(:string str, color& cl:) {
 	print(...)
-  }
+  } printc;
 
   main() -> main {
 	func -> printc("Hello world!", [:11, 33:])

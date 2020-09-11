@@ -14,7 +14,8 @@ func -> Create() {
 	/> Copy object file </	
 	print(string) -> "Installing to /bin/"		
 	executepp("FlaScript Installer", "cp fla /bin/")
-}
+	put[slashn]
+} Create;
 
 
 #checkroot ->
@@ -30,4 +31,4 @@ func -> Create() {
 main() -> main {
 	/> Check user permission </
 	statement[#checkroot]
-}
+} main;

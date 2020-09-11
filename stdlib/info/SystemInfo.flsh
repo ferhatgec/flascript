@@ -7,56 +7,56 @@
 
 func -> GetCPUName() {
   read(string&) -> type[cpu]
-}
+} GetCPUName;
 
 func -> GetOSName() {
   read(string&) -> type[osname]
-}
+} GetOSName;
 
 func -> GetUptime() {
   read(string&) -> type[uptime]
-}
+} GetUptime;
 
 func -> GetArch() {
   read(string&) -> type[arch]
-}
+} GetArch;
 
 func -> GetUsername() {
   read(string&) -> type[username]
-}
+} GetUsername;
 
 func -> GetHostname() {
   read(string&) -> type[hostname]
-}
+} GetHostname;
 
 func -> GetShell() {
   read(string&) -> type[shell]
-}
+} GetShell;
 
 func -> GetKernelName() {
   read(string&) -> type[kernelname]
-}
+} GetKernelName;
 
 func -> GetKernelRelease() {
   read(string&) -> type[kernelrelease]
-}
+} GetKernelRelease;
 
 func -> GetTerminal() {
   read(string&) -> type[terminal]
-}
+} GetTerminal;
 
 func -> GetDesktopEnv() {
   read(string&) -> type[XDG_CURRENT_DESKTOP]
-}
+} GetDesktopEnv;
 
 func -> GetTime() {
   read(string&) -> type[time]
-}
+} GetTime;
 
 func -> GetDate() {
   read(string&) -> type[date]
-}
+} GetDate;
 
 func -> GetGitBranch() {
   execout(-> git branch | grep "^\*" | sed 's/^..//' <-)
-}
+} GetGitBranch;

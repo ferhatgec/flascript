@@ -41,4 +41,4 @@ defin[BOLD_LIGHT_MAGENTA] -> print(rcolorized[:11, 95:]) <-
 defin[BOLD_LIGHT_CYAN] -> print(rcolorized[:11, 96:]) <-
 defin[BOLD_LIGHT_WHITE] -> print(rcolorized[:11, 97:]) <-
 
-defin[BLACK_COLOR] -> printf(rcolorized[:0, 00:]) <-
+defin[BLACK_COLOR] -> print(rcolorized[:0, 00:]) <-

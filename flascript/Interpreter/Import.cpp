@@ -19,6 +19,7 @@
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -46,6 +47,7 @@ std::string FReadImport(std::string file) {
         		text.append(line + "\n");
         	
         	readfile.close();
+
 		return text;
     	} /*else {
         	std::cout << "import : Unable to open file\n";
@@ -59,57 +61,71 @@ FImport::Import(std::string file, std::string arg) {
 	FFunction func;
 	FTokenizer token;
 	std::string assign, type, put, fnc;
-	if(inp.FindObject(arg, "import") == true) {
-		inp.GetBtwString(arg, "(\"", "\")", assign);
+	/*if(inp.FindObject(arg, "import") == true) {
+		inp.GetBtwString(arg, "import(\"", "\")", assign);
 		if(assign != "error") {
 			type = func.FRead(assign);
 			if(type != "null")
 				check = true;
-			/*else {
+			else {
 				std::cout << "import(\"" <<
 				assign << "\")" << " : File not found.\n";
-			}*/
+			}
 		} else {
-			inp.GetBtwString(arg, "(<", ">)", assign);
+			inp.GetBtwString(arg, "import(<", ">)", assign);
 			if(assign != "error") {
 				type = FReadImport(assign);
 				if(type != "null") { check = true; }
 			}
 		}
-	} else if(inp.FindObject(arg, "put") == true) {
+	} else */if(inp.FindObject(arg, "put") == true) {
 		inp.GetBtwString(arg, "[", "]", assign);
 		if(assign != "error") {
-			if(check == true) {
-				inp.GetBtwString(arg, "[", " -> ", assign);
-				if(assign != "error") {
-					type = func.FRead(file);
-					if(type != "null") {
-						std::string file;
-						inp.GetBtwString(type, "import(\"", "\") -> " + assign, file);
-						if(file != "error") {
-							type = func.FRead(file);
-						} else {
-							inp.GetBtwString(type, "import(<", ">) -> " + assign, file);
-							if(file != "error") type = FReadImport(file);
-						}
-						if(inp.FindObject(arg, "func ->") == true) {
-							inp.GetBtwString(arg, "[", " -> ", fnc);
-							inp.GetBtwString(arg, fnc + " -> ", " <-", put);
-							if(put != "error") {
-								inp.GetBtwString(type, put + " {", "}", type);
-								if(type != "error") inp.FlaScriptInterpreterWithArg(file, type);
+			/*if(check == true) {*/
+			inp.GetBtwString(arg, "[", " -> ", assign);
+			if(assign != "error") {
+				type = func.FRead(file);
+				//std::cout << "Code: \n" + type;
+				if(type != "null") {
+					std::string strarg, file;
+					std::istringstream argline(type);
+    					while (std::getline(argline, strarg)) {
+						if(strstr(strarg.c_str(), "import")) {
+						        inp.GetBtwString(strarg, "import(\"", "\") -> " + assign + " <-", file);
+							if(file != "error") {
+								type = func.FRead(file);
+							} else {
+								inp.GetBtwString(strarg, "import(<", ">) -> " + assign + " <-", file);
+								if(file != "error") 
+                                                                        type = FReadImport(file);
 							}
-						} else {
-							inp.GetBtwString(arg, " -> ", " <-", put);
-							if(put != "error") {
-								inp.GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
-								if(type != "error") inp.FlaScriptInterpreterWithArg(assign, type);
-							}
-						}
 
+                                                        if(inp.FindObject(arg, "func ->") == true) {
+						                inp.GetBtwString(arg, "[", " -> ", fnc);
+						                inp.GetBtwString(arg, fnc + " -> ", " <-", put);
+                						if(put != "error") {
+		                		        		std::string parse = stringtools::GetBetweenString(put,
+				                        			"func -> ", "()");
+							
+                                                                        if(parse != "error") {
+							                        inp.GetBtwString(type, 
+                								        put + " {", "} " + parse + ";", type);
+			
+                                                				if(type != "error") inp.FlaScriptInterpreterWithArg(file, type);
+			                			        }
+					                        }
+					                } else {
+                						inp.GetBtwString(arg, " -> ", " <-", put);
+		                				if(put != "error") {
+				                			inp.GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
+						                	if(type != "error") inp.FlaScriptInterpreterWithArg(assign, type);
+						                }
+					                }
+						}
 					}
 				}
 			}
-		}
+		/*}*/
 	}
+        }
 }

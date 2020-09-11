@@ -1,13 +1,15 @@
-var(string) -> Fegeya FlaScript -> project name <-
+import(<stdlib/output/Colorized.flsh>) -> colors <-
+import(<stdlib/info/SystemInfo.flsh>) -> sysinfo <-
 
-#project_name ->
-	if[var(string) -> project name <- (==) var(string) -> Fegeya FlaScript <-] -> {
-		print(string) -> "Passed"
-	} else -> {
-		print(string) -> "Failed"
-	} <-
-#project_name <-
+func -> Test() {
+        print(newline)
+        put[colors -> BOLD_RED <-]
+        print(string) -> "Hello, world!"
+        put[colors -> BLACK_COLOR <-]
+} Test;
 
 () -> main {
-	statement[#project_name]
-}
+        print(string) -> "Terminal: "
+        put[sysinfo -> func -> GetTerminal() <-]
+	func -> Test()
+} main;
