@@ -4,7 +4,7 @@ import(<stdlib/info/SystemInfo.flsh>) -> sysinfo <-
 
 #is_exist ->
         if[var(nil) -> is_exist[/bin/scrift] <- (==) var(bool) -> true <-] -> {
-                print(string) -> "Scrift exist!"
+                print(string) -> "Scrift exist!"  
         } else -> {
                 print(string) -> "Install Scrift."
         } <-
@@ -17,12 +17,13 @@ func -> Test() {
         put[colors -> BLACK_COLOR <-]
 } Test;
 
-func -> HelloWorld() {
-        print(string) -> "Hello, world!"
-} HelloWorld;
+func -> HelloWorld() { print(string) -> "Hello, world!" } HelloWorld;
 
 () -> main {
-        statement[#is_exist]
+        func -> HelloWorld()
+
+	//func -> GetShell() : sysinfo <
+        //statement[#is_exist]
         //print(string) -> "Terminal: "
         //func -> GetTerminal() : sysinfo <
 } main;

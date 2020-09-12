@@ -99,30 +99,31 @@ FImport::Import(std::string file, std::string arg) {
 								if(file != "error") 
                                                                         type = FReadImport(file);
 							}
-
-                                                        if(inp.FindObject(arg, "func ->") == true) {
-						                inp.GetBtwString(arg, "[", " -> ", fnc);
-						                inp.GetBtwString(arg, fnc + " -> ", " <-", put);
-                						if(put != "error") {
-		                		        		std::string parse = stringtools::GetBetweenString(put,
-				                        			"func -> ", "()");
-							
-                                                                        if(parse != "error") {
-							                        inp.GetBtwString(type, 
-                								        put + " {", "} " + parse + ";", type);
-			
-                                                				if(type != "error") inp.FlaScriptInterpreterWithArg(file, type);
-			                			        }
-					                        }
-					                } else {
-                						inp.GetBtwString(arg, " -> ", " <-", put);
-		                				if(put != "error") {
-				                			inp.GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
-						                	if(type != "error") inp.FlaScriptInterpreterWithArg(assign, type);
-						                }
-					                }
 						}
 					}
+					
+					if(inp.FindObject(arg, "func ->") == true) {
+						inp.GetBtwString(arg, "[", " -> ", fnc);
+						inp.GetBtwString(arg, fnc + " -> ", " <-", put);
+						if(put != "error") {
+		                			std::string parse = stringtools::GetBetweenString(put,
+								"func -> ", "()");
+							
+							if(parse != "error") {
+								inp.GetBtwString(type, 
+									put + " {", "} " + parse + ";", type);
+			
+								if(type != "error") inp.FlaScriptInterpreterWithArg(file, type);
+							}
+						}
+					} else {
+						inp.GetBtwString(arg, " -> ", " <-", put);
+						if(put != "error") {
+							inp.GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
+							if(type != "error") inp.FlaScriptInterpreterWithArg(assign, type);
+						}
+					}
+					
 				}
 			}
 		/*}*/

@@ -103,45 +103,45 @@ Debug_FImport::Debug_Import(std::string file, std::string arg) {
                                                                                 WBOLD_LIGHT_WHITE_COLOR << "import(<>) : Parse error.\n" <<
                                                                                 WBLACK_COLOR;
 							}
-
-                                                        if(inp.Debug_FindObject(arg, "func ->") == true) {
-						                inp.Debug_GetBtwString(arg, "[", " -> ", fnc);
-						                inp.Debug_GetBtwString(arg, fnc + " -> ", " <-", put);
-                						if(put != "error") {
-		                		        		std::string parse = stringtools::GetBetweenString(put,
-				                        			"func -> ", "()");
-							
-                                                                        if(parse != "error") {
-							                        inp.Debug_GetBtwString(type, 
-                								        put + " {", "} " + parse + ";", type);
-			
-                                                				if(type != "error") 
-                                                                                        inp.Debug_FlaScriptInterpreterWithArg(file, type);
-                                                                                else
-                                                                                        std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
-                                                                                                WBOLD_LIGHT_WHITE_COLOR << "put[..func] : \n" <<
-                                                                                                "func -> {..} ...; : Parse error.\n" << WBLACK_COLOR;
-			                			        }
-					                        } else
-                                                                        std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
-                                                                                WBOLD_LIGHT_WHITE_COLOR << "put[..func] : Left/Right Arrow key parse error.\n" <<
-                                                                                WBLACK_COLOR;
-					                } else {
-                						inp.Debug_GetBtwString(arg, " -> ", " <-", put);
-		                				if(put != "error") {
-				                			inp.Debug_GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
-						                	if(type != "error") 
-                                                                                inp.Debug_FlaScriptInterpreterWithArg(assign, type);
-                                                                        else
-                                                                                std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
-                                                                                        WBOLD_LIGHT_WHITE_COLOR << "put[...<-] : \n" <<
-                                                                                        "defin[...] ->...<- : Definition error.\n" << WBLACK_COLOR;
-						                } else
-                                                                        std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
-                                                                                WBOLD_LIGHT_WHITE_COLOR << "put[..func] : \n" <<
-                                                                                "defin[...] ->..<- : Left/Right Arrow key parse error.\n" << WBLACK_COLOR;
-					                }
 						}
+					}
+
+					if(inp.Debug_FindObject(arg, "func ->") == true) {
+					        inp.Debug_GetBtwString(arg, "[", " -> ", fnc);
+					        inp.Debug_GetBtwString(arg, fnc + " -> ", " <-", put);
+                				if(put != "error") {
+		                			std::string parse = stringtools::GetBetweenString(put,
+				                        	"func -> ", "()");
+							
+                                                        if(parse != "error") {
+								inp.Debug_GetBtwString(type, 
+                							put + " {", "} " + parse + ";", type);
+			
+                                                		if(type != "error") 
+                                                                        inp.Debug_FlaScriptInterpreterWithArg(file, type);
+                                                                else
+									std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
+                                                                                WBOLD_LIGHT_WHITE_COLOR << "put[..func] : \n" <<
+                                                                                "func -> {..} ...; : Parse error.\n" << WBLACK_COLOR;
+			                		}
+						} else
+                                                        std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
+								WBOLD_LIGHT_WHITE_COLOR << "put[..func] : Left/Right Arrow key parse error.\n" <<
+                                                                WBLACK_COLOR;
+					} else {
+                				inp.Debug_GetBtwString(arg, " -> ", " <-", put);
+						if(put != "error") {
+				        		inp.Debug_GetBtwString(type, "defin[" + put + "] -> ", "<-", type);
+				                	if(type != "error") 
+                                                                inp.Debug_FlaScriptInterpreterWithArg(assign, type);
+                                                        else
+                                                                std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
+                                                                	WBOLD_LIGHT_WHITE_COLOR << "put[...<-] : \n" <<
+									"defin[...] ->...<- : Definition error.\n" << WBLACK_COLOR;
+						} else
+                                                        std::cout << file + ": " << WBOLD_RED_COLOR << "Error: " <<
+                                                                WBOLD_LIGHT_WHITE_COLOR << "put[..func] : \n" <<
+                                                                "defin[...] ->..<- : Left/Right Arrow key parse error.\n" << WBLACK_COLOR;
 					}
 				}
 			}
