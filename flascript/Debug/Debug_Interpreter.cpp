@@ -435,11 +435,16 @@ Debug_FInterpreter::Debug_FlaScriptInterpreter(std::string file) {
 		/*
 			Code execution.
 		*/
-        	if(Debug_FindObject(line, "main() -> main {") == true) {
+        	if(Debug_FindObject(line, "() -> main {") == true) {
         		Debug_Read(file);
-			/* Get content. */        		
-			Debug_GetBtwString(alltext, "main() -> main {", "}", alltext);
-        	
+        		
+			/* Get content. */
+			if(Debug_FindObject(line, "main() -> main {") == true)
+				Debug_GetBtwString(alltext, "main() -> main {", "} main;", alltext);
+			else
+				Debug_GetBtwString(alltext, "() -> main {", "} main;", alltext);
+			
+		
 			/* Read line-by-line */
 			std::istringstream f(alltext);     		
 				

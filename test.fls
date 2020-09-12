@@ -1,6 +1,15 @@
 import(<stdlib/output/Colorized.flsh>) -> colors <-
 import(<stdlib/info/SystemInfo.flsh>) -> sysinfo <-
 
+
+#is_exist ->
+        if[var(nil) -> is_exist[/bin/scrift] <- (==) var(bool) -> true <-] -> {
+                print(string) -> "Scrift exist!"
+        } else -> {
+                print(string) -> "Install Scrift."
+        } <-
+#is_exist <-
+
 func -> Test() {
         print(newline)
         put[colors -> BOLD_RED <-]
@@ -13,6 +22,7 @@ func -> HelloWorld() {
 } HelloWorld;
 
 () -> main {
-        print(string) -> "Terminal: "
-        func -> GetTerminal() : sysinfo <
+        statement[#is_exist]
+        //print(string) -> "Terminal: "
+        //func -> GetTerminal() : sysinfo <
 } main;

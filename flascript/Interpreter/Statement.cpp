@@ -60,6 +60,12 @@
 		statement[#pi]
 	}
 
+	/> is exist </
+	#is_exist ->
+		if[var(nil) -> is_exist[] <- (==) var(bool) -> true <-] -> {
+
+		} <-
+	#is_exist <-
 */
 
 void
@@ -290,7 +296,61 @@ FStatement::IfStatement(std::string file, std::string arg) {
 			} /* else {
 				std::cout << "if : var(...) This type undefined!\n";
 			} */
-	    }
+	    	} else if(type == "nil") {
+			inp.GetBtwString(assign, "var(nil) -> ", " <- (", type);
+			if(type != "error") {
+				if(stringtools::GetBetweenString(type, "is_exist[", "]") != "error") {
+					inp.GetBtwString(type, "is_exist[", "]", type);
+					if(type != "nil") {
+						inp.GetBtwString(assign, "<- (", ") ", compare);
+						if(compare != "error") {
+							inp.GetBtwString(assign, "(" + compare + ") " + "var(", 
+								") -> ", type2);
+
+							if(type2 == "bool") {
+								inp.GetBtwString(arg, "(" + compare + ") var(bool) -> ",
+									" <-] -> {", assign);
+								
+								if(assign != "error") {
+									bool stat;
+
+									if(assign == "true")
+										stat = true;
+									else if(assign == "false")
+										stat = false;
+
+									if(compare == "==") {
+										if(fsplusplus::IsExistFile(type) == stat) {
+											FFunction fnc;
+											std::string read = fnc.FRead(file);
+											std::string data;
+											inp.GetBtwString(read, "if[var(nil) -> is_exist[" + type + "] <- (==) var(bool) -> " + assign + " <-] -> {",
+												"} else -> {", data);
+											
+											if(data != "error") {
+												inp.FlaScriptInterpreterWithArg(file, data);
+											} else {
+												inp.GetBtwString(read, "if[var(nil) -> is_exist[" + type + "] <- (==) var(bool) -> " +
+													assign + " <-] -> {", "} <-", data);
+												
+												if(data != "error")
+													inp.FlaScriptInterpreterWithArg(file, data);
+											}
+										} else {
+											FFunction fnc;
+											std::string read = fnc.FRead(file);
+											inp.GetBtwString(read, "} else -> {", "} <-", read);
+											if(read != "error")
+												inp.FlaScriptInterpreterWithArg(file, read);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
 

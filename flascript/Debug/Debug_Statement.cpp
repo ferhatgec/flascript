@@ -274,7 +274,72 @@ Debug_FStatement::Debug_IfStatement(std::string file, std::string arg) {
 			} else {
 				std::cout << "Error: if : var(...) This type undefined!\n";
 			}
-	    }
+	    	} else if(type == "nil") {
+			inp.Debug_GetBtwString(assign, "var(nil) -> ", " <- (", type);
+			if(type != "error") {
+				if(stringtools::GetBetweenString(type, "is_exist[", "]") != "error") {
+					inp.Debug_GetBtwString(type, "is_exist[", "]", type);
+					if(type != "nil") {
+						inp.Debug_GetBtwString(assign, "<- (", ") ", compare);
+						if(compare != "error") {
+							inp.Debug_GetBtwString(assign, "(" + compare + ") " + "var(", 
+								") -> ", type2);
+
+							if(type2 == "bool") {
+								inp.Debug_GetBtwString(arg, "(" + compare + ") var(bool) -> ",
+									" <-] -> {", assign);
+								
+								if(assign != "error") {
+									bool stat;
+
+									if(assign == "true")
+										stat = true;
+									else if(assign == "false")
+										stat = false;
+
+									if(compare == "==") {
+										if(fsplusplus::IsExistFile(type) == stat) {
+											Debug_FFunction fnc;
+											std::string read = fnc.Debug_FRead(file);
+											std::string data;
+											inp.Debug_GetBtwString(read, "if[var(nil) -> is_exist[" + type + "] <- (==) var(bool) -> " + assign + " <-] -> {",
+												"} else -> {", data);
+											
+											if(data != "error") {
+												inp.Debug_FlaScriptInterpreterWithArg(file, data);
+											} else {
+												inp.Debug_GetBtwString(read, "if[var(nil) -> is_exist[" + type + "] <- (==) var(bool) -> " +
+													assign + " <-] -> {", "} <-", data);
+												
+												if(data != "error")
+													inp.Debug_FlaScriptInterpreterWithArg(file, data);
+												else
+													std::cout << file + ":" << WBOLD_RED_COLOR << " Parse error: " << WBOLD_LIGHT_WHITE_COLOR <<
+														"if[..var(nil) ->..is_exist..var(..)] -> {..} <- : Parse error.\n";
+											}
+										} else {
+											Debug_FFunction fnc;
+											std::string read = fnc.Debug_FRead(file);
+											inp.Debug_GetBtwString(read, "} else -> {", "} <-", read);
+
+											if(read != "error")
+												inp.Debug_FlaScriptInterpreterWithArg(file, read);
+											else
+												std::cout << file + ":" << WBOLD_RED_COLOR << " Parse error: " << WBOLD_LIGHT_WHITE_COLOR <<
+													"if[.] .. else -> {..} <- : Parse error. } else -> {...} <-\n";
+										}
+									}
+								}
+							} else
+								std::cout << file + ":" << WBOLD_RED_COLOR << " Type error: " << WBOLD_LIGHT_WHITE_COLOR <<
+									"if[.. var(..)] -> {..} : Use bool type to compare.\n";
+						}
+					}
+				} else
+					std::cout << file + ":" << WBOLD_RED_COLOR << " Parse error: " << WBOLD_LIGHT_WHITE_COLOR <<
+									"if[..is_exist[error]-> {..} <- : Add is_exist[...]\n";
+			}
+		}
 	}
 }
 
