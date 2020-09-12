@@ -1,6 +1,6 @@
 #!/bin/sh
 
-g++ -I./Library/ -I./include/ ./flascript/Debug/Debug_Interpreter.cpp ./flascript/Interpreter/Interpreter.cpp ./flascript/Interpreter/Definitions.cpp \
+c++ -I./Library/ -I./include/ ./flascript/Debug/Debug_Interpreter.cpp ./flascript/Interpreter/Interpreter.cpp ./flascript/Interpreter/Definitions.cpp \
 ./flascript/Debug/Debug_Definitions.cpp ./flascript/Interpreter/Exec.cpp ./flascript/Debug/Debug_Exec.cpp \
 ./flascript/Interpreter/Read.cpp  ./flascript/Debug/Debug_Read.cpp ./flascript/Interpreter/Print.cpp ./flascript/Debug/Debug_Print.cpp \
 ./flascript/Interpreter/String.cpp  ./flascript/Debug/Debug_String.cpp ./flascript/Interpreter/Function.cpp ./flascript/Debug/Debug_Function.cpp  \

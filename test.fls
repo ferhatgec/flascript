@@ -17,13 +17,8 @@ func -> Test() {
         put[colors -> BLACK_COLOR <-]
 } Test;
 
-func -> HelloWorld() { print(string) -> "Hello, world!" } HelloWorld;
+func -> HelloWorld() { fprintln(<%string>[:"Hello, world!":]) } HelloWorld;
 
-() -> main {
-        func -> HelloWorld()
+/> Single line main </
+() -> main { func -> HelloWorld() } main;
 
-	//func -> GetShell() : sysinfo <
-        //statement[#is_exist]
-        //print(string) -> "Terminal: "
-        //func -> GetTerminal() : sysinfo <
-} main;

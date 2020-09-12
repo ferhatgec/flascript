@@ -68,9 +68,8 @@ FPrint::Print(std::string file, std::string arg) {
 				   if(assign != "error") {
 					  	data.append(assign);
 							type = inp.EraseAllSubString(type, ", :\"" + assign + "\":");
-				   } else {
-						 	break;
-					 }
+				   } else
+					break;
 				 }
 				 fprintf(data.c_str());
 				 /*

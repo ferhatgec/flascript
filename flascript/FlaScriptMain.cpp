@@ -17,12 +17,14 @@
 
 #define EXIT_SUCCESS 0
 
-void HelpFunction() {
-	std::cout << "Fegeya FlaScript\n" <<
-	"flascript --b  || --build  <source> : Build & Run FlaScript code\n" <<
-	"flascript --d  || --debug <source> : Debug FlaScript code\n" <<
-	"flascript --ba || --buildall <source> : [Under the construction] Debug & Build & Run\n" <<
-	"flascript --v  || --version : Show version\n";
+void HelpFunction(char** argv) {
+	FlaVersion vers;
+	std::cout << "Fegeya FlaScript " << vers.VersionAlgorithm() + "\n" <<
+	"Usage: fla [Options] file\nOptions:\n" <<
+	argv[0] << " --b  || --build  <source> : Build & Run FlaScript code\n" <<
+	argv[0] << " --d  || --debug <source> : Debug FlaScript code\n" <<
+	argv[0] << " --ba || --buildall <source> : [Under the construction] Debug & Build & Run\n" <<
+	argv[0] << " --v  || --version : Show version\n";
 }
 
 int main(int argc, char** argv) {
@@ -35,7 +37,7 @@ int main(int argc, char** argv) {
 		}
 
         } else {
-        	HelpFunction();
+        	HelpFunction(argv);
 	}
 
 	if(reg.substr(0, 2) == "--") {
@@ -51,13 +53,13 @@ int main(int argc, char** argv) {
 			debug.Debug_FlaScriptInterpreter(copy_arg);
 			interp.FlaScriptInterpreter(copy_arg);
 		} else if(reg == "--help" || reg == "--h") {
-			HelpFunction();
+			HelpFunction(argv);
 			exit(EXIT_SUCCESS);
 		} else if(reg == "--version" || reg == "--v") {
 			FlaVersion vers;
 			std::cout << vers.VersionAlgorithm() << "\n";
 		} else
-			HelpFunction();
+			HelpFunction(argv);
 	}
 	return 0;
 }
