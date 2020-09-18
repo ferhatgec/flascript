@@ -1,24 +1,12 @@
-import(<stdlib/output/Colorized.flsh>) -> colors <-
-import(<stdlib/info/SystemInfo.flsh>) -> sysinfo <-
+var(int) -> 3.14159265359 -> PI <-
 
-
-#is_exist ->
-        if[var(nil) -> is_exist[/bin/scrift] <- (==) var(bool) -> true <-] -> {
-                print(string) -> "Scrift exist!"  
-        } else -> {
-                print(string) -> "Install Scrift."
+#pi ->
+        while[var(int) -> PI <- (==) var(int) -> 3.14159265359 <-] -> { print(string) -> "Passed" } 
+        else -> {
+        
         } <-
-#is_exist <-
+#pi <-
 
-func -> Test() {
-        print(newline)
-        put[colors -> BOLD_RED <-]
-        print(string) -> "Hello, world!"
-        put[colors -> BLACK_COLOR <-]
-} Test;
-
-func -> HelloWorld() { fprintln(<%string>[:"Hello, world!":]) } HelloWorld;
-
-/> Single line main </
-() -> main { func -> HelloWorld() } main;
-
+main() -> main {
+	statement[#pi]
+} main;
