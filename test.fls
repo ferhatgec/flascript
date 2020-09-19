@@ -1,12 +1,9 @@
-var(int) -> 3.14159265359 -> PI <-
-
-#pi ->
-        while[var(int) -> PI <- (==) var(int) -> 3.14159265359 <-] -> { print(string) -> "Passed" } 
-        else -> {
-        
-        } <-
-#pi <-
+defin[newline] -> print(newline) <-
 
 main() -> main {
-	statement[#pi]
+        var(string) -> MyHelloWorld! -> nameisthis <-
+        print(spec) -> __OS_NAME__ <-
+        put[newline]
+        print(spec) -> __DATE__ <-
+        put[newline]
 } main;

@@ -18,6 +18,7 @@
 #include <Interpreter/Definitions.hpp>
 #include <Interpreter/Import.hpp>
 #include <Interpreter/Statement.hpp>
+#include <Interpreter/Variable.hpp>
 
 /* Libraries */
 #include <FileSystemPlusPlus.h>
@@ -444,6 +445,14 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 						}
 					}
     				}
+
+				/*
+					var(string) -> data -> name <-
+				*/
+				if(FindObject(linebyline, "var") == true) {
+					FVariable var;
+					var.CreateVariable(file, linebyline);
+				}
 
 				/*
 					exit(boolean)

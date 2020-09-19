@@ -14,11 +14,13 @@
 #include <Interpreter/Print.hpp>
 #include <Interpreter/String.hpp>
 #include <Interpreter/Function.hpp>
+#include <Interpreter/Variable.hpp>
 
 // Libraries
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -279,8 +281,16 @@ FPrint::Print(std::string file, std::string arg) {
 			} else {
 				std::cout << "print : Definition Error!\n";
 			}*/
-		}
-	}
+			} else if(assign == "spec") {
+				FVariable var_x;
+				stringtools::GetBtwString(arg, "(spec) -> ", " <-", assign);
+				if(assign != "error") {
+					const auto &t = var_.find(assign);
+					if (t != var_.end()) // Found
+						std::cout << t->second;
+				}
+			}
+ 	}
 }
 
 /*
