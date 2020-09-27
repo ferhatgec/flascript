@@ -32,7 +32,7 @@ static auto var_ = variables;
 
 class FVariable {
 public:
-        void CreateVariable(std::string, std::string);
+        //void CreateVariable(std::string, std::string);
 };
 
 

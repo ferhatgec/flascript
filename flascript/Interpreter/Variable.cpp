@@ -15,6 +15,7 @@
 
 #include <StringTools.hpp>
 
+/*
 void 
 FVariable::CreateVariable(std::string file, std::string argument) {
         std::string type, data, name;
@@ -31,3 +32,4 @@ FVariable::CreateVariable(std::string file, std::string argument) {
                 }
         }
 }
+*/
