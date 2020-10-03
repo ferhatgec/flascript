@@ -30,11 +30,6 @@ static std::map<std::string, std::string> variables {
 
 static auto var_ = variables;
 
-class FVariable {
-public:
-        //void CreateVariable(std::string, std::string);
-};
-
 
 
 #endif // VARIABLE_HPP

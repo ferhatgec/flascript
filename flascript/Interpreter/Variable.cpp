@@ -15,21 +15,3 @@
 
 #include <StringTools.hpp>
 
-/*
-void 
-FVariable::CreateVariable(std::string file, std::string argument) {
-        std::string type, data, name;
-        stringtools::GetBtwString(argument, "var(", ")", type);
-        if(type != "error") {
-                stringtools::GetBtwString(argument, " -> ", " -> ", data);
-                if(data != "error") {
-                        stringtools::GetBtwString(argument, " -> ", " <-", name);
-                        if(name != "error") {
-                                if(type == "string") {
-                                        var_.insert({name, data});
-                                }
-                        }
-                }
-        }
-}
-*/

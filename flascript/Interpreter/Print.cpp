@@ -282,7 +282,6 @@ FPrint::Print(std::string file, std::string arg) {
 				std::cout << "print : Definition Error!\n";
 			}*/
 			} else if(assign == "spec") {
-				FVariable var_x;
 				stringtools::GetBtwString(arg, "(spec) -> ", " <-", assign);
 				if(assign != "error") {
 					const auto &t = var_.find(assign);
