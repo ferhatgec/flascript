@@ -1,0 +1,17 @@
+defin[newline] -> print(newline) <-
+
+main() -> main {
+        var(string) -> MyHelloWorld! -> nameisthis <- 
+        
+        print(string) -> "Default variable : "
+        @echo nameisthis 
+        
+        put[newline]
+        
+        change -> nameisthis : Hello, programmer! <
+        
+        print(string) -> "(Changed) New variable : "
+        @echo nameisthis
+        
+        put[newline]
+} main;
