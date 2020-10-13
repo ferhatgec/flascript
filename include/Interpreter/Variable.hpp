@@ -35,6 +35,8 @@ class FVariable {
 public:
 	void Variable(std::string name, std::string data);
 	std::string GetVariable(std::string name);
+	
+	void Change(std::string name, std::string data);
 };
 
 #endif // VARIABLE_HPP

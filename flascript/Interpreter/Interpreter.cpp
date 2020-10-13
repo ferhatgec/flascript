@@ -455,7 +455,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					var.Variable(name, data);
 				}
 			
-				// @echo asdsad
+				/* @echo asdsad */
 				if(FindObject(linebyline, "@echo") == true) {
 					FVariable var;
 					std::string assin = stringtools::EraseAllSubString(linebyline, "@echo ");
@@ -463,6 +463,17 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					
 					std::cout << var.GetVariable(assin);
 				}
+				
+				/* change -> name : Hello, world < */
+				if(FindObject(linebyline, "change") == true) {
+					FVariable var;
+					std::string get_name = stringtools::GetBetweenString(linebyline, " -> ", " : ");
+					if(get_name != "error") {
+						std::string get_data = stringtools::GetBetweenString(linebyline, " : ", " <");
+						var.Change(get_name, get_data);	
+					}
+				}
+				
 				/*
 					var(string) -> data -> name <-
 				
