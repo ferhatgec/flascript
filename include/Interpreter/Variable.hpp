@@ -37,6 +37,7 @@ public:
 	std::string GetVariable(std::string name);
 	
 	void Change(std::string name, std::string data);
+	void Append(std::string name, std::string data);
 };
 
 #endif // VARIABLE_HPP

@@ -1,14 +1,14 @@
 defin[newline] -> print(newline) <-
 
 main() -> main {
-        var(string) -> MyHelloWorld! -> nameisthis <- 
+        var(string) -> This is  -> nameisthis <- 
         
         print(string) -> "Default variable : "
         @echo nameisthis 
         
         put[newline]
         
-        change -> nameisthis : Hello, programmer! <
+        @append -> nameisthis -> FlaScript, yeey! <
         
         print(string) -> "(Changed) New variable : "
         @echo nameisthis

@@ -464,13 +464,23 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					std::cout << var.GetVariable(assin);
 				}
 				
-				/* change -> name : Hello, world < */
-				if(FindObject(linebyline, "change") == true) {
+				/* @change -> name : Hello, world < */
+				if(FindObject(linebyline, "@change") == true) {
 					FVariable var;
 					std::string get_name = stringtools::GetBetweenString(linebyline, " -> ", " : ");
 					if(get_name != "error") {
 						std::string get_data = stringtools::GetBetweenString(linebyline, " : ", " <");
 						var.Change(get_name, get_data);	
+					}
+				}
+				
+				/* @append -> name -> Hello, world < */
+				if(FindObject(linebyline, "@append") == true) {
+					FVariable var;
+					std::string get_name = stringtools::GetBetweenString(linebyline, "@append -> ", " -> ");
+					if(get_name != "error") {
+						std::string get_data = stringtools::GetBetweenString(linebyline, get_name + " -> ", " <");
+						var.Append(get_name, get_data);	
 					}
 				}
 				

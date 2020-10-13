@@ -8,7 +8,7 @@ main() -> main {
         
         put[newline]
         
-        change -> nameisthis : Hello, programmer! <
+        @change -> nameisthis : Hello, programmer! <
         
         print(string) -> "(Changed) New variable : "
         @echo nameisthis
