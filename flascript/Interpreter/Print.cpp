@@ -34,7 +34,8 @@ static int check, intest, load;
 static std::string inputted, loadstr, test, alltext, linebyline;
 FInterpreter inp;
 FFunction func;
-
+FVariable var;
+				
 int fprintf(const char *format, ...);
 
 void SetTitle(std::string title);

@@ -446,6 +446,23 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					}
     				}
 
+				if(FindObject(linebyline, "var") == true) {
+					FVariable var;
+					
+					std::string name, data;
+					data = stringtools::GetBetweenString(linebyline, ") -> ", " -> ");
+					name = stringtools::GetBetweenString(linebyline, data + " -> ", " <-");
+					var.Variable(name, data);
+				}
+			
+				// @echo asdsad
+				if(FindObject(linebyline, "@echo") == true) {
+					FVariable var;
+					std::string assin = stringtools::EraseAllSubString(linebyline, "@echo ");
+					assin = stringtools::EraseAllSubString(linebyline, " ");
+					
+					std::cout << var.GetVariable(assin);
+				}
 				/*
 					var(string) -> data -> name <-
 				

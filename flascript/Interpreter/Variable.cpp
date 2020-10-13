@@ -10,8 +10,26 @@
 #include <bits/stdc++.h>
 #include <vector>
 #include <algorithm>
-
+#include <iterator>
+#include <map>
 #include <Interpreter/Variable.hpp>
 
 #include <StringTools.hpp>
 
+// (name: asdsa)[data: hi]
+void
+FVariable::Variable(std::string name, std::string data) {
+	variable_data = variable_data.append("(name: " + name + ")" + "[data: " + data + "]\n");
+}
+
+std::string
+FVariable::GetVariable(std::string name) {
+	std::string _get_data;
+	std::istringstream _get(variable_data);
+	
+	while(std::getline(_get, _get_data)) {
+		if(stringtools::GetBetweenString(_get_data, "(name: ", ")") == name)
+			return stringtools::GetBetweenString(_get_data, "[data: ", "]");
+	}
+	
+}

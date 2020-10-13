@@ -2,8 +2,6 @@ defin[newline] -> print(newline) <-
 
 main() -> main {
         var(string) -> MyHelloWorld! -> nameisthis <-
-        print(spec) -> __OS_NAME__ <-
-        put[newline]
-        print(spec) -> __DATE__ <-
-        put[newline]
+       	 
+        @echo nameisthis 
 } main;

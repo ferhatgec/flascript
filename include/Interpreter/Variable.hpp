@@ -29,7 +29,12 @@ static std::map<std::string, std::string> variables {
 };
 
 static auto var_ = variables;
+static std::string variable_data;
 
-
+class FVariable {
+public:
+	void Variable(std::string name, std::string data);
+	std::string GetVariable(std::string name);
+};
 
 #endif // VARIABLE_HPP
