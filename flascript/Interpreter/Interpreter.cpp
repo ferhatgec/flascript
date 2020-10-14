@@ -547,6 +547,18 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					}
 				}
 				
+				/* @substring -> name -> abc < */
+				if(FindObject(linebyline, "@substring") == true) {
+					FVariable var;
+					std::string get_name = stringtools::GetBetweenString(linebyline, "@substring -> ", " -> ");
+					
+					if(get_name != "error") {
+						std::string get_data = stringtools::GetBetweenString(linebyline, get_name + " -> ", " <");
+						var.Substring(get_name, get_data);	
+					}
+				}
+				
+				
 				/*
 					var(string) -> data -> name <-
 				
