@@ -25,6 +25,7 @@
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
 #include <StringTools.hpp>
+#include <ExecutePlusPlus.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -357,6 +358,23 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 	}
 }
 
+std::string 
+FInterpreter::ValueDefinition(std::string file, std::string arg) {
+	/* var(string) -> (func) getenv -> "HOME" (end) -> home <- */
+	if(FindObject(arg, "getenv") == true) {
+		std::string assign;
+		assign = stringtools::GetBetweenString(arg, "getenv -> \"", "\"");
+               
+		if(assign != "error") {
+			assign = getenv(assign.c_str());
+			return assign;
+		} 
+	} 
+       
+	return "";
+}
+
+
 /*
 	FlaScript's main interpreter.
 */
@@ -446,20 +464,33 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					}
     				}
 
-				if(FindObject(linebyline, "var") == true) {
+	
+				if(FindObject(linebyline, "var(") == true) {
 					FVariable var;
 					
 					std::string name, data;
-					data = stringtools::GetBetweenString(linebyline, ") -> ", " -> ");
-					name = stringtools::GetBetweenString(linebyline, data + " -> ", " <-");
-					var.Variable(name, data);
+					
+					/* TODO:
+						Add returnable interpreter for variable definition
+					*/
+					if(FindObject(linebyline, "(func)") == true) {
+						name = stringtools::GetBetweenString(linebyline,  "(end) -> ", " <-");
+						data = stringtools::GetBetweenString(linebyline, "(func)", "(end)");
+						if(data != "error") {
+							data = ValueDefinition(file, data);
+							var.Variable(name, data);
+						}
+					} else {
+						data = stringtools::GetBetweenString(linebyline, ") -> ", " -> ");
+						name = stringtools::GetBetweenString(linebyline, data + " -> ", " <-");
+						var.Variable(name, data);
+					}
 				}
 			
-				/* @echo asdsad */
+				/* @echo -> asdsad <-*/
 				if(FindObject(linebyline, "@echo") == true) {
 					FVariable var;
-					std::string assin = stringtools::EraseAllSubString(linebyline, "@echo ");
-					assin = stringtools::EraseAllSubString(linebyline, " ");
+					std::string assin = stringtools::GetBetweenString(linebyline, "@echo -> ", " <-");
 					
 					std::cout << var.GetVariable(assin);
 				}

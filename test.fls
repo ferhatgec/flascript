@@ -1,17 +1,9 @@
 defin[newline] -> print(newline) <-
 
 main() -> main {
-        var(string) -> This is  -> nameisthis <- 
-        
-        print(string) -> "Default variable : "
-        @echo nameisthis 
-        
-        put[newline]
-        
-        @append -> nameisthis -> FlaScript, yeey! <
-        
-        print(string) -> "(Changed) New variable : "
-        @echo nameisthis
-        
+        var(string) -> (func) getenv -> "HOME" (end) -> home_var <- 
+	
+	@echo -> home_var <-
+
         put[newline]
 } main;

@@ -26,9 +26,13 @@ public:
 	void Read(std::string);
 	void Print(std::string, std::string);
 	void Get(std::string, std::string);
+	
 	void GetBtwString(std::string, std::string, std::string, std::string &);
+	
 	void FlaScriptInterpreter(std::string);
 	void FlaScriptInterpreterWithArg(std::string, std::string);
+	std::string ValueDefinition(std::string, std::string);
+	
 	bool ReadFileWithReturn(std::string, std::string);
 	bool FCommentLine(std::string, std::string);
 	static bool FindObject(std::string, std::string);

@@ -4,14 +4,14 @@ main() -> main {
         var(string) -> This is  -> nameisthis <- 
         
         print(string) -> "Default variable : "
-        @echo nameisthis 
+        @echo -> nameisthis <- 
         
         put[newline]
         
         @append -> nameisthis -> FlaScript, yeey! <
         
         print(string) -> "(Changed) New variable : "
-        @echo nameisthis
+        @echo -> nameisthis <-
         
         put[newline]
 } main;
