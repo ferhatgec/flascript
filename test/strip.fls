@@ -1,0 +1,11 @@
+defin[newline] -> print(newline) <-
+
+main() -> main {
+	var(string) -> f e g e y a - f l a script -> pwd_var <- 
+	
+	@strip -> pwd_var <
+	
+	@echo -> pwd_var <-
+
+	put[newline]
+} main;
