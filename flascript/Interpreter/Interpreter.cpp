@@ -515,6 +515,19 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					}
 				}
 				
+				/* @between -> name -> first : second < */
+				if(FindObject(linebyline, "@between") == true) {
+					FVariable var;
+					std::string get_name = stringtools::GetBetweenString(linebyline, "@between -> ", " -> ");
+					std::string get_first = stringtools::GetBetweenString(linebyline, "@between -> " + get_name + " -> ", " : ");
+					std::string get_second = stringtools::GetBetweenString(linebyline, "@between -> " + get_name + " -> " + get_first + " : ", " <");
+					
+					if(get_name != "error") {
+						var.Between(get_name, get_first, get_second);	
+					}
+				}
+				
+				
 				/*
 					var(string) -> data -> name <-
 				

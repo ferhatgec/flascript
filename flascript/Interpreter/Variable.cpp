@@ -67,3 +67,23 @@ FVariable::Append(std::string name, std::string data) {
 	
 	variable_data = c_data;
 }
+
+void
+FVariable::Between(std::string name, std::string first, std::string second) {
+	std::string _get_data;
+	std::istringstream _get(variable_data);
+	
+	std::string c_data;
+		
+	while(std::getline(_get, _get_data)) {
+		if(stringtools::GetBetweenString(_get_data, "(name: ", ")") == name) {
+			_get_data = stringtools::GetBetweenString(_get_data, "[data: ", "]");
+			_get_data = stringtools::GetBetweenString(_get_data, first, second);
+			_get_data = "(name: " + name + ")" + "[data: " + _get_data + "]";
+		}
+		
+		c_data.append(_get_data + "\n");
+	}
+	
+	variable_data = c_data;
+}
