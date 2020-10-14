@@ -87,3 +87,29 @@ FVariable::Between(std::string name, std::string first, std::string second) {
 	
 	variable_data = c_data;
 }
+
+void
+FVariable::Pop_Back(std::string name) {
+	std::string _get_data;
+	std::istringstream _get(variable_data);
+	
+	std::string c_data;
+		
+	while(std::getline(_get, _get_data)) {
+		if(stringtools::GetBetweenString(_get_data, "(name: ", ")") == name) {
+			_get_data = stringtools::GetBetweenString(_get_data, "[data: ", "]");
+			
+			if(_get_data.length() <= 1) {
+				std::cout << name << ": @pop_back : length <= 1\n";
+				return;
+			}
+			
+			_get_data.pop_back();
+			_get_data = "(name: " + name + ")" + "[data: " + _get_data + "]";
+		}
+		
+		c_data.append(_get_data + "\n");
+	}
+	
+	variable_data = c_data;
+}

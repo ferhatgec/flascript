@@ -1,9 +1,9 @@
 defin[newline] -> print(newline) <-
 
 main() -> main {
-        var(string) -> (func) getenv -> "PWD" (end) -> pwd_var <- 
+        var(string) -> Hello, world!? -> pwd_var <- 
 	
-	@between -> pwd_var -> /home : /flascript <
+	@pop_back -> pwd_var <
 	
 	@echo -> pwd_var <-
 

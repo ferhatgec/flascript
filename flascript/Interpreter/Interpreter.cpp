@@ -527,6 +527,15 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					}
 				}
 				
+				/* @pop_back -> name < */
+				if(FindObject(linebyline, "@pop_back") == true) {
+					FVariable var;
+					std::string get_name = stringtools::GetBetweenString(linebyline, "@pop_back -> ", " <");
+					
+					if(get_name != "error") {
+						var.Pop_Back(get_name);	
+					}
+				}
 				
 				/*
 					var(string) -> data -> name <-

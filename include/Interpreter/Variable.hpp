@@ -39,6 +39,7 @@ public:
 	void Change(std::string name, std::string data);
 	void Append(std::string name, std::string data);
 	void Between(std::string name, std::string first, std::string second);
+	void Pop_Back(std::string name);
 };
 
 #endif // VARIABLE_HPP
