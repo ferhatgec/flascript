@@ -1,11 +1,11 @@
 defin[newline] -> print(newline) <-
 
 main() -> main {
-        var(string) -> Hello, world!? -> pwd_var <- 
+	var(string) -> f e g e y a - f l a script -> pwd_var <- 
 	
-	@pop_back -> pwd_var <
+	@strip -> pwd_var <
 	
 	@echo -> pwd_var <-
 
-        put[newline]
+	put[newline]
 } main;
