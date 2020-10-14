@@ -1,0 +1,11 @@
+defin[newline] -> print(newline) <-
+
+main() -> main {
+        var(string) -> (func) getenv -> "PWD" (end) -> pwd_var <- 
+	
+	@between -> pwd_var -> /home : /flascript <
+	
+	@echo -> pwd_var <-
+
+        put[newline]
+} main;
