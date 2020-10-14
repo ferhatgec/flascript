@@ -1,0 +1,20 @@
+defin[newline] -> print(newline) <-
+
+main() -> main {
+	var(string) -> flascript- test, test, test. -> word <- 
+	var(string) -> test111111 -> ttest <-
+	
+	@substring -> word -> test, <
+	
+	@strip -> word <
+	
+	@substring -> ttest -> 111 <
+	@echo -> ttest <-
+	
+	put[newline]
+	
+	// flascript-test.
+	@echo -> word <-
+
+	put[newline]
+} main;
