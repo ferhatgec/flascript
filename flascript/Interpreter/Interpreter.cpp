@@ -382,7 +382,8 @@ void
 FInterpreter::FlaScriptInterpreter(std::string file) {
 	Tokenizer token;
 	std::string line;
-	std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
+	std::ifstream readfile(file.c_str());
+	
     	if(readfile.is_open()) {
         	while (std::getline(readfile, line)) {
         		Read(file);
