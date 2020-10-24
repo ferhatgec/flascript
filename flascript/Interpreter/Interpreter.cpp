@@ -276,6 +276,14 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 		}
 
 		/*
+			statement[#pi]
+		*/
+		if(FindObject(strarg, "statement") == true) {
+			FStatement stat;
+			stat.StatementParser(file, strarg);
+		}
+
+		/*
 			put[<defin>]
 		*/
 		if(FindObject(strarg, "put") == true) {
