@@ -1,13 +1,15 @@
-/> MIT License
-#
-# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
-# Distributed under the terms of the MIT License.
-# 
-</
+defin[newline] -> print(newline) <-
 
 main() -> main {
-// Input
-input(string)
-// Print Input
-print(last)
+	var(string) -> blah blah -> input_word <- 
+	
+	print(colorized[:1, 95:]) -> "$# " <-
+	
+	@input -> input_word <
+	
+	print(string) -> "Your input : "
+	
+	@echo -> input_word <-
+	
+	print(newline)
 } main;
