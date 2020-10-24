@@ -1,20 +1,15 @@
 defin[newline] -> print(newline) <-
 
 main() -> main {
-	var(string) -> flascript- test, test, test. -> word <- 
-	var(string) -> test111111 -> ttest <-
+	var(string) -> blah blah -> input_word <- 
 	
-	@substring -> word -> test, <
+	print(colorized[:1, 95:]) -> "$# " <-
 	
-	@strip -> word <
+	@input -> input_word <
 	
-	@substring -> ttest -> 111 <
-	@echo -> ttest <-
+	print(string) -> "Your input : "
 	
-	put[newline]
+	@echo -> input_word <-
 	
-	// flascript-test.
-	@echo -> word <-
-
-	put[newline]
+	print(newline)
 } main;

@@ -8,6 +8,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+
 #include <Tokenizer.hpp>
 #include <Interpreter/Interpreter.hpp>
 #include <Interpreter/Read.hpp>
@@ -19,6 +20,7 @@
 #include <Interpreter/Import.hpp>
 #include <Interpreter/Statement.hpp>
 #include <Interpreter/Variable.hpp>
+#include <Interpreter/Input.hpp>
 
 /* Libraries */
 #include <FileSystemPlusPlus.h>
@@ -644,24 +646,15 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				}
 
 				/*
-					var(string&) -> Hello -> Hello <-
-				   	input(get[string] ->  ->) [this]
+					@input -> name <
 				*/
-				if(FindObject(linebyline, "input") == true) {
+				if(FindObject(linebyline, "@input") == true) {
+					FInput input;
+					
 					std::string assign;
-					GetBtwString(linebyline, "(", ")", assign);
-					if(FindObject(assign, "get") == true) {
-						std::string get;
-						GetBtwString(assign, "[", "]", get);
-						if(get == "string") {
-							std::cin >> inp;
-							GetBtwString(linebyline, " -> ", " ->", assign);
-							if(ReadFileWithReturn(file, Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
-								test = Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace + inp +
-									Whitespace + ArrowKey + Whitespace + assign + Whitespace + LeftArrowKey;
-							}
-						}
-					} else if(assign == "string") std::cin >> inp;
+					assign = stringtools::GetBetweenString(linebyline, "@input -> ", " <");
+				
+					input.GetInput(assign);
 				}
 
 				/*
