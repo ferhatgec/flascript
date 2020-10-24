@@ -256,6 +256,24 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			FPrint pr;
 			pr.Print(file, strarg);
 		}
+		
+		/* @substring -> name -> abc < */
+		if(FindObject(strarg, "@substring") == true) {
+			FVariable var;
+			std::string get_name = stringtools::GetBetweenString(strarg, "@substring -> ", " -> ");
+			if(get_name != "error") {
+				std::string get_data = stringtools::GetBetweenString(strarg, get_name + " -> ", " <");
+				var.Substring(get_name, get_data);	
+			}
+		}
+		
+		/* @echo -> asdsad <-*/
+		if(FindObject(strarg, "@echo") == true) {
+			FVariable var;
+			std::string assin = stringtools::GetBetweenString(strarg, "@echo -> ", " <-");
+					
+			std::cout << var.GetVariable(assin);
+		}
 
 		/*
 			put[<defin>]
@@ -549,7 +567,6 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 						var.Strip(get_name);	
 					}
 				}
-				
 				/* @substring -> name -> abc < */
 				if(FindObject(linebyline, "@substring") == true) {
 					FVariable var;
@@ -560,6 +577,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 						var.Substring(get_name, get_data);	
 					}
 				}
+				
 				
 				
 				/*

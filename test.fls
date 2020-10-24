@@ -1,16 +1,20 @@
 defin[newline] -> print(newline) <-
 
-#test ->
-	print(string) -> "asdasd"
-	if[var(PI) == var(3.14159265359)] -> {
-		print(string) -> "Passed"
-	} else -> {
-		print(string) -> "Failed"
+#check_command ->
+	if[find(var(input_word), "echo ")] -> {
+		@substring -> input_word -> echo  <
+		@echo -> input_word <-
 	} <-
-#test <-
+#check_command <-
 
 main() -> main {
-	var(string) -> 3.14159265359 -> PI <- 
+	var(string) -> blah blah -> input_word <- 
 	
-	statement[#test]
+	print(colorized[:1, 95:]) -> "$# " <-
+	
+	@input -> input_word <
+
+	statement[#check_command]
+	
+	print(newline)
 } main;

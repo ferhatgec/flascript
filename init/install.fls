@@ -17,18 +17,6 @@ func -> Create() {
 	put[slashn]
 } Create;
 
-
-#checkroot ->
-	if[var(system) -> check[whoami] <- (==) var(string) -> root <-] -> {
-		print(string) -> "You are Super user! Yey! :^)"	
-		func -> Create()
-	} else -> {
-		print(string) -> "Use with Root permission!"
-	} <-
-#checkroot <-
-
-
 main() -> main {
-	/> Check user permission </
-	statement[#checkroot]
+	func -> Create()
 } main;

@@ -48,6 +48,19 @@
 	main() -> main {
 		statement[#pi]
 	}
+	
+	/> Find test </
+	var(int) -> echo -> PI <-
+
+	#pi ->
+		if[find(var(PI), "echo ")] -> {
+			
+		} <-
+	#pi <-
+
+	main() -> main {
+		statement[#pi]
+	}
 */
 
 void
@@ -61,51 +74,68 @@ FStatement::IfStatement(std::string file, std::string arg) {
 	stringtools::GetBtwString(arg, "if[", "] -> {", assign);
 	
 	if(assign != "error") {
-		std::string variable_name = stringtools::GetBetweenString(assign, "var(", ") ");
-		std::string variable_data = get.GetVariable(variable_name);
+		if(assign.rfind("find", 0) == 0) {
+			std::string get_variable = stringtools::GetBetweenString(assign, "var(", "), ");
+			
+			if(get_variable != "error") {
+				std::string get_data = stringtools::GetBetweenString(assign, ", \"", "\")");
 				
-		if(variable_name != "error") {
-			std::string compare_variable_data = stringtools::GetBetweenString(assign, " var(", ")");
+				std::string variable_data = get.GetVariable(get_variable); 
+			
+				if(strstr(variable_data.c_str(), get_data.c_str())) {
+					std::string get_if_data = stringtools::GetBetweenString(arg, ")] -> {", 
+						"} <-");
+						
+					if(get_if_data != "error")
+						inp.FlaScriptInterpreterWithArg(file, get_if_data);
+				}
+			}
+		} else {
+			std::string variable_name = stringtools::GetBetweenString(assign, "var(", ") ");
+			std::string variable_data = get.GetVariable(variable_name);
+				
+			if(variable_name != "error") {
+				std::string compare_variable_data = stringtools::GetBetweenString(assign, " var(", ")");
 
-			if(compare_variable_data != "error") {
-				std::string operator_type = stringtools::GetBetweenString(assign, "var(" + variable_name + ") ",
-					" var(" + compare_variable_data + ")");
+				if(compare_variable_data != "error") {
+					std::string operator_type = stringtools::GetBetweenString(assign, "var(" + variable_name + ") ",
+						" var(" + compare_variable_data + ")");
 					
-				std::string get_if_data = stringtools::GetBetweenString(arg, "var(" + compare_variable_data + ")] -> {", 
-					"} else -> {");
+					std::string get_if_data = stringtools::GetBetweenString(arg, "var(" + compare_variable_data + ")] -> {", 
+						"} else -> {");
 
 
 								
-				/* Statement has if.. else */
-				if(get_if_data != "error") {
-					std::string get_else_data = stringtools::GetBetweenString(arg, "} else -> {", "} <-");
+					/* Statement has if.. else */
+					if(get_if_data != "error") {
+						std::string get_else_data = stringtools::GetBetweenString(arg, "} else -> {", "} <-");
 					
 					
-					if(get_else_data != "error") {
+						if(get_else_data != "error") {
+							if(operator_type == "==") {
+								if(variable_data == compare_variable_data)
+									inp.FlaScriptInterpreterWithArg(file, get_if_data);
+								else
+									inp.FlaScriptInterpreterWithArg(file, get_else_data);
+							} else if(operator_type == "!=") {
+								if(variable_data != compare_variable_data)
+									inp.FlaScriptInterpreterWithArg(file, get_if_data);
+								else
+									inp.FlaScriptInterpreterWithArg(file, get_else_data);
+							}
+						}	
+					} 
+					/* Statement only if */
+					else {
 						if(operator_type == "==") {
 							if(variable_data == compare_variable_data)
 								inp.FlaScriptInterpreterWithArg(file, get_if_data);
-							else
-								inp.FlaScriptInterpreterWithArg(file, get_else_data);
 						} else if(operator_type == "!=") {
 							if(variable_data != compare_variable_data)
 								inp.FlaScriptInterpreterWithArg(file, get_if_data);
-							else
-								inp.FlaScriptInterpreterWithArg(file, get_else_data);
 						}
-					}	
-				} 
-				/* Statement only if */
-				else {
-					if(operator_type == "==") {
-						if(variable_data == compare_variable_data)
-							inp.FlaScriptInterpreterWithArg(file, get_if_data);
-					} else if(operator_type == "!=") {
-						if(variable_data != compare_variable_data)
-							inp.FlaScriptInterpreterWithArg(file, get_if_data);
 					}
-				}
-
+				}	
 			}
 		}
 	}
