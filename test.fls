@@ -1,15 +1,16 @@
 defin[newline] -> print(newline) <-
 
+#test ->
+	print(string) -> "asdasd"
+	if[var(PI) == var(3.14159265359)] -> {
+		print(string) -> "Passed"
+	} else -> {
+		print(string) -> "Failed"
+	} <-
+#test <-
+
 main() -> main {
-	var(string) -> blah blah -> input_word <- 
+	var(string) -> 3.14159265359 -> PI <- 
 	
-	print(colorized[:1, 95:]) -> "$# " <-
-	
-	@input -> input_word <
-	
-	print(string) -> "Your input : "
-	
-	@echo -> input_word <-
-	
-	print(newline)
+	statement[#test]
 } main;
