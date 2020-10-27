@@ -28,18 +28,26 @@ defin[newline] -> print(newline) <-
 	} <-
 #check_command <-
 
+#buffer_loop ->
+	while[var(int) -> PI <- (==) var(int) -> 3.14159265359 <-] -> {
+		print(colorized[:1, 95:]) -> "$# " <-
+		print(rcolorized[:1, 92:])
+		@input -> input_word <
+		print(rcolorized[:1, 31:])
+		statement[#check_command]
+	} else -> {
+		print(string) -> "Failed"
+	} <-
+#buffer_loop <-
+	
 main() -> main {
+	var(int) -> 3.14159265359 -> PI <-
+	
 	var(string) -> blah blah -> input_word <- 
 	
-	print(colorized[:1, 95:]) -> "$# " <-
 	
-	print(rcolorized[:1, 92:])
 	
-	@input -> input_word <
-	
-	print(rcolorized[:1, 31:])
-
-	statement[#check_command]
+	statement[#buffer_loop]
 	
 	print(newline)
 } main;

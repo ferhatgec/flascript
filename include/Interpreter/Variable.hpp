@@ -15,6 +15,9 @@
 #include <FileSystemPlusPlus.h>
 #include <SystemInfo.hpp>
 
+
+static systemInfo info;
+
 static std::map<std::string, std::string> variables {
         {"__OS_NAME__", fsplusplus::ReadOSName()},
         {"__KERNEL__", systemInfo::getSystem()},
@@ -25,6 +28,7 @@ static std::map<std::string, std::string> variables {
         {"__STRING__", "var(string)"},
         {"__INT__", "var(int)"},
         {"__BOOL__", "var(bool)"},
+        {"__UPTIME__", info.getUptime()},
         {"__NEWLINE__", "\n"}
 };
 

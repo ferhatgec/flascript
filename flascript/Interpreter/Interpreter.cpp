@@ -305,25 +305,15 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 		}
 
 		/*
-		   Under the construction.
-		   var(string&) -> Hello -> Hello <-
-		   input(get[string] ->  ->) [this]
+			@input -> name <
 		*/
-		if(FindObject(strarg, "input") == true) {
+		if(FindObject(strarg, "@input") == true) {
+			FInput input;
+					
 			std::string assign;
-			GetBtwString(strarg, "(", ")", assign);
-			if(FindObject(assign, "get") == true) {
-				std::string get;
-				GetBtwString(assign, "[", "]", get);
-				if(get == "string") {
-					std::cin >> inp;
-					GetBtwString(strarg, " -> ", " ->", assign);
-					if(ReadFileWithReturn(file, Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace) == true) {
-						test = Var + BracketsBegin + Str + BracketsEnd + Whitespace + ArrowKey + Whitespace + inp +
-							Whitespace + ArrowKey + Whitespace + 	assign + Whitespace + LeftArrowKey;
-					}
-				}
-			} else if(assign == "string") std::cin >> inp;
+			assign = stringtools::GetBetweenString(strarg, "@input -> ", " <");
+				
+			input.GetInput(assign);
 		}
 
 		/*
