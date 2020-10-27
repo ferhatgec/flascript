@@ -218,6 +218,23 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 		}
 
 		/*
+			error("bla bla bla")
+		*/
+		if(FindObject(strarg, "error") == true) {
+			std::string get_data = stringtools::GetBetweenString(strarg, "error(\"", "\")");
+			
+			if(get_data != "error") {
+				BOLD_RED_COLOR
+				std::cout << "error: ";
+				
+				BOLD_LIGHT_WHITE_COLOR
+				std::cout << get_data + "\n";
+				
+				exit(EXIT_SUCCESS);
+			}
+		}
+		
+		/*
 			func -> Test() : sysinfo <
 		*/
 		if(FindObject(strarg, "func -> ") == true) {
@@ -425,7 +442,28 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				}
 			}
     		}
-
+		
+		/*
+			except(version) : 0.3 -> { error("This version is really old?") } version;
+		*/
+		if(FindObject(line, "except") == true) {
+			std::string assign = stringtools::GetBetweenString(line, "except(", ")");
+			
+			if(assign == "version") {
+				std::string version = stringtools::GetBetweenString(line, " : ", " -> {");
+				
+				double version_int = std::stod(version);
+				double flascript_version_int = std::stod(FLASCRIPT_VERSION);
+				
+				if(version != "error") {
+					if(version_int > flascript_version_int) {
+						std::string data = stringtools::GetBetweenString(line, version + " -> {", "} " + assign + ";");			
+						FlaScriptInterpreterWithArg(file, data);
+					}
+				}
+			}
+		}
+			
 		/*
 			import(" ") -> name <-
 		*/

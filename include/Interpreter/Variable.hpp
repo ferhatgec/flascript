@@ -12,6 +12,7 @@
 #include <map>
 #include <cstring>
 
+#include <FlaVersion.hpp>
 #include <FileSystemPlusPlus.h>
 #include <SystemInfo.hpp>
 
@@ -21,6 +22,8 @@ static systemInfo info;
 static std::map<std::string, std::string> variables {
         {"__OS_NAME__", fsplusplus::ReadOSName()},
         {"__KERNEL__", systemInfo::getSystem()},
+        {"FLASCRIPT_VERSION", FLASCRIPT_VERSION},
+        {"FLASCRIPT_STATE", FLASCRIPT_STATE},
         {"__TIME__",  __TIME__},
         {"__DATE__", __DATE__},
         {"__USERNAME__", systemInfo::getUsername()},
