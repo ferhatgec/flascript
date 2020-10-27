@@ -11,12 +11,14 @@
 #include <Tokenizer.hpp>
 #include <Interpreter/Interpreter.hpp>
 #include <Interpreter/Exec.hpp>
+#include <Interpreter/Variable.hpp>
 
 // Libraries
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
 #include <ExecutePlusPlus.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -62,12 +64,18 @@ FExec::ExecutePp(std::string arg) {
 		inp.GetBtwString(arg, "(", ")", assign);
 		inp.GetBtwString(assign, "\"", "\",", first);
 		if(first != "error") {
-			inp.GetBtwString(assign, ", \"", "\"", assign);
-			if(assign != "error") {
-				ExecutePlusPlus ex;
-				ex.ExecuteName(first.c_str());
-				ex.RunFunction(assign.c_str());
+			std::string second = stringtools::GetBetweenString(assign, ", \"", "\"");
+			
+			// executepp("Name", var(data))
+			if(second == "error") {
+				FVariable var;
+				second = stringtools::GetBetweenString(arg, ", var(", "))");	
+				second = var.GetVariable(second);
 			}
+			
+			ExecutePlusPlus ex;
+			ex.ExecuteName(first.c_str());
+			ex.RunFunction(second.c_str());
 		}
 	}
 }
