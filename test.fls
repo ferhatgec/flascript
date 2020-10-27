@@ -1,4 +1,4 @@
-except(version) : 0.5 -> { error("Huh. Install new version of FlaScript") print(newline) } version;
+except(version) : 0.3 -> { error("Huh. Install new version of FlaScript") print(newline) } version;
 
 defin[newline] -> print(newline) <-
 
