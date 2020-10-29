@@ -233,6 +233,21 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				exit(EXIT_SUCCESS);
 			}
 		}
+
+		/*
+			warning("bla bla bla")
+		*/
+		if(FindObject(strarg, "warning") == true) {
+			std::string get_data = stringtools::GetBetweenString(strarg, "warning(\"", "\")");
+			
+			if(get_data != "error") {
+				BOLD_YELLOW_COLOR
+				std::cout << "warning: ";
+				
+				BOLD_LIGHT_WHITE_COLOR
+				std::cout << get_data + "\n";
+			}
+		}
 		
 		/*
 			func -> Test() : sysinfo <
@@ -464,6 +479,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			}
 		}
 			
+
 		/*
 			import(" ") -> name <-
 		*/
@@ -615,7 +631,38 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 				}
 				
 				
+				/*
+        			error("bla bla bla")
+        		*/
+        		if(FindObject(linebyline, "error") == true) {
+        			std::string get_data = stringtools::GetBetweenString(linebyline, "error(\"", "\")");
+    			
+        			if(get_data != "error") {
+        				BOLD_RED_COLOR
+        				std::cout << "error: ";
 				
+        				BOLD_LIGHT_WHITE_COLOR
+        				std::cout << get_data + "\n";
+				
+        				exit(EXIT_SUCCESS);
+        			}
+        		}
+    
+        		/*
+        			warning("bla bla bla")
+        		*/
+        		if(FindObject(linebyline, "warning") == true) {
+        			std::string get_data = stringtools::GetBetweenString(linebyline, "warning(\"", "\")");
+			
+        			if(get_data != "error") {
+        				BOLD_YELLOW_COLOR
+        				std::cout << "warning: ";
+				
+        				BOLD_LIGHT_WHITE_COLOR
+        				std::cout << get_data + "\n";
+        			}
+        		}
+
 				/*
 					var(string) -> data -> name <-
 				

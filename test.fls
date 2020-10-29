@@ -38,7 +38,7 @@ defin[newline] -> print(newline) <-
 		print(rcolorized[:1, 31:])
 		statement[#check_command]
 	} else -> {
-		print(string) -> "Failed"
+        error("Failed!")
 	} <-
 #buffer_loop <-
 	
