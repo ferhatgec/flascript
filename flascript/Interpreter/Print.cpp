@@ -154,10 +154,14 @@ FPrint::Print(std::string file, std::string arg) {
 					inp.GetBtwString(arg, "\"", "\"", type);
 					if(type != "error")
 						SetTitle(type);
-					/*} else {
-						std::cout << "print : dynamic : \"......\" : Parse error.\n";
-						std::cout << "		 ^^^^^^^^^\n";
-					} */
+					else {
+                        type = stringtools::GetBetweenString(arg, "var(", ")");
+					    if(type != "error") {
+                            type = var.GetVariable(type);
+                            SetTitle(type);                        
+                        }
+                            
+                    }
 				} /*else {
 					std::cout << type << "  : Not defined type.\n";
 				}*/

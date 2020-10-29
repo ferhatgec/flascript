@@ -1,3 +1,4 @@
 main() -> main {
-	print(dynamic) -> set[title] -> "Hello World, Terminal :)" <-
+    var(string) -> ASDASD -> TEST <-
+	print(dynamic) -> set[title] -> var(TEST) <-
 } main;

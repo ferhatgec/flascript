@@ -95,13 +95,13 @@ FStatement::IfStatement(std::string file, std::string arg) {
 			std::string variable_data = get.GetVariable(variable_name);
 				
 			if(variable_name != "error") {
-				std::string compare_variable_data = stringtools::GetBetweenString(assign, " var(", ")");
+				std::string compare_variable_data = stringtools::GetBetweenString(assign, " \"", "\"");
 
 				if(compare_variable_data != "error") {
 					std::string operator_type = stringtools::GetBetweenString(assign, "var(" + variable_name + ") ",
-						" var(" + compare_variable_data + ")");
+						" \"" + compare_variable_data + "\"");
 					
-					std::string get_if_data = stringtools::GetBetweenString(arg, "var(" + compare_variable_data + ")] -> {", 
+					std::string get_if_data = stringtools::GetBetweenString(arg, "\"" + compare_variable_data + "\"] -> {", 
 						"} else -> {");
 
 

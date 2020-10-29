@@ -10,7 +10,7 @@ defin[newline] -> print(newline) <-
 #echo <-
 
 #exit ->
-	if[var(input_word) == var(exit)] -> {
+	if[var(input_word) == "exit"] -> {
 		print(string) -> "Exiting.."
 		
 		put[newline]
@@ -22,7 +22,7 @@ defin[newline] -> print(newline) <-
 #exit <-
 
 #check_command ->
-	if[var(input_word) == var(username)] -> {
+	if[var(input_word) == "username"] -> {
 		print(spec) -> __USERNAME__ <-
 		@substring -> input_word -> username <
 	} else -> {
