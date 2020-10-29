@@ -1,0 +1,25 @@
+#!/bin/fla --b
+
+() -> main {
+    var(string) -> c++ -I./Library/ -I./include/ -> data <-
+    
+    @append -> data ->  ./flascript/Debug/Debug_Interpreter.cpp ./flascript/Interpreter/Interpreter.cpp <- 
+    @append -> data ->  ./flascript/Interpreter/Definitions.cpp ./flascript/Debug/Debug_Definitions.cpp <-
+    @append -> data ->  ./flascript/Interpreter/Exec.cpp ./flascript/Debug/Debug_Exec.cpp <-
+    @append -> data ->  ./flascript/Interpreter/Read.cpp  ./flascript/Debug/Debug_Read.cpp <-
+    @append -> data ->  ./flascript/Interpreter/Print.cpp ./flascript/Debug/Debug_Print.cpp <-
+
+    @append -> data ->  ./flascript/Interpreter/String.cpp  ./flascript/Debug/Debug_String.cpp <-
+    @append -> data ->  ./flascript/Interpreter/Function.cpp ./flascript/Debug/Debug_Function.cpp <-
+    @append -> data ->  ./flascript/Interpreter/Import.cpp ./flascript/Debug/Debug_Import.cpp <-
+    @append -> data ->  ./flascript/Interpreter/Tools.cpp  ./flascript/Debug/Debug_Tools.cpp <-
+    @append -> data ->  ./flascript/Interpreter/Statement.cpp ./flascript/Debug/Debug_Statement.cpp <-
+    @append -> data ->  ./flascript/Interpreter/Variable.cpp ./flascript/Interpreter/Loop.cpp <-
+    @append -> data ->  ./flascript/Interpreter/Input.cpp <-
+    
+    @append -> data ->  ./flascript/FlaVersion.cpp ./flascript/FlaScriptMain.cpp -o fla <-  
+   
+    executepp("Make: ", var(data))
+    executepp("Run: ", "./fla --b test.fls")
+
+} main;
