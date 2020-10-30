@@ -47,6 +47,7 @@ public:
 	void Append(std::string name, std::string data);
 	void Between(std::string name, std::string first, std::string second);
 	
+    void Equal(std::string name, std::string data);
 	void Substring(std::string name, std::string substring);
 	void Strip(std::string name);
 	void Pop_Back(std::string name);

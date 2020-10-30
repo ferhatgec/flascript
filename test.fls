@@ -2,54 +2,15 @@ except(version) : 0.3 -> { error("Huh. Install new version of FlaScript") print(
 
 defin[newline] -> print(newline) <-
 
-#echo ->
-	if[find(var(input_word), "echo ")] -> {
-		@substring -> input_word -> echo  <
-		@echo -> input_word <-
-	} <-
-#echo <-
-
-#exit ->
-	if[var(input_word) == "exit"] -> {
-		print(string) -> "Exiting.."
-		
-		put[newline]
-		
-		exit(success)
-	} else -> {
-		statement[#echo]		
-	} <-
-#exit <-
-
-#check_command ->
-	if[var(input_word) == "username"] -> {
-		print(spec) -> __USERNAME__ <-
-		@substring -> input_word -> username <
-	} else -> {
-		statement[#exit]		
-	} <-
-#check_command <-
-
-#buffer_loop ->
-	while[var(int) -> PI <- (==) var(int) -> 3.14159265359 <-] -> {
-		print(colorized[:1, 95:]) -> "$# " <-
-		print(rcolorized[:1, 92:])
-		@input -> input_word <
-		print(rcolorized[:1, 31:])
-		statement[#check_command]
-	} else -> {
-        error("Failed!")
-	} <-
-#buffer_loop <-
-	
 main() -> main {
-	var(int) -> 3.14159265359 -> PI <-
-	
-	var(string) -> blah blah -> input_word <- 
-	
-	
-	
-	statement[#buffer_loop]
-	
-	print(newline)
+    var(string) -> Hello, Fla! -> fla <-
+    
+    @echo -> fla <-
+    put[newline]
+
+    @equal -> fla -> Huh. <
+
+    @echo -> fla <-
+
+    put[newline]
 } main;
