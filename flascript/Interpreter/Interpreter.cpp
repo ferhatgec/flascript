@@ -21,6 +21,7 @@
 #include <Interpreter/Statement.hpp>
 #include <Interpreter/Variable.hpp>
 #include <Interpreter/Input.hpp>
+#include <Interpreter/Compress.hpp>
 
 /* Libraries */
 #include <FileSystemPlusPlus.h>
@@ -564,7 +565,19 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 							data = ValueDefinition(file, data);
 							var.Variable(name, data);
 						}
-					} else {
+					} else if(FindObject(linebyline, "(__compress__)") == true) {
+                        FCompress compress;                        
+                        name = stringtools::GetBetweenString(linebyline,  "(__end__) -> ", " <-");
+						data = stringtools::GetBetweenString(linebyline, "(__compress__)", "(__end__)");
+                            						
+                        
+                        if(data != "error") {
+                            std::string compressed_data;                            
+                            compress.Encode(data, compressed_data);
+
+							var.Variable(name, compressed_data);
+						}
+                    } else {
 						data = stringtools::GetBetweenString(linebyline, ") -> ", " -> ");
 						name = stringtools::GetBetweenString(linebyline, data + " -> ", " <-");
 						var.Variable(name, data);

@@ -2,17 +2,9 @@ except(version) : 0.3 -> { error("Huh. Install new version of FlaScript") print(
 
 defin[newline] -> print(newline) <-
 
-#check -> 
-    if[find(var(_fla), "Flas!")] -> {
-        print(string) -> "Found."
-        put[newline]
-    } else -> {
-        warning("Where is the Fla?")
-    } <-
-#check <-
-
 main() -> main {
-    var(string) -> Hello, Fla! -> _fla <-
-    
-    statement[#check]
+    var(string) -> (__compress__)    (__end__) -> _fla <-
+               
+    @echo -> _fla <-
+     
 } main;
