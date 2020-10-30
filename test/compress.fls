@@ -1,0 +1,10 @@
+except(version) : 0.3 -> { error("Huh. Install new version of FlaScript") print(newline) } version;
+
+defin[newline] -> print(newline) <-
+
+main() -> main {
+    var(string) -> (__compress__)    (__end__) -> _fla <-
+               
+    @echo -> _fla <-
+     
+} main;
