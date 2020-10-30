@@ -636,6 +636,22 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					}
 				}
 				
+                /* @compress -> name < */
+				if(FindObject(linebyline, "@compress") == true) {
+					FVariable var;
+                    FCompress compress;
+					
+                    std::string get_name = stringtools::GetBetweenString(linebyline, "@compress -> ", " <");
+					
+					if(get_name != "error") {
+                        std::string data = var.GetVariable(get_name);
+                        std::string compressed_data;                        
+
+                        compress.Encode(data, compressed_data);
+                        var.Equal(get_name, compressed_data);   
+                    }
+				}
+
 				/* @pop_back -> name < */
 				if(FindObject(linebyline, "@pop_back") == true) {
 					FVariable var;
