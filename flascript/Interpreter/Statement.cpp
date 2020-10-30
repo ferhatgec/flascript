@@ -72,7 +72,8 @@ FStatement::IfStatement(std::string file, std::string arg) {
 
 	
 	stringtools::GetBtwString(arg, "if[", "] -> {", assign);
-	
+	std::string get_if_data;
+
 	if(assign != "error") {
 		if(assign.rfind("find", 0) == 0) {
 			std::string get_variable = stringtools::GetBetweenString(assign, "var(", "), ");
@@ -81,15 +82,19 @@ FStatement::IfStatement(std::string file, std::string arg) {
 				std::string get_data = stringtools::GetBetweenString(assign, ", \"", "\")");
 				
 				std::string variable_data = get.GetVariable(get_variable); 
-			
+
 				if(strstr(variable_data.c_str(), get_data.c_str())) {
-					std::string get_if_data = stringtools::GetBetweenString(arg, ")] -> {", 
+					get_if_data = stringtools::GetBetweenString(arg, ")] -> {", 
 						"} <-");
 						
 					if(get_if_data != "error")
-						inp.FlaScriptInterpreterWithArg(file, get_if_data);
-				}
+                        get_if_data = stringtools::GetBetweenString(arg, ")] -> {", "} else -> {");
+                    				
+                } else
+                    get_if_data = stringtools::GetBetweenString(arg, "} else -> {", "} <-");
 			}
+            
+            inp.FlaScriptInterpreterWithArg(file, get_if_data);
 		} else {
 			std::string variable_name = stringtools::GetBetweenString(assign, "var(", ") ");
 			std::string variable_data = get.GetVariable(variable_name);
