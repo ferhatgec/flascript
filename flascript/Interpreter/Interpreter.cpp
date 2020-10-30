@@ -359,6 +359,22 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				
 			input.GetInput(assign);
 		}
+        
+        /* @compress -> name < */
+		if(FindObject(strarg, "@compress") == true) {
+			FVariable var;
+            FCompress compress;
+					
+            std::string get_name = stringtools::GetBetweenString(strarg, "@compress -> ", " <");
+					
+    		if(get_name != "error") {
+                std::string data = var.GetVariable(get_name);
+                std::string compressed_data;                        
+
+                compress.Encode(data, compressed_data);
+                var.Equal(get_name, compressed_data);   
+            }
+        }
 
 		/*
 			header[string]: Hello -> "test.flsh"
