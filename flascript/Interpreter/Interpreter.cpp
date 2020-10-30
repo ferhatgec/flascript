@@ -577,6 +577,18 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 
 							var.Variable(name, compressed_data);
 						}
+                    } else if(FindObject(linebyline, "(__decompress__)") == true) {
+                        FCompress compress;                        
+                        name = stringtools::GetBetweenString(linebyline,  "(__end__) -> ", " <-");
+						data = stringtools::GetBetweenString(linebyline, "(__decompress__)", "(__end__)");
+                            						
+                        
+                        if(data != "error") {
+                            std::string decompressed_data;                            
+                            compress.Decompress(data, decompressed_data);
+
+							var.Variable(name, decompressed_data);
+						}
                     } else {
 						data = stringtools::GetBetweenString(linebyline, ") -> ", " -> ");
 						name = stringtools::GetBetweenString(linebyline, data + " -> ", " <-");
