@@ -375,6 +375,22 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
                 var.Equal(get_name, compressed_data);   
             }
         }
+        
+        /* @decompress -> name < */
+		if(FindObject(strarg, "@decompress") == true) {
+			FVariable var;
+            FCompress compress;
+					
+            std::string get_name = stringtools::GetBetweenString(strarg, "@decompress -> ", " <");
+					
+    		if(get_name != "error") {
+                std::string data = var.GetVariable(get_name);
+                std::string compressed_data;                        
+
+                compress.Decompress(data, compressed_data);
+                var.Equal(get_name, compressed_data);   
+            }
+        }
 
 		/*
 			header[string]: Hello -> "test.flsh"
@@ -667,6 +683,22 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
                         var.Equal(get_name, compressed_data);   
                     }
 				}
+
+                /* @decompress -> name < */
+        		if(FindObject(linebyline, "@decompress") == true) {
+        			FVariable var;
+                    FCompress compress;
+					
+                    std::string get_name = stringtools::GetBetweenString(linebyline, "@decompress -> ", " <");
+					
+            		if(get_name != "error") {
+                        std::string data = var.GetVariable(get_name);
+                        std::string compressed_data;
+
+                        compress.Decompress(data, compressed_data);
+                        var.Equal(get_name, compressed_data);   
+                    }
+                }
 
 				/* @pop_back -> name < */
 				if(FindObject(linebyline, "@pop_back") == true) {
