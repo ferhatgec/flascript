@@ -9,6 +9,13 @@
 ![GitHub issues](https://img.shields.io/github/issues/ferhatgec/flascript)
 ![GitHub](https://img.shields.io/github/license/ferhatgec/flascript)
 
+### Features:
+     * Supports dynamic & real-time review.
+     * Built-in compress/decompress algorithm.
+     * Fast, functional scripting language.
+     * Standard library & Built-in PlusPlus libraries (core).
+     * And more cool stuff!
+     
 * ![Documentations](docs/documentation/)
 * ![Tests](test/)
 * ![STL](stdlib/)
