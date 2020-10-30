@@ -16,9 +16,9 @@
      * Standard library & Built-in PlusPlus libraries (core).
      * And more cool stuff!
      
-* ![Documentations](docs/documentation/)
-* ![Tests](test/)
-* ![STL](stdlib/)
+* [Documentations](docs/documentation/hello_world/hello_world.md)
+* [Tests](test/shell.fls)
+* [STL](stdlib/info/SystemInfo.flsh)
 
 
 ## A taste of FlaScript
