@@ -11,7 +11,7 @@
 #include <iostream>
 
 #define FLASCRIPT_VERSION "0.3"
-#define FLASCRIPT_STATE "beta-3-preview"
+#define FLASCRIPT_STATE "beta-3"
 
 #define Hyphen "-"
 
