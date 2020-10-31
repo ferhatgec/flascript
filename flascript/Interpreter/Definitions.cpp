@@ -74,7 +74,7 @@ FDefinition::OSDefinition(std::string file, std::string arg) {
 						inp.FlaScriptInterpreterWithArg(file, read);
 					#endif
 				} else if(type == "macos") {
-					#ifdef __APPLE__ && __MACH__
+					#ifdef __APPLE__
 						inp.FlaScriptInterpreterWithArg(file, read);
 					#endif
 				} else if(type == "dragonfly") {

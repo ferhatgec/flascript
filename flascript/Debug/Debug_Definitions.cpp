@@ -75,7 +75,7 @@ Debug_FDefinition::Debug_OSDefinition(std::string file, std::string arg) {
 						inp.Debug_FlaScriptInterpreterWithArg(file, read);
 					#endif
 				} else if(type == "macos") {
-					#ifdef __APPLE__ && __MACH__
+					#ifdef __APPLE__
 						inp.Debug_FlaScriptInterpreterWithArg(file, read);
 					#endif
 				} else if(type == "dragonfly") {
