@@ -24,7 +24,11 @@ FVariable::Variable(std::string name, std::string data) {
 
 std::string
 FVariable::GetVariable(std::string name) {
-    return stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
+    std::string data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
+    
+    stringtools::replaceAll(data, "\\033[", "\033[");
+
+    return data;
 }
 
 // stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
