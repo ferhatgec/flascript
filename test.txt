@@ -1,0 +1,9 @@
+Hello, world!
+
+If you see here, InputStream working successfully!
+
+        * 
+       \|/
+        |
+       / \/
+       |
