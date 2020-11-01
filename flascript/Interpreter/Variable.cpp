@@ -53,126 +53,46 @@ FVariable::Change(std::string name, std::string data) {
 
 void
 FVariable::Append(std::string name, std::string data) {
-	std::string _get_data;
-	std::istringstream _get(variable_data);
-	
-	std::string c_data;
-		
-	while(std::getline(_get, _get_data)) {
-		if(stringtools::GetBetweenString(_get_data, "(name: ", ")") == name)
-			_get_data = "(name: " + name + ")" + "[data: " + stringtools::GetBetweenString(_get_data, "[data: ", "]") + data + "]";
-			
-		c_data.append(_get_data + "\n");
-	}
-	
-	variable_data = c_data;
+	std::string data_ = GetVariable(name);
+    data_.append(data);
+
+    Change(name, data_);
 }
 
 void
 FVariable::Between(std::string name, std::string first, std::string second) {
-	std::string _get_data;
-	std::istringstream _get(variable_data);
-	
-	std::string c_data;
-		
-	while(std::getline(_get, _get_data)) {
-		if(stringtools::GetBetweenString(_get_data, "(name: ", ")") == name) {
-			_get_data = stringtools::GetBetweenString(_get_data, "[data: ", "]");
-			_get_data = stringtools::GetBetweenString(_get_data, first, second);
-			_get_data = "(name: " + name + ")" + "[data: " + _get_data + "]";
-		}
-		
-		c_data.append(_get_data + "\n");
-	}
-	
-	variable_data = c_data;
+	std::string data_ = GetVariable(name);
+    data_ = stringtools::GetBetweenString(data_, first, second);
+
+    Change(name, data_);
 }
 
 void
 FVariable::Pop_Back(std::string name) {
-	std::string _get_data;
-	std::istringstream _get(variable_data);
-	
-	std::string c_data;
-		
-	while(std::getline(_get, _get_data)) {
-		if(stringtools::GetBetweenString(_get_data, "(name: ", ")") == name) {
-			_get_data = stringtools::GetBetweenString(_get_data, "[data: ", "]");
-			
-			if(_get_data.length() <= 1) {
-				std::cout << name << ": @pop_back : length <= 1\n";
-				return;
-			}
-			
-			_get_data.pop_back();
-			_get_data = "(name: " + name + ")" + "[data: " + _get_data + "]";
-		}
-		
-		c_data.append(_get_data + "\n");
-	}
-	
-	variable_data = c_data;
+	std::string data_ = GetVariable(name);
+    data_.pop_back();
+
+    Change(name, data_);
 }
 
 void
 FVariable::Strip(std::string name) {
-	std::string _get_data;
-	std::istringstream _get(variable_data);
-	
-	std::string c_data;
+	std::string data_ = GetVariable(name);
+    data_ = stringtools::EraseAllSubString(data_, " ");
 		
-	while(std::getline(_get, _get_data)) {
-		if(stringtools::GetBetweenString(_get_data, "(name: ", ")") == name) {
-			_get_data = stringtools::GetBetweenString(_get_data, "[data: ", "]");
-			_get_data = stringtools::EraseAllSubString(_get_data, " ");
-			
-			_get_data = "(name: " + name + ")" + "[data: " + _get_data + "]";
-		}
-		
-		c_data.append(_get_data + "\n");
-	}
-	
-	variable_data = c_data;
+    Change(name, data_);	
 }
 
 
 void
 FVariable::Substring(std::string name, std::string substring) {
-	std::string _get_data;
-	std::istringstream _get(variable_data);
-	
-	std::string c_data;
-	
-	/* Erase all substring */
-	while(std::getline(_get, _get_data)) {
-		if(stringtools::GetBetweenString(_get_data, "(name: ", ")") == name) {
-			_get_data = stringtools::GetBetweenString(_get_data, "[data: ", "]");
-			_get_data = stringtools::EraseAllSubString(_get_data, substring);
-			
-			_get_data = "(name: " + name + ")" + "[data: " + _get_data + "]";
-		}
+	std::string data_ = GetVariable(name);
+    data_ = stringtools::EraseAllSubString(data_, substring);
 		
-		c_data.append(_get_data + "\n");
-	}
-	
-	variable_data = c_data;
+    Change(name, data_);	
 }
 
 void
 FVariable::Equal(std::string name, std::string data) {
-	std::string _get_data;
-	std::istringstream _get(variable_data);
-	
-	std::string c_data;
-	
-	/* Erase all substring */
-	while(std::getline(_get, _get_data)) {
-		if(stringtools::GetBetweenString(_get_data, "(name: ", ")") == name) {
-			_get_data = "(name: " + name + ")" + "[data: " + data + "]";
-		}
-		
-		c_data.append(_get_data + "\n");
-	}
-	
-	variable_data = c_data;
+    Change(name, data);
 }
