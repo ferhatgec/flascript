@@ -313,17 +313,16 @@ namespace fsplusplus {
     	}
     	
     	static std::string ReadFileWithReturn(std::string file) {
-		std::string line;
+		    std::string line, add;
     		std::ifstream readfile((GetCurrentWorkingDir() + "/" + file).c_str());
-    		if(readfile.is_open()) {
-        	while (std::getline(readfile, line)) {
-			return line + "\n";
-        	}
-        	readfile.close();
-    		} else {
-        		printf("Unable to open file\n");
-    		}
-		return "null";
+    		
+            if(readfile.is_open()) {
+            	while (std::getline(readfile, line)) add.append(line + "\n");
+
+            	readfile.close();
+    		} 
+
+       		return add;
     	}
     	
     	static void FindPath(std::string name) {

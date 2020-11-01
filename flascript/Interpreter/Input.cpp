@@ -20,7 +20,5 @@ FInput::GetInput(std::string name) {
 	std::string input;
 	std::getline(std::cin, input);
 	
-	var.Change(name, input);	
+    if(input != "") var.Change(name, input);
 }
-
-

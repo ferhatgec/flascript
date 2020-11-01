@@ -3,18 +3,9 @@ except(version) : 0.3 -> { error("Huh. Install new version of FlaScript") print(
 defin[newline] -> print(newline) <-
 
 main() -> main {
-    var(string) ->  He4lo wo4rl2d2! -> decompress <-
+    var(string) ->  sample_ -> test <-
+    
+    @readfile -> test -> "test.txt" <
 
-    print(string) -> "Data (compressed): "
-    
-    @echo -> decompress <-
-    
-    put[newline]
-
-    @decompress -> decompress <
-    
-    print(string) -> "Data (decompressed) : "
-    @echo -> decompress <-
-    
-    put[newline]    
+    @echo -> test <-
 } main;
