@@ -27,7 +27,13 @@ FVariable::GetVariable(std::string name) {
     std::string data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
     
     stringtools::replaceAll(data, "\\033[", "\033[");
-
+    stringtools::replaceAll(data, "\\n", "\n");
+    stringtools::replaceAll(data, "\\t", "\t");
+    stringtools::replaceAll(data, "\\a", "\a");
+    stringtools::replaceAll(data, "\\b", "\b");
+    stringtools::replaceAll(data, "\\v", "\v");
+    stringtools::replaceAll(data, "\\r", "\r");
+    
     return data;
 }
 
