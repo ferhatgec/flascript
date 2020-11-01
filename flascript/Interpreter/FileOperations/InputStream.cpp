@@ -32,7 +32,7 @@
 /* @readfile -> name -> "test.md" < */
 std::string
 FInputStream::ReadFile(std::string directory, std::string variable) {
-    FVariable get;    
+    FVariable get; 
     std::string data = fsplusplus::ReadFileWithReturn(directory);
 
     get.Equal(variable, data);

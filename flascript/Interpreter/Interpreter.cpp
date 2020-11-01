@@ -321,6 +321,42 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			std::cout << var.GetVariable(assin);
 		}
 
+        /* @readfile -> name -> "abc" < */
+        if(FindObject(strarg, "@readfile") == true) {
+            FInputStream stream;
+            std::string get_name = stringtools::GetBetweenString(strarg, "@readfile -> ", " -> ");
+		
+            if(get_name != "error") {
+                std::string get_dir = stringtools::GetBetweenString(strarg, get_name + " -> \"", "\" <");
+                        
+                if(get_dir == "error") {
+                    FVariable get;
+                    get_dir = stringtools::GetBetweenString(strarg, get_name + " -> var(", ") <");
+                            
+                    get_dir = get.GetVariable(get_dir);
+                }
+
+                stream.ReadFile(get_dir, get_name);
+            }
+        }
+				
+        /* @replace_all -> name : "abc" -> "xyz" < */
+        if(FindObject(strarg, "@replace_all") == true) {
+            FVariable get;
+			std::string get_name = stringtools::GetBetweenString(strarg, "@replace_all -> ", " : ");
+                    
+            std::string __get_name = get.GetVariable(get_name);		                
+ 
+            if(get_name != "error") {
+                std::string get_data = stringtools::GetBetweenString(strarg, get_name + " : \"", "\" -> ");
+                std::string get_data_2 = stringtools::GetBetweenString(strarg, " -> \"", "\" <");
+
+                stringtools::replaceAll(__get_name, get_data, get_data_2);
+                        
+                get.Change(get_name, __get_name);
+            }
+        }
+
 		/*
 			statement[#pi]
 		*/
@@ -677,6 +713,13 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 		
 					if(get_name != "error") {
 						std::string get_dir = stringtools::GetBetweenString(linebyline, get_name + " -> \"", "\" <");
+                        
+                        if(get_dir == "error") {
+                            FVariable get;
+                            get_dir = stringtools::GetBetweenString(linebyline, get_name + " -> var(", ") <");
+                            
+                            get_dir = get.GetVariable(get_dir);
+                        }
 
 						stream.ReadFile(get_dir, get_name);
 					}
