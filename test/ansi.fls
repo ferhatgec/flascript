@@ -1,0 +1,8 @@
+main() -> main {
+    var(string) -> \033[0;34mHey Hey Hey user\033[0m -> hey_ <-
+    
+    @replace_all -> hey_ : "Hey" -> "Welcome" <
+
+    @echo -> hey_ <-
+    print(newline)
+} main;
