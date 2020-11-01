@@ -682,6 +682,23 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					}
 				}
 				
+                /* @replace_all -> name : "abc" -> "xyz" < */
+                if(FindObject(linebyline, "@replace_all") == true) {
+					FVariable get;
+					std::string get_name = stringtools::GetBetweenString(linebyline, "@replace_all -> ", " : ");
+                    
+                    std::string __get_name = get.GetVariable(get_name);		                
+ 
+					if(get_name != "error") {
+						std::string get_data = stringtools::GetBetweenString(linebyline, get_name + " : \"", "\" -> ");
+                        std::string get_data_2 = stringtools::GetBetweenString(linebyline, " -> \"", "\" <");
+
+						stringtools::replaceAll(__get_name, get_data, get_data_2);
+                        
+                        get.Change(get_name, __get_name);
+					}
+				}
+
                 /* @compress -> name < */
 				if(FindObject(linebyline, "@compress") == true) {
 					FVariable var;

@@ -1,0 +1,11 @@
+except(version) : 0.3 -> { error("Huh. Install new version of FlaScript") print(newline) } version;
+
+defin[newline] -> print(newline) <-
+
+main() -> main {
+    var(string) ->  sample_ -> test <-
+    
+    @readfile -> test -> "test.txt" <
+
+    @echo -> test <-
+} main;
