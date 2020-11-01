@@ -674,13 +674,9 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
                 if(FindObject(linebyline, "@readfile") == true) {
 					FInputStream stream;
 					std::string get_name = stringtools::GetBetweenString(linebyline, "@readfile -> ", " -> ");
-			    
-                    std::cout << "name: " << get_name + "\n";
 		
 					if(get_name != "error") {
 						std::string get_dir = stringtools::GetBetweenString(linebyline, get_name + " -> \"", "\" <");
-
-                        std::cout << "dir: " << get_dir + "\n";
 
 						stream.ReadFile(get_dir, get_name);
 					}
