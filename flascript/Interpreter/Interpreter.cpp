@@ -24,6 +24,7 @@
 #include <Interpreter/Compress.hpp>
 
 #include <Interpreter/FileOperations/InputStream.hpp>
+#include <Interpreter/FileSystem/Directory.hpp>
 
 /* Libraries */
 #include <FileSystemPlusPlus.h>
@@ -722,6 +723,16 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
                         }
 
 						stream.ReadFile(get_dir, get_name);
+					}
+				}
+
+                /* @chdir -> name <- */
+				if(FindObject(linebyline, "@chdir") == true) {
+					FDirectory dir;
+					std::string get_name = stringtools::GetBetweenString(linebyline, "@chdir -> \"", "\" <-");
+					
+					if(get_name != "error") {
+						dir.ChangeDir(get_name);	
 					}
 				}
 				
