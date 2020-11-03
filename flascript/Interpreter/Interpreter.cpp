@@ -731,9 +731,14 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					FDirectory dir;
 					std::string get_name = stringtools::GetBetweenString(linebyline, "@chdir -> \"", "\" <-");
 					
-					if(get_name != "error") {
-						dir.ChangeDir(get_name);	
-					}
+					if(get_name == "error") {
+                        get_name = stringtools::GetBetweenString(linebyline, "@chdir -> var(", ") <-");
+                        
+                        FVariable var;
+                        get_name = var.GetVariable(get_name);
+                    }
+                    
+                    dir.ChangeDir(get_name);
 				}
 				
                 /* @replace_all -> name : "abc" -> "xyz" < */
