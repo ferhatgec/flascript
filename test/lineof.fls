@@ -1,0 +1,12 @@
+main() -> main {
+    var(string) -> null_ -> get_os_name <-
+    
+	@lineof -> get_os_name -> "/etc/os-release" : "PRETTY_NAME=" <
+      	
+    @substring -> get_os_name -> PRETTY_NAME=" <
+      	
+	@pop_back -> get_os_name <
+	@pop_back -> get_os_name <
+	
+    @echo -> get_os_name <-
+} main;
