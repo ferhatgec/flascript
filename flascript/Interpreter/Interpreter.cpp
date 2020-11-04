@@ -254,6 +254,21 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 		}
 		
 		/*
+			success("bla bla bla")
+		*/
+		if(FindObject(strarg, "success") == true) {
+			std::string get_data = stringtools::GetBetweenString(strarg, "success(\"", "\")");
+			
+			if(get_data != "error") {
+				BOLD_LIGHT_GREEN_COLOR
+				std::cout << "success: ";
+				
+				BOLD_LIGHT_WHITE_COLOR
+				std::cout << get_data + "\n";
+			}
+		}
+		
+		/*
 			func -> Test() : sysinfo <
 		*/
 		if(FindObject(strarg, "func -> ") == true) {
@@ -930,6 +945,20 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
         			}
         		}
 
+				/*
+					success("bla bla bla")
+				*/
+				if(FindObject(linebyline, "success") == true) {
+					std::string get_data = stringtools::GetBetweenString(linebyline, "success(\"", "\")");
+			
+					if(get_data != "error") {
+						BOLD_LIGHT_GREEN_COLOR
+						std::cout << "success: ";
+				
+						BOLD_LIGHT_WHITE_COLOR
+						std::cout << get_data + "\n";
+					}
+				}
 				/*
 					var(string) -> data -> name <-
 				
