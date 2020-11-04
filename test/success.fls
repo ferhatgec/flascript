@@ -1,0 +1,3 @@
+main() -> main {
+    success("Huh? It's success function.")
+} main;
