@@ -1,12 +1,5 @@
-/> MIT License
-#
-# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
-# Distributed under the terms of the MIT License.
-#
-</
-
 var(int) -> 2005 -> Hello <-
 
 main() -> main {
-print(get[int] -> Number ->) [this]
+	print(get[int] -> Number ->) [this]
 } main;
