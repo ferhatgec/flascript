@@ -15,6 +15,9 @@ class FInputStream {
 public:
 	std::string ReadFile(std::string directory,
         std::string variable);
+        
+	std::string ReadDir(std::string directory,
+        std::string variable);
 };
 
 #endif // INPUTSTREAM_HPP

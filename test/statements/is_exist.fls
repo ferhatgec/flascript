@@ -1,28 +1,15 @@
-import(<stdlib/output/Colorized.flsh>) -> colors <-
-import(<stdlib/info/SystemInfo.flsh>) -> sysinfo <-
+#check ->
+	if[is_exist(var(is_scrift_exist))] -> {
+		print(string) -> "Yeey!"
+	} else -> {
+		print(string) -> "Why?" 
+	} <-
+#check <-
 
-
-#is_exist ->
-        if[var(nil) -> is_exist[/bin/scrift] <- (==) var(bool) -> true <-] -> {
-                print(string) -> "Scrift exist!"
-        } else -> {
-                print(string) -> "Install Scrift."
-        } <-
-#is_exist <-
-
-func -> Test() {
-        print(newline)
-        put[colors -> BOLD_RED <-]
-        print(string) -> "Hello, world!"
-        put[colors -> BLACK_COLOR <-]
-} Test;
-
-func -> HelloWorld() {
-        print(string) -> "Hello, world!"
-} HelloWorld;
-
-() -> main {
-        statement[#is_exist]
-        //print(string) -> "Terminal: "
-        //func -> GetTerminal() : sysinfo <
+main() -> main {
+    var(string) -> /bin/fla -> is_scrift_exist <-
+    
+    statement[#check]
+    
+    print(newline)
 } main;

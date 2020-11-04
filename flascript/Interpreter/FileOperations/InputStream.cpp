@@ -37,3 +37,12 @@ FInputStream::ReadFile(std::string directory, std::string variable) {
 
     get.Equal(variable, data);
 }
+
+/* @readdir -> name -> "test.md" < */
+std::string
+FInputStream::ReadDir(std::string directory, std::string variable) {
+    FVariable get; 
+    std::string data = fsplusplus::ReadDirWithReturn(directory);
+
+    get.Equal(variable, data);
+}

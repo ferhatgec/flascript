@@ -325,6 +325,19 @@ namespace fsplusplus {
        		return add;
     	}
     	
+    	static std::string ReadDirWithReturn(std::string dir) {
+		    std::string line, add;
+    		std::ifstream readfile(dir.c_str());
+    		
+            if(readfile.is_open()) {
+            	while (std::getline(readfile, line)) add.append(line + "\n");
+
+            	readfile.close();
+    		} 
+
+       		return add;
+    	}
+    	
     	static void FindPath(std::string name) {
     	    DIR *directory;
     	    struct dirent *entryname;
