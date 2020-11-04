@@ -18,6 +18,9 @@ public:
         
 	std::string ReadDir(std::string directory,
         std::string variable);
+        
+	std::string LineOf(std::string directory, 
+		std::string val, std::string variable);
 };
 
 #endif // INPUTSTREAM_HPP

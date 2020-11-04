@@ -46,3 +46,12 @@ FInputStream::ReadDir(std::string directory, std::string variable) {
 
     get.Equal(variable, data);
 }
+
+/* @lineof -> name -> "test.md" : "hello, world" < */
+std::string
+FInputStream::LineOf(std::string directory, std::string val, std::string variable) {
+    FVariable get; 
+    std::string data = fsplusplus::FindStringWithReturn(directory, val);
+
+    get.Equal(variable, data);
+}

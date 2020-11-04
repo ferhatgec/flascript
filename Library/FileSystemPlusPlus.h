@@ -381,21 +381,37 @@ namespace fsplusplus {
        		rStr = "error"; 
 	}    
     
-    	static void ReadFilePath(std::string path) {
-    		std::string line;
-    		std::ifstream readfile(path.c_str());
-    		if(readfile.is_open()) {
+    
+    static std::string FindStringWithReturn(std::string file, std::string str) {
+		std::string line;
+		std::ifstream readfile(file.c_str());
+    	
+		if(readfile.is_open()) {
+        	while (std::getline(readfile, line))
+				if(strstr(line.c_str(), str.c_str())) return line + "\n";
+        	
+        		readfile.close();
+		}
+
+    		return "null";
+    }
+    	
+    static void ReadFilePath(std::string path) {
+		std::string line;
+    	std::ifstream readfile(path.c_str());
+    	
+    	if(readfile.is_open()) {
         	while (std::getline(readfile, line)) {
         		if(line.find("PRETTY_NAME=\"") == 0) {
-				GetBtwString(line, "\"", "\"", line);
-				printf(line.c_str());
-				printf("\n");
+					GetBtwString(line, "\"", "\"", line);
+					printf(line.c_str());
+					printf("\n");
         		}
         	}
         	readfile.close();
-    		} else {
-        		printf("Unable to open file\n");
-    		}
+    	} else {
+       		printf("Unable to open file\n");
+   		}
 	}
 	
 	static std::string ReadOSName() {

@@ -745,6 +745,19 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					}
 				}
 
+				/* @lineof -> name -> "dir" : "val" < */
+				if(FindObject(linebyline, "@lineof") == true) {
+					FInputStream stream;
+					
+					std::string get_name = stringtools::GetBetweenString(linebyline, "@lineof -> ", " -> ");
+					std::string get_dir = stringtools::GetBetweenString(linebyline, "@lineof -> " + get_name + " -> \"", "\" : ");
+					std::string get_val = stringtools::GetBetweenString(linebyline, "@lineof -> " + get_name + " -> " + "\"" + get_dir + "\" : \"", 
+						"\" <");
+					
+					if(get_name != "error" && get_dir != "error" && get_val != "error") {
+						stream.LineOf(get_dir, get_val, get_name);	
+					}
+				}
 
                 /* @chdir -> name <- */
 				if(FindObject(linebyline, "@chdir") == true) {
