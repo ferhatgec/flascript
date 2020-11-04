@@ -95,6 +95,24 @@ FStatement::IfStatement(std::string file, std::string arg) {
 			}
             
             inp.FlaScriptInterpreterWithArg(file, get_if_data);
+		} else if(assign.rfind("is_exist", 0) == 0) {
+			std::string get_variable = stringtools::GetBetweenString(assign, "var(", "))");
+			
+			if(get_variable != "error") {
+				std::string variable_data = get.GetVariable(get_variable); 
+
+				if(fsplusplus::IsExistFile(variable_data) == true) {
+					get_if_data = stringtools::GetBetweenString(arg, ")] -> {", 
+						"} <-");
+						
+					if(get_if_data != "error")
+                        get_if_data = stringtools::GetBetweenString(arg, ")] -> {", "} else -> {");
+                    				
+                } else
+                    get_if_data = stringtools::GetBetweenString(arg, "} else -> {", "} <-");
+			}
+            
+            inp.FlaScriptInterpreterWithArg(file, get_if_data);
 		} else {
 			std::string variable_name = stringtools::GetBetweenString(assign, "var(", ") ");
 			std::string variable_data = get.GetVariable(variable_name);

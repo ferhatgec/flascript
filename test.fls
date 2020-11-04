@@ -1,7 +1,15 @@
+#check ->
+	if[is_exist(var(is_scrift_exist))] -> {
+		print(string) -> "Yeey!"
+	} else -> {
+		print(string) -> "Why?" 
+	} <-
+#check <-
+
 main() -> main {
-    var(string) -> /bin/ -> path <-
-
-    @chdir -> var(path) <-
-
-    executepp("Example", "pwd")
+    var(string) -> /bin/fla -> is_scrift_exist <-
+    
+    statement[#check]
+    
+    print(newline)
 } main;
