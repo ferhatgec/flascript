@@ -340,6 +340,39 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
                 stream.ReadFile(get_dir, get_name);
             }
         }
+		
+		/* @readdir -> name -> "abc" < */
+		if(FindObject(strarg, "@readdir") == true) {
+			FInputStream stream;
+			std::string get_name = stringtools::GetBetweenString(strarg, "@readdir -> ", " -> ");
+		
+			if(get_name != "error") {
+				std::string get_dir = stringtools::GetBetweenString(strarg, get_name + " -> \"", "\" <");
+                        
+				if(get_dir == "error") {
+					FVariable get;
+					get_dir = stringtools::GetBetweenString(strarg, get_name + " -> var(", ") <");
+                            
+					get_dir = get.GetVariable(get_dir);
+				}
+
+				stream.ReadDir(get_dir, get_name);
+			}
+		}
+
+		/* @lineof -> name -> "dir" : "val" < */
+		if(FindObject(strarg, "@lineof") == true) {
+			FInputStream stream;
+					
+			std::string get_name = stringtools::GetBetweenString(strarg, "@lineof -> ", " -> ");
+			std::string get_dir = stringtools::GetBetweenString(strarg, "@lineof -> " + get_name + " -> \"", "\" : ");
+			std::string get_val = stringtools::GetBetweenString(strarg, "@lineof -> " + get_name + " -> " + "\"" + get_dir + "\" : \"", 
+				"\" <");
+					
+			if(get_name != "error" && get_dir != "error" && get_val != "error") {
+				stream.LineOf(get_dir, get_val, get_name);	
+			}
+		}		
 				
         /* @replace_all -> name : "abc" -> "xyz" < */
         if(FindObject(strarg, "@replace_all") == true) {
