@@ -1,0 +1,5 @@
+standard[main] -> "developer" <-
+
+developer() -> developer {
+	print(newline) -> "Hi, developer!"
+} developer;
