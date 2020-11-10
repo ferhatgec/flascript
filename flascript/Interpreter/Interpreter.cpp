@@ -27,11 +27,13 @@
 #include <Interpreter/FileSystem/Directory.hpp>
 
 /* Libraries */
-#include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
 #include <StringTools.hpp>
 #include <ExecutePlusPlus.hpp>
+
+#include <BrainfuckPlusPlus.h>
+#include <FileSystemPlusPlus.h>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -743,6 +745,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					}
 				}
 				
+				
 				/* @between -> name -> first : second < */
 				if(FindObject(linebyline, "@between") == true) {
 					FVariable var;
@@ -913,6 +916,16 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 					}
 				}
 				
+				/* inline(brainfuck) -> {"......."} brainfuck; */
+				if(FindObject(linebyline, "inline") == true) {
+					std::string assign = stringtools::GetBetweenString(linebyline, "inline(", ")");
+					
+					if(assign == "brainfuck") {
+						std::string data = stringtools::GetBetweenString(linebyline, " -> {\"", "\"}" + assign + ";");		
+						BfInterpreter(&data[0]);
+					}	
+				}
+		
 				/*
         			error("bla bla bla")
         		*/
@@ -959,14 +972,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 						std::cout << get_data + "\n";
 					}
 				}
-				/*
-					var(string) -> data -> name <-
 				
-				if(FindObject(linebyline, "var") == true) {
-					FVariable var;
-					var.CreateVariable(file, linebyline);
-				}*/
-
 				/*
 					exit(boolean)
 
