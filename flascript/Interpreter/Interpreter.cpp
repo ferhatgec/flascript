@@ -565,6 +565,12 @@ void
 FInterpreter::FlaScriptInterpreter(std::string file) {
 	Tokenizer token;
 	std::string line;
+	
+	/* Predefined Standards 
+		TODO: Make parser for standards.
+	*/
+	std::string standard_main = "main";
+	
 	std::ifstream readfile(file.c_str());
 	
     	if(readfile.is_open()) {
@@ -612,6 +618,18 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 			}
 		}
 			
+		/*
+			standard[main] -> "my_main" <-
+		*/
+		if(FindObject(line, "standard") == true) {
+			std::string assign = stringtools::GetBetweenString(line, "standard[", "]");
+
+			if(assign == "main") {
+				assign = stringtools::GetBetweenString(line, "standard[" + assign + "] -> \"", "\" <-");
+				
+				if(assign != "error") standard_main = assign; 
+			}
+		}	
 
 		/*
 			import(" ") -> name <-
@@ -635,14 +653,14 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 		/*
 			Code execution.
 		*/
-        	if(FindObject(line, "() -> main {") == true) {
+        	if(FindObject(line, "() -> " + standard_main + " {") == true) {
         		Read(file);
         		
 			/* Get content. */
-			if(FindObject(line, "main() -> main {") == true)
-				GetBtwString(alltext, "main() -> main {", "} main;", alltext);
+			if(FindObject(line, standard_main + "() -> " + standard_main + " {") == true)
+				GetBtwString(alltext, standard_main + "() -> " + standard_main + " {", "} " + standard_main + ";", alltext);
 			else
-				GetBtwString(alltext, "() -> main {", "} main;", alltext);
+				GetBtwString(alltext, "() -> " + standard_main + " {", "} " + standard_main + ";", alltext);
 			
 			/* Read line-by-line */
 			std::istringstream f(alltext);
