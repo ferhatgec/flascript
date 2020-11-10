@@ -14,6 +14,7 @@
      * Built-in compress/decompress algorithm.
      * Fast, functional scripting language.
      * Standard library & Built-in PlusPlus libraries (core).
+     * Inline language (Brainfuck) virtual machine, manipulator. 
      * And more cool stuff!
      
 * [Documentations](docs/documentation/hello_world/hello_world.md)
