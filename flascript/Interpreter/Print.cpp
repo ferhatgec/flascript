@@ -97,6 +97,20 @@ FPrint::Print(std::string file, std::string arg) {
 			inp.GetBtwString(arg, "(", ")", assign);
 			if(assign == "string") {
 				inp.GetBtwString(arg, " \"", "\"", assign);
+				
+				/* TODO:
+    				Create escape sequences function
+    				escapeSeq(std::string)
+    			*/
+    
+				stringtools::replaceAll(assign, "\\033[", "\033[");
+    			stringtools::replaceAll(assign, "\\n", "\n");
+    			stringtools::replaceAll(assign, "\\t", "\t");
+    			stringtools::replaceAll(assign, "\\a", "\a");
+    			stringtools::replaceAll(assign, "\\b", "\b");
+    			stringtools::replaceAll(assign, "\\v", "\v");
+    			stringtools::replaceAll(assign, "\\r", "\r");
+		
 				if(assign != "error")
 					std::cout << assign;
 			} else if(inp.FindObject(assign, "var") == true) {

@@ -26,6 +26,10 @@ std::string
 FVariable::GetVariable(std::string name) {
     std::string data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
     
+    /* TODO:
+    	Create escape sequences function
+    	escapeSeq(std::string)
+    */
     stringtools::replaceAll(data, "\\033[", "\033[");
     stringtools::replaceAll(data, "\\n", "\n");
     stringtools::replaceAll(data, "\\t", "\t");
