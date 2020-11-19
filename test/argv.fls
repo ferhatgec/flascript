@@ -1,0 +1,5 @@
+main() -> main {
+	var(string) -> (__link__)argv[2] (__end__) -> get_argument <-
+
+	@echo -> get_argument <-
+} main;
