@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
 	if(reg.substr(0, 2) == "--") {
 		if(reg == "--build" || reg == "--b") {
 			FInterpreter interp;
-			interp.FlaScriptInterpreter(copy_arg);
+			interp.FlaScriptInterpreter(copy_arg, argc, argv);
 		} else if(reg == "--debug" || reg == "--d") {
 			Debug_FInterpreter interp;
 			interp.Debug_FlaScriptInterpreter(copy_arg);
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
 			Debug_FInterpreter debug; /* Debug */
 			FInterpreter interp; /* Build & Run */
 			debug.Debug_FlaScriptInterpreter(copy_arg);
-			interp.FlaScriptInterpreter(copy_arg);
+			interp.FlaScriptInterpreter(copy_arg, argc, argv);
 		} else if(reg == "--help" || reg == "--h") {
 			HelpFunction(argv);
 			exit(EXIT_SUCCESS);

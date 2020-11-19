@@ -29,7 +29,7 @@ public:
 	
 	void GetBtwString(std::string, std::string, std::string, std::string &);
 	
-	void FlaScriptInterpreter(std::string);
+	void FlaScriptInterpreter(std::string, int argc, char** argv);
 	void FlaScriptInterpreterWithArg(std::string, std::string);
 	std::string ValueDefinition(std::string, std::string);
 	

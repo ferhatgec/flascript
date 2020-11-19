@@ -1,7 +1,5 @@
-standard[main] -> "developer" <-
+main() -> main {
+	var(string) -> (__link__)argv[2] (__end__) -> get_argument <-
 
-developer() -> developer {
-	inline(brainfuck) -> {"++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>++.>+.+++++++..+++.<<++.>------.>+++.-----------------.++++++++.+++++.--------.+++++++++++++++.------------------.++++++++.<++++++++++++++.>+.+++++++++.--.<.>-------.+++++++++.--.<<+."}brainfuck;
-	
-	print(newline)
-} developer;
+	@echo -> get_argument <-
+} main;

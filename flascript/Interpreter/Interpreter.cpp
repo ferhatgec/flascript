@@ -562,7 +562,7 @@ FInterpreter::ValueDefinition(std::string file, std::string arg) {
 	FlaScript's main interpreter.
 */
 void
-FInterpreter::FlaScriptInterpreter(std::string file) {
+FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 	Tokenizer token;
 	std::string line;
 	
@@ -717,7 +717,7 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 							var.Variable(name, compressed_data);
 						}
                     } else if(FindObject(linebyline, "(__decompress__)") == true) {
-                        FCompress compress;                        
+                        FCompress compress; 
                         name = stringtools::GetBetweenString(linebyline,  "(__end__) -> ", " <-");
 						data = stringtools::GetBetweenString(linebyline, "(__decompress__)", "(__end__)");
                             						
@@ -728,6 +728,20 @@ FInterpreter::FlaScriptInterpreter(std::string file) {
 
 							var.Variable(name, decompressed_data);
 						}
+                    } else if(FindObject(linebyline, "(__link__)") == true) {
+                    	/* var(string) -> (__link__)argv[1] (__end__) -> ... <- */
+                    	name = stringtools::GetBetweenString(linebyline,  "(__end__) -> ", " <-");
+						data = stringtools::GetBetweenString(linebyline, "(__link__)", "(__end__)");
+                    	
+                    	if(data != "error") {
+                    		if(FindObject(data, "argv") == true) {
+                    			int argument_case = atoi(stringtools::EraseAllSubString(data, "argv[").c_str());
+                    		
+                    			std::string argument_data(argv[argument_case]);
+                    			
+                    			var.Variable(name, argument_data);
+                    		}
+                    	}
                     } else {
 						data = stringtools::GetBetweenString(linebyline, ") -> ", " -> ");
 						name = stringtools::GetBetweenString(linebyline, data + " -> ", " <-");
