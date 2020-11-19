@@ -1,0 +1,3 @@
+main() -> main {
+	print(string) -> "Huh\rHey, programmer~\b.\nWelcome to FlaScript world!@\b \n"
+} main;
