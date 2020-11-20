@@ -330,11 +330,11 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
             }
         }
 		
-		/* @escapeseq -> name < */
-		if(FindObject(strarg, "@escapeseq") == true) {
+		/* @escape_seq -> name < */
+		if(FindObject(strarg, "@escape_seq") == true) {
 			FVariable var;
 			
-			std::string get_name = stringtools::GetBetweenString(strarg, "@escapeseq -> ", " <");
+			std::string get_name = stringtools::GetBetweenString(strarg, "@escape_seq -> ", " <");
 			std::string get_data = var.GetVariable(get_name);
 					
 			if(get_name != "error") {
@@ -893,10 +893,10 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 						}
 					}
 					
-					/* @escapeseq -> name < */
-					if(FindObject(linebyline, "@escapeseq") == true) {
+					/* @escape_seq -> name < */
+					if(FindObject(linebyline, "@escape_seq") == true) {
 						FVariable var;
-						std::string get_name = stringtools::GetBetweenString(linebyline, "@escapeseq -> ", " <");
+						std::string get_name = stringtools::GetBetweenString(linebyline, "@escape_seq -> ", " <");
 						std::string get_data = var.GetVariable(get_name);
 						
 						if(get_name != "error") {
