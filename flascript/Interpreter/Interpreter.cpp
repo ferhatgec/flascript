@@ -306,22 +306,24 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 		}
 		
         /* @equal -> name -> abc < */
-        if(FindObject(strarg, "@equal") == true) {
-            FVariable var;
-            std::string get_name = stringtools::GetBetweenString(strarg, "@equal -> ", " -> ");
-					
-            if(get_name != "error") {
-                std::string get_data = stringtools::GetBetweenString(strarg, get_name + " -> ", " <");
-                
-                if(strstr(get_data.c_str(), "var(")) {
+		if(FindObject(strarg, "@equal") == true) {
+			FVariable var;
+			std::string get_name = stringtools::GetBetweenString(strarg, "@equal -> ", " -> ");
+						
+			if(get_name != "error") {
+				std::string get_data = stringtools::GetBetweenString(strarg, get_name + " -> ", " <");
+							
+				if(ValueDefinition(file, get_data) != "") {
+					get_data = ValueDefinition(file, get_data);
+				} else if(strstr(get_data.c_str(), "var(")) {
 					get_data = stringtools::GetBetweenString(get_data, " var(", ") <");
 								
 					get_data = var.GetVariable(get_data);
 				}
 							
-                var.Equal(get_name, get_data);
-            }
-        }
+				var.Equal(get_name, get_data);
+			}
+		}
 
 		/* @echo -> asdsad <-*/
 		if(FindObject(strarg, "@echo") == true) {
