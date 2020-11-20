@@ -1,5 +1,7 @@
 main() -> main {
-	var(string) -> (__link__)argc(__end__) -> argument_counter <-
+	var(string) -> ..... -> test <-
 
-	@echo -> argument_counter <-
+	@equal -> test -> getenv -> "HOME" <
+
+	@echo -> test <-
 } main;

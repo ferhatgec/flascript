@@ -1024,6 +1024,8 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 								get_data = stringtools::GetBetweenString(get_data, " var(", ") <");
 								
 								get_data = var.GetVariable(get_data);
+							} else if(ValueDefinition(file, get_data) != "") {
+								get_data = ValueDefinition(file, get_data);
 							}
 							
 							var.Equal(get_name, get_data);
