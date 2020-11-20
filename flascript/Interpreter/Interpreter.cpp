@@ -613,14 +613,23 @@ std::string
 FInterpreter::ValueDefinition(std::string file, std::string arg) {
 	/* var(string) -> (func) getenv -> "HOME" (end) -> home <- */
 	if(FindObject(arg, "getenv") == true) {
-		std::string assign;
+		std::string assign = "";
 		assign = stringtools::GetBetweenString(arg, "getenv -> \"", "\"");
                
 		if(assign != "error") {
 			assign = getenv(assign.c_str());
-			return assign;
-		} 
-	} 
+		} else {
+			assign = stringtools::GetBetweenString(arg, "getenv -> var(", ")");
+			
+			if(assign != "error") { 
+				FVariable var;
+					
+				assign = getenv(var.GetVariable(assign).c_str());
+			}
+		}
+		
+		return assign;
+	}
        
 	return "";
 }
@@ -1020,12 +1029,12 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 						if(get_name != "error") {
 							std::string get_data = stringtools::GetBetweenString(linebyline, get_name + " -> ", " <");
 							
-							if(strstr(get_data.c_str(), "var(")) {
+							if(ValueDefinition(file, get_data) != "") {
+								get_data = ValueDefinition(file, get_data);
+							} else if(strstr(get_data.c_str(), "var(")) {
 								get_data = stringtools::GetBetweenString(get_data, " var(", ") <");
 								
 								get_data = var.GetVariable(get_data);
-							} else if(ValueDefinition(file, get_data) != "") {
-								get_data = ValueDefinition(file, get_data);
 							}
 							
 							var.Equal(get_name, get_data);
