@@ -312,6 +312,13 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 					
             if(get_name != "error") {
                 std::string get_data = stringtools::GetBetweenString(strarg, get_name + " -> ", " <");
+                
+                if(strstr(get_data.c_str(), "var(")) {
+					get_data = stringtools::GetBetweenString(get_data, " var(", ") <");
+								
+					get_data = var.GetVariable(get_data);
+				}
+							
                 var.Equal(get_name, get_data);
             }
         }
@@ -782,9 +789,12 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
                     			if(FindObject(data, "argv") == true) {
                     				int argument_case = atoi(stringtools::EraseAllSubString(data, "argv[").c_str());
                     			
-                    				std::string argument_data(argv[argument_case]);
-                    			
-                    				var.Variable(name, argument_data);
+                    				if(argument_case <= argc) { 
+                    					std::string argument_data(argv[argument_case]);
+                    					var.Variable(name, argument_data);
+                    				} else {
+                    					var.Variable(name, "__err_fla_argv_case_size__");
+                    				}
                     			} else if(FindObject(data, "argc") == true) {
                     				var.Variable(name, std::to_string(argc));  
                     			}
@@ -1009,6 +1019,13 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 						
 						if(get_name != "error") {
 							std::string get_data = stringtools::GetBetweenString(linebyline, get_name + " -> ", " <");
+							
+							if(strstr(get_data.c_str(), "var(")) {
+								get_data = stringtools::GetBetweenString(get_data, " var(", ") <");
+								
+								get_data = var.GetVariable(get_data);
+							}
+							
 							var.Equal(get_name, get_data);
 						}
 					}
