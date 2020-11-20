@@ -1,0 +1,13 @@
+#readline ->
+	while[getline(var(test_file), var(null_))] -> {
+		@echo -> null_ <-
+		print(newline)		
+	} <-
+#readline <-
+
+main() -> main {
+	var(string) -> test.txt -> test_file <-
+	var(string) ->     -> null_ <-
+
+	statement[#readline]
+} main;
