@@ -32,11 +32,15 @@
 void
 FExec::Exec(std::string arg) {
 	FInterpreter inp;
+	
 	if(inp.FindObject(arg, "exec") == true) {
 		std::string assign;
-		inp.GetBtwString(arg, "(", ")", assign);
+		
+		stringtools::GetBtwString(arg, "(", ")", assign);
+		
 		if(inp.FindObject(assign, "system") == true) {
-			inp.GetBtwString(assign, " -> ", " ->", assign);
+			stringtools::GetBtwString(assign, " -> ", " ->", assign);
+			
 			if(assign != "error")
 				system(assign.c_str());
 			/*else {
@@ -55,14 +59,17 @@ FExec::ExecutePp(std::string arg) {
 	FInterpreter inp;
 	if(inp.FindObject(arg, "execout") == true) {
 		std::string assign;
-		inp.GetBtwString(arg, "execout(-> ", " <-)", assign);
+		stringtools::GetBtwString(arg, "execout(-> ", " <-)", assign);
+		
 		ExecutePlusPlus ex;
 		assign = ex.ExecWithOutput(assign.c_str());
 		std::cout << assign;		 
 	} else if(inp.FindObject(arg, "executepp") == true) {
 		std::string assign, first;
-		inp.GetBtwString(arg, "(", ")", assign);
-		inp.GetBtwString(assign, "\"", "\",", first);
+		
+		stringtools::GetBtwString(arg, "(", ")", assign);
+		stringtools::GetBtwString(assign, "\"", "\",", first);
+		
 		if(first != "error") {
 			std::string second = stringtools::GetBetweenString(assign, ", \"", "\"");
 			

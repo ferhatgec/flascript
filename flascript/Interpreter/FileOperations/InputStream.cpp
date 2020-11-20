@@ -36,6 +36,8 @@ FInputStream::ReadFile(std::string directory, std::string variable) {
     std::string data = fsplusplus::ReadFileWithReturn(directory);
 
     get.Equal(variable, data);
+
+	return data;
 }
 
 /* @readdir -> name -> "test.md" < */
@@ -45,6 +47,8 @@ FInputStream::ReadDir(std::string directory, std::string variable) {
     std::string data = fsplusplus::ReadDirWithReturn(directory);
 
     get.Equal(variable, data);
+    
+    return data;
 }
 
 /* @lineof -> name -> "test.md" : "hello, world" < */
@@ -54,4 +58,6 @@ FInputStream::LineOf(std::string directory, std::string val, std::string variabl
     std::string data = fsplusplus::FindStringWithReturn(directory, val);
 
     get.Equal(variable, data);
+
+	return data;
 }

@@ -30,34 +30,42 @@
 bool
 FFunction::FReadFileWithReturn(std::string file, std::string argument) {
 	FInterpreter inp;
+
 	std::string line;
-    	std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
-    	if(readfile.is_open()) {
+    
+    std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
+   
+   	if(readfile.is_open()) {
         while (std::getline(readfile, line)) {
         	if(inp.FindObject(line, argument) == true)
         		return true;
-
         }
+        
         readfile.close();
-    	} /*else {
-        	printf("Unable to open file\n");
-    	}*/
+    } /*else {
+        printf("Unable to open file\n");
+    }*/
+	
 	return false;
 }
 
 std::string
 FFunction::FRead(std::string file) {
 	std::string line, text;
-    	std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
-    	if(readfile.is_open()) {
-       		while (std::getline(readfile, line))
-        		text.append(line + "\n");
+ 
+    std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
+    
+    if(readfile.is_open()) {
+       	while (std::getline(readfile, line))
+        	text.append(line + "\n");
 
-        	readfile.close();
+       	readfile.close();
+	
 		return text;
-    	} /*else {
-        	printf("Unable to open file\n");
+   	} /*else {
+        printf("Unable to open file\n");
  	}*/
+ 	
 	return "null";
 }
 
@@ -107,7 +115,8 @@ FFunction::Function(std::string file, std::string arg) {
 	name = stringtools::GetBetweenString(arg, " -> ", "()");
 	
 	if(inp.FindObject(type, arg + token.Whitespace + token.CurlyBracketsBegin) == true) {
-		inp.GetBtwString(type, arg + token.Whitespace + token.CurlyBracketsBegin, "} " + name + ";", assign);
+		stringtools::GetBtwString(type, arg + token.Whitespace + token.CurlyBracketsBegin, "} " + name + ";", assign);
+		
 		if(assign != "error")
 			inp.FlaScriptInterpreterWithArg(file, assign);
 	}

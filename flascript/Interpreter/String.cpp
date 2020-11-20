@@ -17,6 +17,7 @@
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -30,17 +31,24 @@
 std::string
 FString::EraseAllSubString(std::string arg) {
 	FInterpreter inp;
+	std::string assign, type;	
+
 	if(inp.FindObject(arg, "EraseAllSubstring") == true) {
-		std::string assign, type;
-		inp.GetBtwString(arg, "(", ")", assign);
+
+		stringtools::GetBtwString(arg, "(", ")", assign);
+		
 		if(inp.FindObject(assign, "string") == true) {
-			inp.GetBtwString(assign, "[", "]", assign);
+			stringtools::GetBtwString(assign, "[", "]", assign);
+			
 			if(assign != "error") {
-				inp.GetBtwString(assign, "\"", "\",", type);
+				stringtools::GetBtwString(assign, "\"", "\",", type);
+				
 				if(type != "error") {
-					inp.GetBtwString(assign, ", \"", "\"", assign);
+					stringtools::GetBtwString(assign, ", \"", "\"", assign);
+					
 					if(assign != "error") {
-						assign = inp.EraseAllSubString(type, assign);
+						assign = stringtools::EraseAllSubString(type, assign);
+						
 						if(assign != "error") {
 							return assign;
 						}
@@ -49,4 +57,6 @@ FString::EraseAllSubString(std::string arg) {
 			} 
 		}
 	}
+
+	return assign;
 }

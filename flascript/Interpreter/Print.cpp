@@ -32,6 +32,7 @@
 
 static int check, intest, load;
 static std::string inputted, loadstr, test, alltext, linebyline;
+
 FInterpreter inp;
 FFunction func;
 FVariable var;
@@ -56,21 +57,27 @@ void
 FPrint::Print(std::string file, std::string arg) {
   Tokenizer token;
   FFunction fnc;
+  
   if(inp.FindObject(arg, "fprintf") == true || inp.FindObject(arg, "fprintln") == true) { // fprintf(<%string>[:"test":, :"hello":])
 	 std::string assign, type;
-	 inp.GetBtwString(arg, "(<%", ">[", type);
+	 stringtools::GetBtwString(arg, "(<%", ">[", type);
+	
 	 if(type == "string") {
-		 inp.GetBtwString(arg, ">[", "])", type);
+		 stringtools::GetBtwString(arg, ">[", "])", type);
+		 
 		 if(type != "error") {
-			 inp.GetBtwString(type, ":\"", "\":, ", assign);
+			 stringtools::GetBtwString(type, ":\"", "\":, ", assign);
+			 
 			 if(assign != "error") {
 				 std::string data;
 				 data.append(assign);
+				 
 				 for(;;) {
-					 inp.GetBtwString(type, ", :\"", "\":", assign);
+					 stringtools::GetBtwString(type, ", :\"", "\":", assign);
 				   if(assign != "error") {
 					  	data.append(assign);
-							type = inp.EraseAllSubString(type, ", :\"" + assign + "\":");
+						
+						type = stringtools::EraseAllSubString(type, ", :\"" + assign + "\":");
 				   } else
 					break;
 				 }
@@ -80,7 +87,7 @@ FPrint::Print(std::string file, std::string arg) {
 				 */
 				 if(inp.FindObject(arg, "fprintln") == true) std::cout << "\n";
 			 } else {
-				 inp.GetBtwString(type, ":\"", "\":", assign);
+				 stringtools::GetBtwString(type, ":\"", "\":", assign);
 				 if(assign != "error")
 					 fprintf(assign.c_str());
 				 /* } else {
@@ -94,9 +101,10 @@ FPrint::Print(std::string file, std::string arg) {
 	 }
  } else if(inp.FindObject(arg, "print") == true) {
 			std::string assign;
-			inp.GetBtwString(arg, "(", ")", assign);
+			stringtools::GetBtwString(arg, "(", ")", assign);
+			
 			if(assign == "string") {
-				inp.GetBtwString(arg, " \"", "\"", assign);
+				stringtools::GetBtwString(arg, " \"", "\"", assign);
 				
 				/* TODO:
     				Create escape sequences function
@@ -114,32 +122,37 @@ FPrint::Print(std::string file, std::string arg) {
 				if(assign != "error")
 					std::cout << assign;
 			} else if(inp.FindObject(assign, "var") == true) {
-				inp.GetBtwString(assign, "[", "]", assign);
+				stringtools::GetBtwString(assign, "[", "]", assign);
+				
 				if(assign == "int") {
-					inp.GetBtwString(arg, " -> ", " <-", assign);
+					stringtools::GetBtwString(arg, " -> ", " <-", assign);
 					std::cout << atoi(assign.c_str());
 				}
 			} else if(assign == "input") {
 				std::string input;
 				std::cin >> input;
+				
 				std::cout << input;
 			} else if(assign == "last") {
 				std::cout << inputted;
 			} else if(assign == "func") {
-				inp.GetBtwString(arg, "-> ", " <-", assign);
+				stringtools::GetBtwString(arg, "-> ", " <-", assign);
+				
 				if(assign != "error") {
 					std::string fn = fnc.FRead(file);
-					inp.GetBtwString(fn, "func -> " + assign + " {", "}", assign);
+					stringtools::GetBtwString(fn, "func -> " + assign + " {", "}", assign);
+					
 					if(assign != "error") {
 						if(inp.FindObject(assign, "return") == true) {
 							// var(int) -> 12 <-
-							inp.GetBtwString(assign, "var(", ")", fn);
+							stringtools::GetBtwString(assign, "var(", ")", fn);
 							if(fn != "error") {
 								if(fn == "int") {
-									inp.GetBtwString(assign, " -> ", " <-", fn);
+									stringtools::GetBtwString(assign, " -> ", " <-", fn);
 									if(fn != "error") std::cout << atoi(fn.c_str());
 								} else if(fn == "string") {
-									inp.GetBtwString(assign, " -> ", " <-", fn);
+									stringtools::GetBtwString(assign, " -> ", " <-", fn);
+									
 									if(fn != "error") std::cout << fn;
 								} else if(fn == "int&") {
 									std::cout << 0;
@@ -150,7 +163,7 @@ FPrint::Print(std::string file, std::string arg) {
 								} */
 							} else {
 								// return get[int] -> abc <-
-								inp.GetBtwString(assign, "get[", "]", fn);
+								stringtools::GetBtwString(assign, "get[", "]", fn);
 								if(fn != "error") {
 
 								}
@@ -163,9 +176,11 @@ FPrint::Print(std::string file, std::string arg) {
 					print(dynamic) -> set[title] -> "Hello world!" <-
 				*/
 				std::string type;
-				inp.GetBtwString(arg, "set[", "]", type);
+				stringtools::GetBtwString(arg, "set[", "]", type);
+				
 				if(type == "title") {
-					inp.GetBtwString(arg, "\"", "\"", type);
+					stringtools::GetBtwString(arg, "\"", "\"", type);
+					
 					if(type != "error")
 						SetTitle(type);
 					else {
@@ -182,74 +197,89 @@ FPrint::Print(std::string file, std::string arg) {
 			} else if(inp.FindObject(assign, "get") == true) {
 				// print(get[string] -> test ->) ->this
 				std::string get;
-				inp.GetBtwString(assign, "[", "]", get);
+				stringtools::GetBtwString(assign, "[", "]", get);
+				
 				if(get == "string") {
-					inp.GetBtwString(assign, " -> ", " <-", get); // var(string) -> test -> abc
+					stringtools::GetBtwString(assign, " -> ", " <-", get); // var(string) -> test -> abc
+					
 					if(get == "error") {
 						std::string name;
-						inp.GetBtwString(assign,  ": ", " -> ", name);
+						stringtools::GetBtwString(assign,  ": ", " -> ", name);
+						
 						if(name != "error")
 							inp.Get(file, assign);
 					} else {
-					// var(string)
-					std::string rt;
-					rt = func.FRead(file);
-					inp.GetBtwString(rt, inp.Var + inp.BracketsBegin + inp.Str + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace, " -> ", test);
+						// var(string)
+						std::string rt;
+						rt = func.FRead(file);
+						stringtools::GetBtwString(rt, token.Var + token.BracketsBegin + token.Str + token.BracketsEnd + token.Whitespace + token.ArrowKey + token.Whitespace, " -> ", test);
 					if(test != "error") {
-							inp.GetBtwString(rt,  inp.Var + inp.BracketsBegin + inp.Str + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace, " -> ", rt);
+							stringtools::GetBtwString(rt,  token.Var + token.BracketsBegin + token.Str + token.BracketsEnd + token.Whitespace + token.ArrowKey + token.Whitespace, " -> ", rt);
 							if(rt != "error") {
-								inp.GetBtwString(rt, " -> ", " <-", rt);
-								if(rt == get)	std::cout << test;
+								stringtools::GetBtwString(rt, " -> ", " <-", rt);
+								if(rt == get) std::cout << test;
 							}
 					}
 				}
 					check = 1;
 				} else if(get == "int") {
-					inp.GetBtwString(assign, " -> ", " ->", get);
+					stringtools::GetBtwString(assign, " -> ", " ->", get);
+					
 					if(get == "error") {
 						std::string name;
-						inp.GetBtwString(assign,  ": ", " -> ", name);
+						stringtools::GetBtwString(assign,  ": ", " -> ", name);
+						
 						if(name != "error") {
 							inp.Get(file, assign);
 						}
 					} else {
-					std::string ret;
-					ret = func.FRead(file);
-					if(inp.FindObject(ret, inp.Var + inp.BracketsBegin + inp.Int + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace) == true) {
+						std::string ret;
+						ret = func.FRead(file);
+					
+						if(inp.FindObject(ret, token.Var + token.BracketsBegin + token.Int + token.BracketsEnd + token.Whitespace + token.ArrowKey + token.Whitespace) == true) {
 						check = 2;
 						std::string intest_str;
-						inp.GetBtwString(ret, inp.Var + inp.BracketsBegin + inp.Int + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace, " ->", intest_str);
+						
+						stringtools::GetBtwString(ret, token.Var + token.BracketsBegin + token.Int + token.BracketsEnd + token.Whitespace + token.ArrowKey + token.Whitespace, " ->", intest_str);
 						intest = atoi(intest_str.c_str());
 					}
 					}
 				} else if(get == "string&") {
-					inp.GetBtwString(assign, " -> ", " <-", get);
-					if(inp.ReadFileWithReturn(file, inp.Var + inp.BracketsBegin + inp.Str + "&" + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace) == true) {
+					stringtools::GetBtwString(assign, " -> ", " <-", get);
+					
+					if(inp.ReadFileWithReturn(file, token.Var + token.BracketsBegin + token.Str + "&" + token.BracketsEnd + token.Whitespace + token.ArrowKey + token.Whitespace) == true) {
 						check = 3;
 						std::string nil_str;
-						inp.GetBtwString(test, " -> ", " <-", nil_str);
+					
+						stringtools::GetBtwString(test, " -> ", " <-", nil_str);
 					}
 				} else if(get == "int&") {
-					inp.GetBtwString(assign, " -> ", " <-", get);
-					if(inp.ReadFileWithReturn(file, inp.Var + inp.BracketsBegin + inp.Int + "&" + inp.BracketsEnd + inp.Whitespace + inp.ArrowKey + inp.Whitespace) == true) {
+					stringtools::GetBtwString(assign, " -> ", " <-", get);
+					
+					if(inp.ReadFileWithReturn(file, token.Var + token.BracketsBegin + token.Int + "&" + token.BracketsEnd + token.Whitespace + token.ArrowKey + token.Whitespace) == true) {
 						check = 4;
 						std::string nil_int;
-						inp.GetBtwString(test, " -> ", " <-", nil_int);
+					
+						stringtools::GetBtwString(test, " -> ", " <-", nil_int);
 					}
 				} else if(get == "env") {
-					inp.GetBtwString(assign, " -> ", " <-", get);
+					stringtools::GetBtwString(assign, " -> ", " <-", get);
 					check = 5;
+					
 					assign = getenv(get.c_str());
 					std::cout << assign;
 				}
-				inp.GetBtwString(arg, "[t", "s]", assign);
+				
+				stringtools::GetBtwString(arg, "[t", "s]", assign);
+				
 				if(assign == "hi") {
 					if(check == 1) { std::cout << test; } else if(check == 2) { std::cout << intest; } else if(check == 3) { std::cout << "nil"; } else if(check == 4) { std::cout << "0"; }
 				} else {
 					std::cout << assign;
 				}
 			} else if(assign == "newline") {
-				inp.GetBtwString(arg, " \"", "\"", assign);
+				stringtools::GetBtwString(arg, " \"", "\"", assign);
+				
 				if(assign != "error") {
 					std::cout << assign << "\n";
 				} else
@@ -257,17 +287,20 @@ FPrint::Print(std::string file, std::string arg) {
 			} else if(inp.FindObject(assign, "rcolorized") == true) {
 				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
 				std::string get, color_type, color;
-				inp.GetBtwString(assign, "[", "]", get);
+				stringtools::GetBtwString(assign, "[", "]", get);
+				
 				if(get != "error") {
 					if(strstr(get.c_str(), ":1,")) {
 						color_type = 1;
 					} else {
-						inp.GetBtwString(get, ":", ",", color_type);
+						stringtools::GetBtwString(get, ":", ",", color_type);
 					}
-					inp.GetBtwString(get, " ", ":", color);
-					inp.GetBtwString(arg, " \"", "\" <-", assign);
+					
+					stringtools::GetBtwString(get, " ", ":", color);
+					stringtools::GetBtwString(arg, " \"", "\" <-", assign);
+					
 					if(assign == "error") {
-						inp.GetBtwString(arg, " \"", "\"", assign);
+						stringtools::GetBtwString(arg, " \"", "\"", assign);
 						colorized::PrintWhReset(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), "");
 					} else
 						colorized::PrintWhReset(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
@@ -277,17 +310,20 @@ FPrint::Print(std::string file, std::string arg) {
 			} else if(inp.FindObject(assign, "colorized") == true) {
 				// print(colorized[:1, 32:]) -> "Hello FlaScript!"
 				std::string get, color_type, color;
-				inp.GetBtwString(assign, "[", "]", get);
+				stringtools::GetBtwString(assign, "[", "]", get);
+				
 				if(get != "error") {
 					if(strstr(get.c_str(), ":1,")) {
 						color_type = 1;
 					} else {
-						inp.GetBtwString(get, ":", ",", color_type);
+						stringtools::GetBtwString(get, ":", ",", color_type);
 					}
-					inp.GetBtwString(get, " ", ":", color);
-					inp.GetBtwString(arg, " \"", "\" <-", assign);
+					
+					stringtools::GetBtwString(get, " ", ":", color);
+					stringtools::GetBtwString(arg, " \"", "\" <-", assign);
+					
 					if(assign == "error") {
-						inp.GetBtwString(arg, " \"", "\"", assign);
+						stringtools::GetBtwString(arg, " \"", "\"", assign);
 						colorized::PrintWith(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), "");
 					} else
 						colorized::PrintWith(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
@@ -302,6 +338,7 @@ FPrint::Print(std::string file, std::string arg) {
 			}*/
 			} else if(assign == "spec") {
 				stringtools::GetBtwString(arg, "(spec) -> ", " <-", assign);
+				
 				if(assign != "error") {
 					const auto &t = var_.find(assign);
 					if (t != var_.end()) // Found

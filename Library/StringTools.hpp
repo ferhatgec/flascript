@@ -8,6 +8,8 @@
 #define STRING_TOOLS_HPP
 
 #include <iostream>
+#include <fstream>
+
 #ifdef _MSC_VER
 #include <string>  // VisualC++
 #else

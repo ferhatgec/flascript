@@ -173,9 +173,11 @@ FStatement::StatementParser(std::string file, std::string arg) {
 	FLoop loop;
 
 	type = fnc.FRead(file);
-	inp.GetBtwString(arg, "statement[", "]", assign);
+	stringtools::GetBtwString(arg, "statement[", "]", assign);
+	
 	if(assign != "error") {
-		inp.GetBtwString(type, assign + " ->", assign + " <-", assign);
+		stringtools::GetBtwString(type, assign + " ->", assign + " <-", assign);
+		
 		if(assign != "error") {
 			if(strstr(assign.c_str(), "if"))
 				IfStatement(file, assign);
@@ -195,9 +197,9 @@ FStatement::StatementParser(std::string file, std::string arg) {
 void
 FStatement::ExitStatement(std::string file, std::string arg) {
 	std::string assign, type;
-	FInterpreter inp;
-	FFunction fnc;
-	inp.GetBtwString(arg, "exit(", ")", type);
+	
+	stringtools::GetBtwString(arg, "exit(", ")", type);
+	
 	if(type == "success" || type == "SUCCESS")
 		exit(EXIT_SUCCESS); /* From cstdlib */
 	else if(type == "failure" || type == "FAILURE")

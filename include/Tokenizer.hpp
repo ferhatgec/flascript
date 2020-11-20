@@ -57,6 +57,10 @@ public:
 	
 	std::string Exit = "exit";
 
+	std::string Str = "string";
+	std::string ArrowKey = "->";
+	std::string LeftArrowKey = "<-";
+	
 	std::string Whitespace = " ";
 } Tokenizer;
 

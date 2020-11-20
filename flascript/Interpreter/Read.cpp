@@ -18,6 +18,7 @@
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -31,11 +32,14 @@
 void
 FRead::Read(std::string arg) {
 	FInterpreter inp;
+	
 	if(inp.FindObject(arg, "read") == true) {
 		std::string assign;
-		inp.GetBtwString(arg, "(", ")", assign);
+		stringtools::GetBtwString(arg, "(", ")", assign);
+	
 		if(assign != "error" && assign == "string&") {
-			inp.GetBtwString(arg, "type[", "]", assign);
+			stringtools::GetBtwString(arg, "type[", "]", assign);
+			
 			if(assign != "error") {
 				systemInfo info;
 				if(assign == "cpu") {

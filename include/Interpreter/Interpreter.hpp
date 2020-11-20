@@ -15,29 +15,20 @@ class FInterpreter {
 public:
 	FInterpreter();
 	~FInterpreter();
-	std::string Int = "int";
-	std::string Var = "var";
-	std::string Str = "string";
-	std::string BracketsBegin = "(";
-	std::string BracketsEnd = ")";
-	std::string ArrowKey = "->";
-	std::string LeftArrowKey = "<-";
-	std::string Whitespace = " ";
+		
 	void Read(std::string);
 	void Print(std::string, std::string);
 	void Get(std::string, std::string);
 	
-	void GetBtwString(std::string, std::string, std::string, std::string &);
-	
 	void FlaScriptInterpreter(std::string, int argc, char** argv);
 	void FlaScriptInterpreterWithArg(std::string, std::string);
-	std::string ValueDefinition(std::string, std::string);
 	
 	bool ReadFileWithReturn(std::string, std::string);
 	bool FCommentLine(std::string, std::string);
-	static bool FindObject(std::string, std::string);
+	bool FindObject(std::string, std::string);
+	
 	std::string FlaScriptImporter(std::string, std::string);
-	std::string EraseAllSubString(std::string &, const std::string &);	
+	std::string ValueDefinition(std::string, std::string);
 };
 
 #endif // INTERPRETER_HPP

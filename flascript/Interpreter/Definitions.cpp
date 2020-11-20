@@ -18,6 +18,7 @@
 #include <FileSystemPlusPlus.h>
 #include <Colorized.hpp>
 #include <SystemInfo.hpp>
+#include <StringTools.hpp>
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -37,13 +38,17 @@ void
 FDefinition::OSDefinition(std::string file, std::string arg) {
 	FInterpreter inp;
 	FFunction func;
+	
 	if(inp.FindObject(arg, "if") == true) {
 		std::string assign, type, read;
 		read = func.FRead(file);
-		inp.GetBtwString(read, "if {", "endif}", assign);
+	
+		stringtools::GetBtwString(read, "if {", "endif}", assign);
+	
 		if(inp.FindObject(assign, "ifdef") == true) {
-			inp.GetBtwString(assign, "ifdef(", ")", type);
-			inp.GetBtwString(read, ") ->", "endif}", read);
+			stringtools::GetBtwString(assign, "ifdef(", ")", type);
+			stringtools::GetBtwString(read, ") ->", "endif}", read);
+			
 			if(type != "error") {
 				if(type == "linux") {
 					#ifdef __linux__
@@ -123,19 +128,23 @@ FDefinition::ValueDefinition(std::string file, std::string arg) {
 	FFunction func;
 	FTokenizer token;
 	std::string assign, type;
+	
 	if(inp.FindObject(arg, "defin") == true) {
-		inp.GetBtwString(arg, "[", "]", assign);
+		stringtools::GetBtwString(arg, "[", "]", assign);
+		
 		if(assign != "error") {
-			inp.GetBtwString(arg, "-> ", " <-", type);
+			stringtools::GetBtwString(arg, "-> ", " <-", type);
 			if(type != "error") {}
 		}
 	} else if(inp.FindObject(arg, "put") == true) {
-		inp.GetBtwString(arg, "[", "]", assign);
+		stringtools::GetBtwString(arg, "[", "]", assign);
 		type = func.FRead(file);
+		
 		if(assign != "error") { // defin[arg] -> asd <-
 			if(inp.FindObject(type, token.Definition + "[" + assign + "]" + token.Whitespace + token.RightArrowSign) == true) {
-				inp.GetBtwString(type, token.Definition + "[" + assign + "]" + token.Whitespace + token.RightArrowSign,
+				stringtools::GetBtwString(type, token.Definition + "[" + assign + "]" + token.Whitespace + token.RightArrowSign,
 				token.LeftArrowSign, assign);
+				
 				if(assign != "error") {
 					inp.FlaScriptInterpreterWithArg(file, assign);
 				}

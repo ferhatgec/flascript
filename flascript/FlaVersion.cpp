@@ -5,16 +5,20 @@
 #
 # */
 
-#include <Interpreter/Interpreter.hpp>
-#include <FlaVersion.hpp>
 #include <iostream>
 #include <cstring>
+
+#include <FlaVersion.hpp>
+#include <Interpreter/Interpreter.hpp>
+
+#include <StringTools.hpp>
 
 std::string
 FlaVersion::Time() {
 	FInterpreter intp;
 	std::string ftime(__TIME__); // Convert
-	return intp.EraseAllSubString(ftime, ":");
+
+	return stringtools::EraseAllSubString(ftime, ":");
 }
 
 std::string
@@ -25,5 +29,6 @@ FlaVersion::VersionAlgorithm() {
 	version.append(FLASCRIPT_STATE);
 	version.append(Hyphen);
 	version.append(Time());
+	
 	return version;
 }
