@@ -323,7 +323,31 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 					
 			std::cout << var.GetVariable(assin);
 		}
+		
+		/* @change -> name : Hello, world < */
+		if(FindObject(strarg, "@change") == true) {
+			FVariable var;
+			std::string get_name = stringtools::GetBetweenString(strarg, " -> ", " : ");
+				
+			if(get_name != "error") {
+				std::string get_data = stringtools::GetBetweenString(strarg, " : ", " <");
+				var.Change(get_name, get_data);	
+			}
+		}
 
+		
+		/* @append -> name -> Hello, world < */
+		if(FindObject(strarg, "@append") == true) {
+			FVariable var;
+			std::string get_name = stringtools::GetBetweenString(strarg, "@append -> ", " -> ");
+				
+			if(get_name != "error") {
+				std::string get_data = stringtools::GetBetweenString(strarg, get_name + " -> ", " <");
+				var.Append(get_name, get_data);	
+			}
+		}
+				
+				
         /* @readfile -> name -> "abc" < */
         if(FindObject(strarg, "@readfile") == true) {
             FInputStream stream;
@@ -343,6 +367,16 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
             }
         }
 		
+		/* @pop_back -> name < */
+		if(FindObject(strarg, "@pop_back") == true) {
+			FVariable var;
+			std::string get_name = stringtools::GetBetweenString(strarg, "@pop_back -> ", " <");
+						
+			if(get_name != "error") {
+				var.Pop_Back(get_name);	
+			}
+		}
+					
 		/* @escape_seq -> name < */
 		if(FindObject(strarg, "@escape_seq") == true) {
 			FVariable var;
@@ -389,6 +423,22 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				stream.LineOf(get_dir, get_val, get_name);	
 			}
 		}		
+		
+		
+		/* @chdir -> name <- */
+		if(FindObject(strarg, "@chdir") == true) {
+			FDirectory dir;
+			std::string get_name = stringtools::GetBetweenString(strarg, "@chdir -> \"", "\" <-");
+					
+			if(get_name == "error") {
+				get_name = stringtools::GetBetweenString(strarg, "@chdir -> var(", ") <-");
+                    	    
+				FVariable var;
+				get_name = var.GetVariable(get_name);
+			}
+                    
+			dir.ChangeDir(get_name);
+		}
 				
         /* @replace_all -> name : "abc" -> "xyz" < */
         if(FindObject(strarg, "@replace_all") == true) {
@@ -407,6 +457,16 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
             }
         }
 
+		/* @strip -> name < */
+		if(FindObject(strarg, "@strip") == true) {
+			FVariable var;
+			std::string get_name = stringtools::GetBetweenString(strarg, "@strip -> ", " <");
+					
+			if(get_name != "error") {
+				var.Strip(get_name);
+			}
+		}
+					
 		/*
 			statement[#pi]
 		*/
