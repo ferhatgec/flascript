@@ -1,0 +1,5 @@
+main() -> main {
+	var(string) -> (__link__)argc(__end__) -> argument_counter <-
+
+	@echo -> argument_counter <-
+} main;
