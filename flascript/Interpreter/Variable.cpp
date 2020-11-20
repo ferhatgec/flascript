@@ -21,12 +21,22 @@
 // (name: asdsa)[data: hi]
 void
 FVariable::Variable(std::string name, std::string data) {
+	
+	if(data.length() <= 2) {
+		data = "{" + name + ": " + data; 
+	}
+	
 	variable_data = variable_data.append("{" + name + "};(name: " + name + ");" + "{" + name + "};[data: start:{\n" + data + "\n:end]<" + name + ">;\n");
 }
 
 std::string
 FVariable::GetVariable(std::string name) {
     std::string data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
+
+	    
+    if(stringtools::EraseAllSubString(data, "{" + name + ": ") != "error") { 
+    	data = stringtools::EraseAllSubString(data, "{" + name + ": ");
+    } 
     
     return data;
 }

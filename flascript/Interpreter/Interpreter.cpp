@@ -785,6 +785,8 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
                     				std::string argument_data(argv[argument_case]);
                     			
                     				var.Variable(name, argument_data);
+                    			} else if(FindObject(data, "argc") == true) {
+                    				var.Variable(name, std::to_string(argc));  
                     			}
                     		}
                     	} else {

@@ -1,13 +1,5 @@
-#readline ->
-	while[getline(var(test_file), var(null_))] -> {
-		@echo -> null_ <-
-		print(newline)		
-	} <-
-#readline <-
-
 main() -> main {
-	var(string) -> LICENSE -> test_file <-
-	var(string) ->     -> null_ <-
+	var(string) -> (__link__)argc(__end__) -> argument_counter <-
 
-	statement[#readline]
+	@echo -> argument_counter <-
 } main;
