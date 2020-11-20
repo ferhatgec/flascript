@@ -1,5 +1,13 @@
-main() -> main {
-	var(string) -> (__link__)argv[2] (__end__) -> get_argument <-
+#readline ->
+	while[getline(var(test_file), var(null_))] -> {
+		@echo -> null_ <-
+		print(newline)		
+	} <-
+#readline <-
 
-	@echo -> get_argument <-
+main() -> main {
+	var(string) -> LICENSE -> test_file <-
+	var(string) ->     -> null_ <-
+
+	statement[#readline]
 } main;

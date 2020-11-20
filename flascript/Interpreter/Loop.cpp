@@ -15,6 +15,7 @@
 #include <Interpreter/Statement.hpp>
 #include <Interpreter/Function.hpp>
 #include <Interpreter/Loop.hpp>
+#include <Interpreter/Variable.hpp>
 
 // Libraries
 #include <FileSystemPlusPlus.h>
@@ -31,12 +32,13 @@
 #define GetCurrentDir getcwd
 #endif
 
+
 /*
 	/> integer test </
 	var(int) -> 3.14159265359 -> PI <-
 
 	#pi ->
-		while[var(int) -> PI <- (==) var(int) -> 3.14159265359 <-] -> {
+		if[get(PI) == 3.14159265359] -> {
 			print(string) -> "Passed"
 		} else -> {
 			print(string) -> "Failed"
@@ -45,348 +47,137 @@
 
 	main() -> main {
 		statement[#pi]
-	}
-
-
-	/> environment test </
-	#pi ->
-		while[var(system) -> check[whoami] <- (==) var(int) -> 3.14159265359 <-] -> {
-			print(string) -> "Passed"
-		} else -> {
-			print(string) -> "Failed"
-		} <-
-	#pi <-
-
-	main() -> main {
-		statement[#pi]
-	}
-
-	/> is exist </
-	#is_exist ->
-		while[var(nil) -> is_exist[] <- (==) var(bool) -> true <-] -> {
-
-		} <-
-	#is_exist <-
-*/
+	}*/
 
 void
 FLoop::While(std::string file, std::string arg) {
-	std::string assign, type, compare, type2;
 	FInterpreter inp;
+	FVariable get;
+	
+	std::string assign, type, compare, type2;
 
-	inp.GetBtwString(arg, "while[", "] -> {", assign);
+	
+	stringtools::GetBtwString(arg, "while[", "] -> {", assign);
+	std::string get_if_data;
+
 	if(assign != "error") {
-		/* Get type */
-		inp.GetBtwString(assign, "var(", ")", type);
-		if(type == "int") {
-			/* Get data */
-			inp.GetBtwString(assign, "var(int) -> ", " <- (", type);
-			if(type != "error") {
-				/* type : variable name */
-				inp.GetBtwString(assign, "<- (", ") ", compare);
-				/*
-					compare operators:
-					==
-					!=
+		if(assign.rfind("find", 0) == 0) {
+			std::string get_variable = stringtools::GetBetweenString(assign, "var(", "), ");
+			
+			if(get_variable != "error") {
+				std::string get_data = stringtools::GetBetweenString(assign, ", \"", "\")");
+				
+				std::string variable_data = get.GetVariable(get_variable); 
 
-					TODO:
-						=>
-						<=
-						>
-						<
-						<=>
-						&& = null, nil
-				*/
-				if(compare == "==") { /* compare definitions */
-					/* Get second compare type */
-					inp.GetBtwString(assign, "(==) var(", ") -> ", type2);
-					if(type2 == "int") {
-						/* Get second compare data */
-						inp.GetBtwString(arg, "(==) var(int) -> ", " <-] -> {", assign);
-						if(assign != "error") {
-							/* var(int) -> .... */
-							std::string variable = stringtools::FindStringWithReturn(file, "var(int) -> " + assign +
-								" -> " + type + " <-");
-							if(variable != "null" || variable != "error") {
-								inp.GetBtwString(variable, "var(int) -> ", " -> ", variable); /* For compare */
-								while(1) {
-									if(variable == assign) {
-										FFunction fnc;
-										std::string read = fnc.FRead(file);
-										std::string data;
-										inp.GetBtwString(read, "while[var(int) -> " + type + " <- (==) var(int) -> " +
-											assign + " <-] -> {", "} else -> {", data);
-
-										if(data != "error") {
-											inp.FlaScriptInterpreterWithArg(file, data);
-										} else {
-											inp.GetBtwString(read, "while[var(int) -> " + type +
-												" <- (==) var(int) -> " + assign + " <-] -> {", "} <-", data);
-
-											if(data != "error")
-												inp.FlaScriptInterpreterWithArg(file, data);
-											else
-												break;
-										}
-									} else {
-										FFunction fnc;
-										std::string read = fnc.FRead(file);
-										inp.GetBtwString(read, "else -> {", "} <-", read);
-										if(read != "error")
-											inp.FlaScriptInterpreterWithArg(file, read);
-										else 
-											break;
-									}
-								}
-							}
-						}
-					} /* else {
-						std::cout << type2 << " : This type not integer, unable to compare with type1\n";
-					}*/
-				} else if(compare == "!=") {
-					inp.GetBtwString(assign, "(!=) var(", ") -> ", type2);
-					if(type2 == "int") {
-						inp.GetBtwString(arg, "(!=) var(int) -> ", " <-] -> {", assign);
-						if(assign != "error") {
-							std::string variable = stringtools::FindStringWithReturn(file, "var(int) -> " + assign + " -> " + type + " <-");
-							if(variable != "null" || variable != "error") {
-								inp.GetBtwString(variable, "var(int) -> ", " -> ", variable); /* For compare */
-								while(1) {
-									if(variable != assign) {
-										FFunction fnc;
-										std::string read = fnc.FRead(file);
-										std::string data;
-										
-										inp.GetBtwString(read, "while[var(int) -> " + type + " <- (!=) var(int) -> " + assign + " <-] -> {",
-											"} else -> {", data);
-										
-										if(data != "error") {
-											inp.FlaScriptInterpreterWithArg(file, data);
-										} else {
-											inp.GetBtwString(read, "while[var(int) -> " + type + " <- (!=) var(int) -> " + assign + " <-] -> {",
-											"} <-", data);
-											if(data != "error")
-												inp.FlaScriptInterpreterWithArg(file, data);
-											else
-												break; 
-										}
-									} else {
-										FFunction fnc;
-										std::string read = fnc.FRead(file);
-										inp.GetBtwString(read, "else -> {", "} <-", read);
-										
-										if(read != "error")
-											inp.FlaScriptInterpreterWithArg(file, read);
-										else
-											break; 
-									}
-								}
-							}
-						}
-					} /* else {
-						std::cout << type2 << " : This type not integer, unable to compare with type1\n";
-					} */
-				} else {}
+				if(strstr(variable_data.c_str(), get_data.c_str())) {
+					get_if_data = stringtools::GetBetweenString(arg, ")] -> {", 
+						"} <-");
+						
+					if(get_if_data != "error")
+                        get_if_data = stringtools::GetBetweenString(arg, ")] -> {", "} else -> {");
+                    				
+                } else
+                    get_if_data = stringtools::GetBetweenString(arg, "} else -> {", "} <-");
 			}
-		} else if(type == "string") {
-			inp.GetBtwString(assign, "var(string) -> ", " <- (", type);
-			if(type != "error") {
-				/* type : variable name */
-				inp.GetBtwString(assign, "<- (", ") ", compare);
-				if(compare == "==") { /* compare definitions */
-					inp.GetBtwString(assign, "(==) var(", ") -> ", type2);
-					if(type2 == "string") {
-						inp.GetBtwString(arg, "(==) var(string) -> ", " <-] -> {", assign);
-						if(assign != "error") {
-							std::string variable = stringtools::FindStringWithReturn(file, "var(string) -> " + assign +
-								" -> " + type + " <-");
+            
+            inp.FlaScriptInterpreterWithArg(file, get_if_data);
+		} else if(assign.rfind("is_exist", 0) == 0) {
+			std::string get_variable = stringtools::GetBetweenString(assign, "var(", "))");
+			
+			if(get_variable != "error") {
+				std::string variable_data = get.GetVariable(get_variable); 
 
-							if(variable != "null" || variable != "error") {
-								inp.GetBtwString(variable, "var(string) -> ", " -> ", variable); /* For compare */
-								while(1) {
-									if(variable == assign) {
-										FFunction fnc;
-										std::string read = fnc.FRead(file);
-										std::string data;
-										inp.GetBtwString(read, "while[var(string) -> " + type + " <- (==) var(string) -> "
-											+ assign + " <-] -> {", "} else -> {", data);
-
-										if(data != "error") {
-											inp.FlaScriptInterpreterWithArg(file, data);
-										} else {
-											inp.GetBtwString(read, "while[var(string) -> " + type + " <- (==) var(string) -> " + assign + " <-] -> {",
-											"} <-", data);
-											if(data != "error")
-												inp.FlaScriptInterpreterWithArg(file, data);
-											else
-												break; 
-										}
-									} else {
-										FFunction fnc;
-										std::string read = fnc.FRead(file);
-										inp.GetBtwString(read, "else -> {", "} <-", read);
-										
-										if(read != "error")
-											inp.FlaScriptInterpreterWithArg(file, read);
-										else
-											break;
-									}
-								}
-							}
-						}
-					} /* else {
-						std::cout << type2 << " : This type not integer, unable to compare with type1\n";
-					}*/
-				} else if(compare == "!=") {
-					inp.GetBtwString(assign, "(!=) var(", ") -> ", type2);
-					if(type2 == "string") {
-						inp.GetBtwString(arg, "(!=) var(string) -> ", " <-] -> {", assign);
-						if(assign != "error") {
-							std::string variable = stringtools::FindStringWithReturn(file, "var(string) -> " +
-								assign + " -> " + type + " <-");
-
-							if(variable != "null" || variable != "error") {
-								inp.GetBtwString(variable, "var(string) -> ", " -> ", variable); /* For compare */
-								while(1) {
-									if(variable != assign) {
-										FFunction fnc;
-										std::string read = fnc.FRead(file);
-										std::string data;
-										inp.GetBtwString(read, "while[var(string) -> " + type + " <- (!=) var(string) -> "
-											+ assign + " <-] -> {", "} else -> {", data);
-										if(data != "error") {
-											inp.FlaScriptInterpreterWithArg(file, data);
-										} else {
-											inp.GetBtwString(read, "while[var(string) -> " + type + " <- (!=) var(string) -> " + assign + " <-] -> {",
-												"} <-", data);
-											if(data != "error")
-												inp.FlaScriptInterpreterWithArg(file, data);
-											else
-												break;
-										}
-									} else {
-										FFunction fnc;
-										std::string read = fnc.FRead(file);
-										inp.GetBtwString(read, "else -> {", "} <-", read);
-										if(read != "error")
-											inp.FlaScriptInterpreterWithArg(file, read);
-										else
-											break;
-									}
-								}
-							}
-						}
-					} /* else {
-						std::cout << type2 << " : This type not string, unable to compare with type1\n";
-					} */
-				} else {}
+				if(fsplusplus::IsExistFile(variable_data) == true) {
+					get_if_data = stringtools::GetBetweenString(arg, ")] -> {", 
+						"} <-");
+						
+					if(get_if_data != "error")
+                        get_if_data = stringtools::GetBetweenString(arg, ")] -> {", "} else -> {");
+                    				
+                } else
+                    get_if_data = stringtools::GetBetweenString(arg, "} else -> {", "} <-");
 			}
-		} else if(type == "system") {
-			inp.GetBtwString(assign, "var(system) -> ", " <- (", type);
-			if(type != "error") {
-				inp.GetBtwString(type, "check[", "]", type);
-				std::string get_type = type;
-				ExecutePlusPlus exec;
-				type = exec.ExecWithOutput(type);
-				type.pop_back();
-				inp.GetBtwString(assign, "<- (", ") ", compare);
-				if(compare == "==") {
-					inp.GetBtwString(assign, "(==) var(", ") -> ", type2);
-					if(type2 == "string") {
-						inp.GetBtwString(arg, "(==) var(string) -> ", " <-] -> {", assign);
-						if(assign != "error") {
-							while(1) {
-								if(type == assign) {
-									FFunction fnc;
-									std::string read = fnc.FRead(file);
-									std::string data;
-
-									inp.GetBtwString(read, "while[var(system) -> check[" + get_type + "] <- (==) var(string) -> " + assign + " <-] -> {",
-										"} else -> {", data);
-
-									if(data != "error") {
-										inp.FlaScriptInterpreterWithArg(file, data);
-									} else {
-										inp.GetBtwString(read, "while[var(system) -> check[" + get_type + "] <- (==) var(string) -> " +
-											assign + " <-] -> {", "} <-", data);
-
-										if(data != "error")
-											inp.FlaScriptInterpreterWithArg(file, data);
-									}
-								} else {
-									FFunction fnc;
-									std::string read = fnc.FRead(file);
-									inp.GetBtwString(read, "} else -> {", "} <-", read);
+            
+            while(1) { inp.FlaScriptInterpreterWithArg(file, get_if_data); }
+		} else if(assign.rfind("getline", 0) == 0) {
+			/* while[getline(var(....), var(....))] */
+			std::string get_data = stringtools::GetBetweenString(arg, "[getline(", ")]");
+			
+			if(get_data != "error") {
+				std::string get_file_variable = stringtools::GetBetweenString(get_data, "var(", "), ");
+				
+				if(get_file_variable != "error") {
+					std::string get_append_variable = stringtools::GetBetweenString(get_data, ", var(", ")");
+					
+					if(get_append_variable != "error") {
+						std::string get_file_data = get.GetVariable(get_file_variable);
+						std::string get_append_data;
+						
+						std::ifstream readfile(get_file_data.c_str());
+						
+						get_if_data = stringtools::GetBetweenString(arg, ")] -> {", "} <-");
+						
+						if(get_if_data != "error") get_if_data = stringtools::GetBetweenString(arg, ")] -> {", "} <-");
+                    
+						/* TODO: Add is_open statement */
+						if(readfile.is_open()) {
+							while(std::getline(readfile, get_append_data)) {
+								get.Equal(get_append_variable, get_append_data);
 								
-									if(read != "error")
-										inp.FlaScriptInterpreterWithArg(file, read);
-								} 
-							}
-						}
-					} /* TODO: Add error messages. */
-				}
-			} /* else {
-				std::cout << "if : var(...) This type undefined!\n";
-			} */
-	    	} else if(type == "nil") {
-			inp.GetBtwString(assign, "var(nil) -> ", " <- (", type);
-			if(type != "error") {
-				if(stringtools::GetBetweenString(type, "is_exist[", "]") != "error") {
-					inp.GetBtwString(type, "is_exist[", "]", type);
-					if(type != "nil") {
-						inp.GetBtwString(assign, "<- (", ") ", compare);
-						if(compare != "error") {
-							inp.GetBtwString(assign, "(" + compare + ") " + "var(", 
-								") -> ", type2);
-
-							if(type2 == "bool") {
-								inp.GetBtwString(arg, "(" + compare + ") var(bool) -> ",
-									" <-] -> {", assign);
-								
-								if(assign != "error") {
-									bool stat;
-
-									if(assign == "true")
-										stat = true;
-									else if(assign == "false")
-										stat = false;
-
-									if(compare == "==") {
-										while(1) {
-											if(fsplusplus::IsExistFile(type) == stat) {												FFunction fnc;
-												std::string read = fnc.FRead(file);
-												std::string data;
-												inp.GetBtwString(read, "while[var(nil) -> is_exist[" + type + "] <- (==) var(bool) -> " + assign + " <-] -> {",
-													"} else -> {", data);
-											
-												if(data != "error") {
-													inp.FlaScriptInterpreterWithArg(file, data);
-												} else {
-													inp.GetBtwString(read, "while[var(nil) -> is_exist[" + type + "] <- (==) var(bool) -> " +
-														assign + " <-] -> {", "} <-", data);
-												
-													if(data != "error")
-														inp.FlaScriptInterpreterWithArg(file, data);
-													else
-														break; 
-												}
-											} else {
-												FFunction fnc;
-												std::string read = fnc.FRead(file);
-												inp.GetBtwString(read, "} else -> {", "} <-", read);
-											
-												if(read != "error")
-													inp.FlaScriptInterpreterWithArg(file, read);
-												else
-													break;
-											} 
-										}
-									}
-								}
+								inp.FlaScriptInterpreterWithArg(file, get_if_data);
 							}
 						}
 					}
 				}
+			}
+		} else {
+			std::string variable_name = stringtools::GetBetweenString(assign, "var(", ") ");
+			std::string variable_data = get.GetVariable(variable_name);
+				
+			if(variable_name != "error") {
+				std::string compare_variable_data = stringtools::GetBetweenString(assign, " \"", "\"");
+
+				if(compare_variable_data != "error") {
+					std::string operator_type = stringtools::GetBetweenString(assign, "var(" + variable_name + ") ",
+						" \"" + compare_variable_data + "\"");
+					
+					std::string get_if_data = stringtools::GetBetweenString(arg, "\"" + compare_variable_data + "\"] -> {", 
+						"} else -> {");
+
+
+								
+					/* Statement has if.. else */
+					if(get_if_data != "error") {
+						std::string get_else_data = stringtools::GetBetweenString(arg, "} else -> {", "} <-");
+					
+					
+						if(get_else_data != "error") {
+							if(operator_type == "==") {
+								while(variable_data == compare_variable_data)
+									inp.FlaScriptInterpreterWithArg(file, get_if_data);
+								
+								while(variable_data != compare_variable_data)
+									inp.FlaScriptInterpreterWithArg(file, get_else_data);
+							} else if(operator_type == "!=") {
+								while(variable_data != compare_variable_data)
+									inp.FlaScriptInterpreterWithArg(file, get_if_data);
+								
+								while(variable_data == compare_variable_data)
+									inp.FlaScriptInterpreterWithArg(file, get_else_data);
+							}
+						}	
+					} 
+					/* Statement only if */
+					else {
+						if(operator_type == "==") {
+							while(variable_data == compare_variable_data)
+								inp.FlaScriptInterpreterWithArg(file, get_if_data);
+						} else if(operator_type == "!=") {
+							while(variable_data != compare_variable_data)
+								inp.FlaScriptInterpreterWithArg(file, get_if_data);
+						}
+					}
+				}	
 			}
 		}
 	}

@@ -37,7 +37,7 @@
 	/> integer test </
 	var(int) -> 3.14159265359 -> PI <-
 
-	#pi ->
+	)#pi ->
 		if[get(PI) == 3.14159265359] -> {
 			print(string) -> "Passed"
 		} else -> {

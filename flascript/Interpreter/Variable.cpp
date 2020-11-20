@@ -48,6 +48,8 @@ FVariable::Change(std::string name, std::string data) {
     std::string _data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", 
         "\n:end]<" + name + ">;\n");    
 	
+	if(data.length() == 0) { data = "  "; }
+	
     stringtools::replace(variable_data, _data, data);
 }
 
