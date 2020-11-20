@@ -22,6 +22,7 @@
 #include <Interpreter/Variable.hpp>
 #include <Interpreter/Input.hpp>
 #include <Interpreter/Compress.hpp>
+#include <Interpreter/Tools.hpp>
 
 #include <Interpreter/FileOperations/InputStream.hpp>
 #include <Interpreter/FileSystem/Directory.hpp>
@@ -358,6 +359,20 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
             }
         }
 		
+		/* @escapeseq -> name < */
+		if(FindObject(strarg, "@escapeseq") == true) {
+			FVariable var;
+			
+			std::string get_name = stringtools::GetBetweenString(strarg, "@escapeseq -> ", " <");
+			std::string get_data = var.GetVariable(get_name);
+					
+			if(get_name != "error") {
+				get_data = FlaScript::EscapeSeq(get_data);
+					
+				var.Equal(get_name, get_data);
+			}
+		}
+				
 		/* @readdir -> name -> "abc" < */
 		if(FindObject(strarg, "@readdir") == true) {
 			FInputStream stream;
@@ -913,6 +928,19 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 					
 					if(get_name != "error") {
 						var.Pop_Back(get_name);	
+					}
+				}
+				
+				/* @escapeseq -> name < */
+				if(FindObject(linebyline, "@escapeseq") == true) {
+					FVariable var;
+					std::string get_name = stringtools::GetBetweenString(linebyline, "@escapeseq -> ", " <");
+					std::string get_data = var.GetVariable(get_name);
+					
+					if(get_name != "error") {
+						get_data = FlaScript::EscapeSeq(get_data);	
+					
+						var.Equal(get_name, get_data);
 					}
 				}
 				

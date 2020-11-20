@@ -12,7 +12,9 @@
 #include <algorithm>
 #include <iterator>
 #include <map>
+
 #include <Interpreter/Variable.hpp>
+#include <Interpreter/Tools.hpp>
 
 #include <StringTools.hpp>
 
@@ -25,18 +27,6 @@ FVariable::Variable(std::string name, std::string data) {
 std::string
 FVariable::GetVariable(std::string name) {
     std::string data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
-    
-    /* TODO:
-    	Create escape sequences function
-    	escapeSeq(std::string)
-    */
-    stringtools::replaceAll(data, "\\033[", "\033[");
-    stringtools::replaceAll(data, "\\n", "\n");
-    stringtools::replaceAll(data, "\\t", "\t");
-    stringtools::replaceAll(data, "\\a", "\a");
-    stringtools::replaceAll(data, "\\b", "\b");
-    stringtools::replaceAll(data, "\\v", "\v");
-    stringtools::replaceAll(data, "\\r", "\r");
     
     return data;
 }

@@ -1,5 +1,6 @@
 main() -> main {
     var(string) -> Huh\rHey, programmer~\b.\nWelcome to FlaScript world!@\b \n -> hey_ <-
     
+	@escapeseq -> hey_ <
     @echo -> hey_ <-
 } main;
