@@ -1,7 +1,7 @@
 main() -> main {
-	var(string) -> ..... -> test <-
+	var(string) -> (func) spec -> "__UPTIME__" (end) -> upt <-
 
-	@equal -> test -> getenv -> "HOME" <
+	@echo -> upt <-
 
-	@echo -> test <-
+	print(newline)
 } main;

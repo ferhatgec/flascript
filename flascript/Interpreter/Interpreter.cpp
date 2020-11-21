@@ -654,6 +654,19 @@ FInterpreter::ValueDefinition(std::string file, std::string arg) {
 		}
 		
 		return assign;
+	} else if(FindObject(arg, "spec") == true) {
+		/* var(string) -> (func) spec -> "__UPTIME__" (end) -> uptime <- */
+		std::string assign = "";
+		assign = stringtools::GetBetweenString(arg, "spec -> \"", "\"");
+		
+		if(assign != "error") {
+			const auto &t = var_.find(assign);
+			
+			if (t != var_.end()) // Found
+				assign = t->second;
+		} 
+		
+		return assign;
 	}
        
 	return "";
