@@ -29,37 +29,45 @@ void HelpFunction(char** argv) {
 
 int main(int argc, char** argv) {
 	std::string copy_arg, reg;
-	if(argc > 1) {
-        	for(int i = 1; i < argc; i++) {
-			std::string arg(argv[i]);
-			reg = argv[1];
-			copy_arg = arg;
+	
+	if(argc < 2) {
+	    HelpFunction(argv);
+		return 0;
+	}
+
+	std::string argument(argv[1]);
+		
+	if(argument == "--build" || argument == "--b") {
+		FInterpreter interpreter;
+		
+		if(argc > 2) { 
+			std::string file(argv[2]); 
+			interpreter.FlaScriptInterpreter(file, argc, argv);
 		}
+	} else if(argument == "--debug" || argument == "--d") {
+		Debug_FInterpreter interpreter;
+		
+		if(argc > 2) {
+			std::string file(argv[2]);
+			interpreter.Debug_FlaScriptInterpreter(file);	
+		}
+	} else if(argument == "--buildall" || argument == "--ba") { /* Under the construction */
+		Debug_FInterpreter debug; /* Debug */
+		FInterpreter interpreter; /* Build & Run */
+		
+		if(argc > 2) {
+			std::string file(argv[2]);
+			debug.Debug_FlaScriptInterpreter(file);		
+			interpreter.FlaScriptInterpreter(file, argc, argv);		
+		}
+	} else if(argument == "--help" || argument == "--h") {
+		HelpFunction(argv);
+		exit(EXIT_SUCCESS);
+	} else if(argument == "--version" || argument == "--v") {
+		FlaVersion version;
+		std::cout << version.VersionAlgorithm() << "\n";
+	} else
+		HelpFunction(argv);
 
-        } else {
-        	HelpFunction(argv);
-	}
-
-	if(reg.substr(0, 2) == "--") {
-		if(reg == "--build" || reg == "--b") {
-			FInterpreter interp;
-			interp.FlaScriptInterpreter(copy_arg, argc, argv);
-		} else if(reg == "--debug" || reg == "--d") {
-			Debug_FInterpreter interp;
-			interp.Debug_FlaScriptInterpreter(copy_arg);
-		} else if(reg == "--buildall" || reg == "--ba") { /* Under the construction */
-			Debug_FInterpreter debug; /* Debug */
-			FInterpreter interp; /* Build & Run */
-			debug.Debug_FlaScriptInterpreter(copy_arg);
-			interp.FlaScriptInterpreter(copy_arg, argc, argv);
-		} else if(reg == "--help" || reg == "--h") {
-			HelpFunction(argv);
-			exit(EXIT_SUCCESS);
-		} else if(reg == "--version" || reg == "--v") {
-			FlaVersion vers;
-			std::cout << vers.VersionAlgorithm() << "\n";
-		} else
-			HelpFunction(argv);
-	}
 	return 0;
 }

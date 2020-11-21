@@ -10,5 +10,4 @@
 
 #include <iostream>
 
-
 #endif // FLA_SCRIPT_MAIN_HPP
