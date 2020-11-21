@@ -1,0 +1,51 @@
+/> MIT License
+#
+# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
+# Distributed under the terms of the MIT License.
+# 
+</
+
+/> Check version of FlaScript (Required latest version) </
+except(version) : 0.3 -> { error("Install new version of FlaScript") print(newline) } version;
+
+func -> Help() {
+	print(string) -> "Welcome to FlaScript Execution Shell Project!\n\n"
+
+	print(string) -> "Enter any FlaScript keyword, function or command.\n"
+} Help;
+
+func -> Execute() { inline(flascript) -> {var(input_word)}flascript; } Execute;
+
+#help_function ->
+	if[var(input_word) == "help"] -> {
+		func -> Help()
+	} else -> { func -> Execute() } <-
+#help_function <-
+
+#buffer_loop ->
+	while[var(loopVal) == "3.14"] -> {
+		func -> TerminalBuffer()
+		
+		/> Get input </
+		@input -> input_word <
+		
+		/> Check inputted value </
+		statement[#help_function]
+	} else -> {
+		print(string) -> "Failed."
+	} <-
+#buffer_loop <-
+
+
+func -> TerminalBuffer() { print(string) -> "--> " } TerminalBuffer;
+	
+main() -> main {
+    print(string) -> "FlaScript Shell - type 'help', 'license' to more information.\n"
+
+	var(int) -> 3.14 -> loopVal <-
+	var(string) -> blah blah -> input_word <- 
+	
+	statement[#buffer_loop]
+	
+	put[_defs -> Slashn <-]
+} main;
