@@ -533,6 +533,29 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
             }
         }
         
+        /* inline(brainfuck) -> {"......."} brainfuck; */
+		if(FindObject(strarg, "inline") == true) {
+			std::string assign = stringtools::GetBetweenString(strarg, "inline(", ")");
+					
+			std::string data = stringtools::GetBetweenString(strarg, " -> {\"", "\"}" + assign + ";");	
+				
+			if(data == "error") {
+				FVariable var;
+							
+				data = stringtools::GetBetweenString(strarg, " -> {var(", ")}" + assign + ";");
+						
+				if(data != "error") {
+					data = var.GetVariable(data);
+				}
+			}
+						
+			if(assign == "brainfuck") {
+				BfInterpreter(&data[0]);
+			} else if(assign == "fla" || assign == "flascript") {
+				FlaScriptInterpreterWithArg(file, data); 
+			}
+		}
+					
         /* @decompress -> name < */
 		if(FindObject(strarg, "@decompress") == true) {
 			FVariable var;
@@ -1047,10 +1070,23 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 					if(FindObject(linebyline, "inline") == true) {
 						std::string assign = stringtools::GetBetweenString(linebyline, "inline(", ")");
 					
+						std::string data = stringtools::GetBetweenString(linebyline, " -> {\"", "\"}" + assign + ";");		
+						
+						if(data == "error") {
+							FVariable var;
+							
+							data = stringtools::GetBetweenString(linebyline, " -> {var(", ")}" + assign + ";");
+						
+							if(data != "error") {
+								data = var.GetVariable(data);
+							}
+						}
+						
 						if(assign == "brainfuck") {
-							std::string data = stringtools::GetBetweenString(linebyline, " -> {\"", "\"}" + assign + ";");		
 							BfInterpreter(&data[0]);
-						}	
+						} else if(assign == "fla" || assign == "flascript") {
+							FlaScriptInterpreterWithArg(file, data); 
+						}
 					}
 			
 					/* error("bla bla bla") */
