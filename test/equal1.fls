@@ -1,0 +1,9 @@
+main() -> main {
+	var(string) -> ..... -> test <-
+
+	@equal -> test -> getenv -> "PWD" <
+
+	@echo -> test <-
+
+	print(newline)
+} main;

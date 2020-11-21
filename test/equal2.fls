@@ -1,0 +1,10 @@
+main() -> main {
+	var(string) -> HOME -> env <-
+	var(string) -> asdasd -> test <-
+
+	@equal -> test -> getenv -> var(env) <
+	
+	@echo -> test <-
+
+	print(newline)
+} main;
