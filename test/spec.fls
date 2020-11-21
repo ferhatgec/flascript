@@ -1,0 +1,7 @@
+main() -> main {
+	var(string) -> (func) spec -> "__UPTIME__" (end) -> upt <-
+
+	@echo -> upt <-
+
+	print(newline)
+} main;
