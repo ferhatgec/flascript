@@ -30,12 +30,27 @@ void HelpFunction(char** argv) {
 int main(int argc, char** argv) {
 	std::string copy_arg, reg;
 	
-	if(argc < 2) {
+	if(argc == 1) {
 	    HelpFunction(argv);
 		return 0;
 	}
 
 	std::string argument(argv[1]);
+	
+	/* (env) Shebang support */
+	if(argument.front() == '/') {
+		const std::string current_dir = fsplusplus::GetCurrentWorkingDir();
+		
+		chdir("/");
+		
+		FInterpreter interpreter;
+
+		interpreter.FlaScriptInterpreter(argument, argc, argv);
+		
+		chdir(current_dir.c_str());
+		
+		return 0;
+	}
 		
 	if(argument == "--build" || argument == "--b") {
 		FInterpreter interpreter;

@@ -15,6 +15,7 @@
 #include <Interpreter/String.hpp>
 #include <Interpreter/Function.hpp>
 #include <Interpreter/Variable.hpp>
+#include <Interpreter/Tools.hpp>
 
 // Libraries
 #include <FileSystemPlusPlus.h>
@@ -33,9 +34,6 @@
 static int check, intest, load;
 static std::string inputted, loadstr, test, alltext, linebyline;
 
-FInterpreter inp;
-FFunction func;
-FVariable var;
 				
 int fprintf(const char *format, ...);
 
@@ -53,20 +51,26 @@ void SetTitle(std::string title);
 			: print(string) -> World! <-
 			: print(newline)
 */
+
+/* TODO:
+	- Rewrite Print function
+*/
 void
 FPrint::Print(std::string file, std::string arg) {
-  Tokenizer token;
-  FFunction fnc;
-  
-  if(inp.FindObject(arg, "fprintf") == true || inp.FindObject(arg, "fprintln") == true) { // fprintf(<%string>[:"test":, :"hello":])
-	 std::string assign, type;
-	 stringtools::GetBtwString(arg, "(<%", ">[", type);
+  	Tokenizer token;
+	FInterpreter inp;
+	FFunction func;
+	FVariable var;
 	
-	 if(type == "string") {
-		 stringtools::GetBtwString(arg, ">[", "])", type);
+  	if(inp.FindObject(arg, "fprintf") == true || inp.FindObject(arg, "fprintln") == true) { // fprintf(<%string>[:"test":, :"hello":])
+		std::string assign, type;
+	 	stringtools::GetBtwString(arg, "(<%", ">[", type);
+	
+	 	if(type == "string") {
+			stringtools::GetBtwString(arg, ">[", "])", type);
 		 
-		 if(type != "error") {
-			 stringtools::GetBtwString(type, ":\"", "\":, ", assign);
+		 	if(type != "error") {
+			 	stringtools::GetBtwString(type, ":\"", "\":, ", assign);
 			 
 			 if(assign != "error") {
 				 std::string data;
@@ -99,25 +103,13 @@ FPrint::Print(std::string file, std::string arg) {
 			 std::cout << "\n                   ^^^^\n";
 		 }
 	 }
- } else if(inp.FindObject(arg, "print") == true) {
+ 	} else if(inp.FindObject(arg, "print") == true) {
 			std::string assign;
 			stringtools::GetBtwString(arg, "(", ")", assign);
 			
 			if(assign == "string") {
 				stringtools::GetBtwString(arg, " \"", "\"", assign);
-				
-				/* TODO:
-    				Create escape sequences function
-    				escapeSeq(std::string)
-    			*/
-    
-				stringtools::replaceAll(assign, "\\033[", "\033[");
-    			stringtools::replaceAll(assign, "\\n", "\n");
-    			stringtools::replaceAll(assign, "\\t", "\t");
-    			stringtools::replaceAll(assign, "\\a", "\a");
-    			stringtools::replaceAll(assign, "\\b", "\b");
-    			stringtools::replaceAll(assign, "\\v", "\v");
-    			stringtools::replaceAll(assign, "\\r", "\r");
+				assign = FlaScript::EscapeSeq(assign);
 		
 				if(assign != "error")
 					std::cout << assign;
@@ -139,7 +131,7 @@ FPrint::Print(std::string file, std::string arg) {
 				stringtools::GetBtwString(arg, "-> ", " <-", assign);
 				
 				if(assign != "error") {
-					std::string fn = fnc.FRead(file);
+					std::string fn = func.FRead(file);
 					stringtools::GetBtwString(fn, "func -> " + assign + " {", "}", assign);
 					
 					if(assign != "error") {
@@ -281,6 +273,8 @@ FPrint::Print(std::string file, std::string arg) {
 				stringtools::GetBtwString(arg, " \"", "\"", assign);
 				
 				if(assign != "error") {
+					assign = FlaScript::EscapeSeq(assign);
+					
 					std::cout << assign << "\n";
 				} else
 					std::cout << "\n";
@@ -299,8 +293,11 @@ FPrint::Print(std::string file, std::string arg) {
 					stringtools::GetBtwString(get, " ", ":", color);
 					stringtools::GetBtwString(arg, " \"", "\" <-", assign);
 					
+					assign = FlaScript::EscapeSeq(assign);
+					
 					if(assign == "error") {
 						stringtools::GetBtwString(arg, " \"", "\"", assign);
+			
 						colorized::PrintWhReset(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), "");
 					} else
 						colorized::PrintWhReset(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
@@ -322,20 +319,14 @@ FPrint::Print(std::string file, std::string arg) {
 					stringtools::GetBtwString(get, " ", ":", color);
 					stringtools::GetBtwString(arg, " \"", "\" <-", assign);
 					
+					assign = FlaScript::EscapeSeq(assign);
+					
 					if(assign == "error") {
 						stringtools::GetBtwString(arg, " \"", "\"", assign);
 						colorized::PrintWith(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), "");
 					} else
 						colorized::PrintWith(colorized::Colorize(atoi(color_type.c_str()), atoi(color.c_str())).c_str(), assign.c_str());
-				/*} else {
-					std::cout << "colorized : Brackets error.\n";
-				} */
-			}/* else if(assign == "error") {
-				inp.GetBtwString(arg, " \"", "\"", assign);
-				std::cout << "print : Double quotes missing";
-			} else {
-				std::cout << "print : Definition Error!\n";
-			}*/
+				}
 			} else if(assign == "spec") {
 				stringtools::GetBtwString(arg, "(spec) -> ", " <-", assign);
 				
