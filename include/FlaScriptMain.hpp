@@ -9,5 +9,12 @@
 #define FLA_SCRIPT_MAIN_HPP
 
 #include <iostream>
+#include <string>
+
+typedef struct {
+	std::string file;
+	int32_t argc;
+	char** argv;	
+} flascript_t;
 
 #endif // FLA_SCRIPT_MAIN_HPP

@@ -9,6 +9,7 @@
 #include <fstream>
 #include <iostream>
 
+#include <FlaScriptMain.hpp>
 #include <Tokenizer.hpp>
 #include <Interpreter/Interpreter.hpp>
 #include <Interpreter/Read.hpp>
@@ -677,7 +678,7 @@ FInterpreter::ValueDefinition(std::string file, std::string arg) {
 	FlaScript's main interpreter.
 */
 void
-FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
+FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 	Tokenizer token;
 	std::string line;
 	
@@ -686,11 +687,11 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 	*/
 	std::string standard_main = "main";
 	
-	std::ifstream readfile(file.c_str());
+	std::ifstream readfile(data.file.c_str());
 	
     if(readfile.is_open()) {
 		while (std::getline(readfile, line)) {
-        	Read(file);
+        	Read(data.file);
         	
         	/* Single Comment Line */
         	if(FindObject(line, token.SingleCommentLine) == true) {
@@ -706,7 +707,7 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 				if(assign != "error") {
 					line = stringtools::EraseAllSubString(line, token.CommentLineBegin + assign + token.CommentLineEnd);
 				} else {
-					if(FCommentLine(file, "</") == true) {}
+					if(FCommentLine(data.file, "</") == true) {}
 				}
     		}
 		
@@ -722,8 +723,8 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 				
 					if(version != "error") {
 						if(version_int > flascript_version_int) {
-							std::string data = stringtools::GetBetweenString(line, version + " -> {", "} " + assign + ";");			
-							FlaScriptInterpreterWithArg(file, data);
+							std::string _data = stringtools::GetBetweenString(line, version + " -> {", "} " + assign + ";");			
+							FlaScriptInterpreterWithArg(data.file, _data);
 						}
 					}
 				}
@@ -743,7 +744,7 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 			/* import(" ") -> name <- */
 			if(FindObject(line, "import") == true) {
 				FImport imp;
-				imp.Import(file, line);
+				imp.Import(data.file, line);
 			}
 
 			/*
@@ -754,12 +755,12 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 			*/
 			if(FindObject(line, token.If) == true) {
 				FDefinition def;
-				def.OSDefinition(file, line);
+				def.OSDefinition(data.file, line);
 			}
 
 			/* Code execution. */
         	if(FindObject(line, "() -> " + standard_main + " {") == true) {
-        		Read(file);
+        		Read(data.file);
         	
 				/* Get content. */
 				if(FindObject(line, standard_main + "() -> " + standard_main + " {") == true)
@@ -785,7 +786,7 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 						if(assign != "error") {
 							linebyline = stringtools::EraseAllSubString(line, token.CommentLineBegin + assign + token.CommentLineEnd);
 						} else {
-							if(FCommentLine(file, "</") == true) {}
+							if(FCommentLine(data.file, "</") == true) {}
 						}
     				}
 
@@ -793,64 +794,65 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 					if(FindObject(linebyline, "var(") == true) {
 						FVariable var;
 					
-						std::string name, data;
+						std::string name, _data;
 					
 						/* TODO: Add returnable interpreter for variable definition */
 						if(FindObject(linebyline, "(func)") == true) {
-							name = stringtools::GetBetweenString(linebyline,  "(end) -> ", " <-");
-							data = stringtools::GetBetweenString(linebyline, "(func)", "(end)");
-							if(data != "error") {
-								data = ValueDefinition(file, data);
-								var.Variable(name, data);
+							name  = stringtools::GetBetweenString(linebyline,  "(end) -> ", " <-");
+							_data = stringtools::GetBetweenString(linebyline, "(func)", "(end)");
+
+							if(_data != "error") {
+								_data = ValueDefinition(data.file, _data);
+								var.Variable(name, _data);
 							}
 						} else if(FindObject(linebyline, "(__compress__)") == true) {
                         	FCompress compress;                        
-                        	name = stringtools::GetBetweenString(linebyline,  "(__end__) -> ", " <-");
-							data = stringtools::GetBetweenString(linebyline, "(__compress__)", "(__end__)");
+                        	name  = stringtools::GetBetweenString(linebyline,  "(__end__) -> ", " <-");
+							_data = stringtools::GetBetweenString(linebyline, "(__compress__)", "(__end__)");
                             						
                         
-                        	if(data != "error") {
+                        	if(_data != "error") {
                         	    std::string compressed_data;                            
-                        	    compress.Encode(data, compressed_data);
+                        	    compress.Encode(_data, compressed_data);
 
 								var.Variable(name, compressed_data);
 							}
                     	} else if(FindObject(linebyline, "(__decompress__)") == true) {
                         	FCompress compress; 
-                        	name = stringtools::GetBetweenString(linebyline,  "(__end__) -> ", " <-");
-							data = stringtools::GetBetweenString(linebyline, "(__decompress__)", "(__end__)");
+                        	name  = stringtools::GetBetweenString(linebyline,  "(__end__) -> ", " <-");
+							_data = stringtools::GetBetweenString(linebyline, "(__decompress__)", "(__end__)");
                             						
                         
-                        	if(data != "error") {
+                        	if(_data != "error") {
                         	    std::string decompressed_data;                            
-                        	    compress.Decompress(data, decompressed_data);
+                        	    compress.Decompress(_data, decompressed_data);
 
 								var.Variable(name, decompressed_data);
 							}
                     	} else if(FindObject(linebyline, "(__link__)") == true) {
                     		/* var(string) -> (__link__)argv[1] (__end__) -> ... <- */
-                    		name = stringtools::GetBetweenString(linebyline,  "(__end__) -> ", " <-");
-							data = stringtools::GetBetweenString(linebyline, "(__link__)", "(__end__)");
+                    		name  = stringtools::GetBetweenString(linebyline,  "(__end__) -> ", " <-");
+							_data = stringtools::GetBetweenString(linebyline, "(__link__)", "(__end__)");
                     	
-                    		if(data != "error") {
-                    			if(FindObject(data, "argv") == true) {
-                    				int argument_case = atoi(stringtools::EraseAllSubString(data, "argv[").c_str());
+                    		if(_data != "error") {
+                    			if(FindObject(_data, "argv") == true) {
+                    				int argument_case = atoi(stringtools::EraseAllSubString(_data, "argv[").c_str());
                     			
-                    				if(argument_case <= argc) { 
-                    					std::string argument_data(argv[argument_case]);
+                    				if(argument_case <= data.argc) { 
+                    					std::string argument_data(data.argv[argument_case]);
                     					var.Variable(name, argument_data);
                     				} else {
                     					var.Variable(name, "__err_fla_argv_case_size__");
                     				}
-                    			} else if(FindObject(data, "argc") == true) {
-                    				var.Variable(name, std::to_string(argc));  
+                    			} else if(FindObject(_data, "argc") == true) {
+                    				var.Variable(name, std::to_string(data.argc));  
                     			}
                     		}
                     	} else {
-							data = stringtools::GetBetweenString(linebyline, ") -> ", " -> ");
-							name = stringtools::GetBetweenString(linebyline, data + " -> ", " <-");
+							_data = stringtools::GetBetweenString(linebyline, ") -> ", " -> ");
+							name  = stringtools::GetBetweenString(linebyline, _data + " -> ", " <-");
 						
-							var.Variable(name, data);
+							var.Variable(name, _data);
 						}
 					}
 			
@@ -1067,8 +1069,8 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 						if(get_name != "error") {
 							std::string get_data = stringtools::GetBetweenString(linebyline, get_name + " -> ", " <");
 							
-							if(ValueDefinition(file, get_data) != "") {
-								get_data = ValueDefinition(file, get_data);
+							if(ValueDefinition(data.file, get_data) != "") {
+								get_data = ValueDefinition(data.file, get_data);
 							} else if(strstr(get_data.c_str(), "var(")) {
 								get_data = stringtools::GetBetweenString(get_data, " var(", ") <");
 								
@@ -1083,22 +1085,22 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 					if(FindObject(linebyline, "inline") == true) {
 						std::string assign = stringtools::GetBetweenString(linebyline, "inline(", ")");
 					
-						std::string data = stringtools::GetBetweenString(linebyline, " -> {\"", "\"}" + assign + ";");		
+						std::string _data = stringtools::GetBetweenString(linebyline, " -> {\"", "\"}" + assign + ";");		
 						
-						if(data == "error") {
+						if(_data == "error") {
 							FVariable var;
 							
-							data = stringtools::GetBetweenString(linebyline, " -> {var(", ")}" + assign + ";");
+							_data = stringtools::GetBetweenString(linebyline, " -> {var(", ")}" + assign + ";");
 						
-							if(data != "error") {
-								data = var.GetVariable(data);
+							if(_data != "error") {
+								_data = var.GetVariable(_data);
 							}
 						}
 						
 						if(assign == "brainfuck") {
-							BfInterpreter(&data[0]);
+							BfInterpreter(&_data[0]);
 						} else if(assign == "fla" || assign == "flascript") {
-							FlaScriptInterpreterWithArg(file, data); 
+							FlaScriptInterpreterWithArg(data.file, _data); 
 						}
 					}
 			
@@ -1150,14 +1152,14 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 					*/
 					if(FindObject(linebyline, "exit") == true) {
 						FStatement stat;
-						stat.ExitStatement(file, linebyline);
+						stat.ExitStatement(data.file, linebyline);
 					}
 
 
 					/* statement[#pi] */
 					if(FindObject(linebyline, "statement") == true) {
 						FStatement stat;
-						stat.StatementParser(file, linebyline);
+						stat.StatementParser(data.file, linebyline);
 					}
 
 					/* func -> Test() */
@@ -1172,34 +1174,34 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 						
 								if(FindObject(linebyline, "->") == true) {
 									FImport imp;
-									imp.Import(file, linebyline);
+									imp.Import(data.file, linebyline);
 								} else {
 									FDefinition def;
-									def.ValueDefinition(file, linebyline);
+									def.ValueDefinition(data.file, linebyline);
 								}
 							}
 
 							linebyline.erase();
 						} else {
 							FFunction fnc;
-							fnc.Function(file, linebyline);
+							fnc.Function(data.file, linebyline);
 						}
 					}
 
         			/* print(string) -> " " */
 					if(FindObject(linebyline, "print") == true) {
 						FPrint pr;
-						pr.Print(file, linebyline);
+						pr.Print(data.file, linebyline);
 					}
 
 					/* put[<defin>] */
 					if(FindObject(linebyline, "put") == true) {
 						if(FindObject(linebyline, "-> ") == true) {
 							FImport imp;
-							imp.Import(file, linebyline);
+							imp.Import(data.file, linebyline);
 						} else {
 							FDefinition def;
-							def.ValueDefinition(file, linebyline);
+							def.ValueDefinition(data.file, linebyline);
 						}
 					}
 
@@ -1220,9 +1222,10 @@ FInterpreter::FlaScriptInterpreter(std::string file, int argc, char** argv) {
 					}
 	
 					/* header[string]: Hello -> "test.flsh" */
-					if(FindObject(linebyline, "header") == true)
-						Get(file, linebyline);
-
+					if(FindObject(linebyline, "header") == true) {
+						Get(data.file, linebyline);
+					}
+					
 					/* pseudo-random generator (rand)
 					   random(:1, 12:) -> print
 					*/

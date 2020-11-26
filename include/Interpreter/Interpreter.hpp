@@ -9,7 +9,7 @@
 #define INTERPRETER_HPP
 
 #include <iostream>
-
+#include <FlaScriptMain.hpp>
 
 class FInterpreter {
 public:
@@ -20,7 +20,7 @@ public:
 	void Print(std::string, std::string);
 	void Get(std::string, std::string);
 	
-	void FlaScriptInterpreter(std::string, int argc, char** argv);
+	void FlaScriptInterpreter(flascript_t &data);
 	void FlaScriptInterpreterWithArg(std::string, std::string);
 	
 	bool ReadFileWithReturn(std::string, std::string);

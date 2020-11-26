@@ -29,6 +29,7 @@ void HelpFunction(char** argv) {
 
 int main(int argc, char** argv) {
 	std::string copy_arg, reg;
+	flascript_t data;
 	
 	if(argc == 1) {
 	    HelpFunction(argv);
@@ -37,15 +38,21 @@ int main(int argc, char** argv) {
 
 	std::string argument(argv[1]);
 	
+	/* Initialize arguments */
+	data.argc = argc;
+	data.argv = argv;
+	
 	/* (env) Shebang support */
 	if(argument.front() == '/') {
+		data.file = argument;
+		
 		const std::string current_dir = fsplusplus::GetCurrentWorkingDir();
 		
 		chdir("/");
 		
 		FInterpreter interpreter;
 
-		interpreter.FlaScriptInterpreter(argument, argc, argv);
+		interpreter.FlaScriptInterpreter(data);
 		
 		chdir(current_dir.c_str());
 		
@@ -57,13 +64,17 @@ int main(int argc, char** argv) {
 		
 		if(argc > 2) { 
 			std::string file(argv[2]); 
-			interpreter.FlaScriptInterpreter(file, argc, argv);
+			data.file = file;
+			
+			interpreter.FlaScriptInterpreter(data);
 		}
 	} else if(argument == "--debug" || argument == "--d") {
 		Debug_FInterpreter interpreter;
 		
 		if(argc > 2) {
 			std::string file(argv[2]);
+			data.file = file;
+			
 			interpreter.Debug_FlaScriptInterpreter(file);	
 		}
 	} else if(argument == "--buildall" || argument == "--ba") { /* Under the construction */
@@ -72,8 +83,11 @@ int main(int argc, char** argv) {
 		
 		if(argc > 2) {
 			std::string file(argv[2]);
+			
+			data.file = file;
+			
 			debug.Debug_FlaScriptInterpreter(file);		
-			interpreter.FlaScriptInterpreter(file, argc, argv);		
+			interpreter.FlaScriptInterpreter(data);		
 		}
 	} else if(argument == "--help" || argument == "--h") {
 		HelpFunction(argv);
