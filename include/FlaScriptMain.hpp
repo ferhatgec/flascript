@@ -12,6 +12,7 @@
 #include <string>
 
 typedef struct {
+	std::string dir;
 	std::string file;
 	int32_t argc;
 	char** argv;	

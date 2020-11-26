@@ -681,7 +681,7 @@ void
 FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 	Tokenizer token;
 	std::string line;
-	
+
 	/* Predefined Standards 
 		TODO: Make parser for standards.
 	*/
@@ -1213,12 +1213,16 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 
 					/* @input -> name < */
 					if(FindObject(linebyline, "@input") == true) {
+						if(data.dir != "") chdir(data.dir.c_str());
 						FInput input;
 					
 						std::string assign;
 						assign = stringtools::GetBetweenString(linebyline, "@input -> ", " <");
 				
 						input.GetInput(assign);
+						
+						
+						if(data.dir != "") chdir(data.dir.c_str());
 					}
 	
 					/* header[string]: Hello -> "test.flsh" */

@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
 	if(argument.front() == '/') {
 		data.file = argument;
 		
-		const std::string current_dir = fsplusplus::GetCurrentWorkingDir();
+		data.dir = fsplusplus::GetCurrentWorkingDir();
 		
 		chdir("/");
 		
@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
 
 		interpreter.FlaScriptInterpreter(data);
 		
-		chdir(current_dir.c_str());
+		chdir(data.dir.c_str());
 		
 		return 0;
 	}
