@@ -1,7 +1,18 @@
 main() -> main {
-	var(string) -> (func) spec -> "__UPTIME__" (end) -> upt <-
-
-	@echo -> upt <-
-
-	print(newline)
+	var(string) -> (tux) {
+ Fla: Hi, Tux!
+ --------------
+     .--.
+    |o_o |
+    |:_/ |
+   //   \ \
+  (|     | )
+ /'\_   _/`\
+ \___)=(___/
+ 
+ --------------
+ Tux: Hi, Fla!
+	} -> tux <-
+	
+	@echo -> tux <-
 } main;
