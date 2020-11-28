@@ -851,18 +851,13 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
                     	} else {
                     		if(stringtools::GetBetweenString(linebyline, ") -> (", ") {") != "error") {
                     			name = stringtools::GetBetweenString(linebyline, ") -> (", ") {");
+                    			_data = stringtools::GetBetweenString(alltext, "-> (" + name + ") {", 
+									"} -> " + name + " <-");
                     		} else {
+								_data = stringtools::GetBetweenString(linebyline, ") -> ", " -> ");
 								name  = stringtools::GetBetweenString(linebyline, _data + " -> ", " <-");
 							}
-							
-							if(stringtools::GetBetweenString(alltext, "-> (" + name + ") {", "} -> " + name + " <-") != "error") {
-								_data = stringtools::GetBetweenString(alltext, "-> (" + name + ") {", 
-									"} -> " + name + " <-");
-							} else {
-								_data = stringtools::GetBetweenString(linebyline, ") -> ", " -> ");
-							}
-							
-							
+									
 							var.Variable(name, _data);
 						}
 					}
