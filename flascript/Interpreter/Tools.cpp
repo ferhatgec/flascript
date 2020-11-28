@@ -12,6 +12,7 @@
 #include <Tokenizer.hpp>
 #include <Interpreter/Interpreter.hpp>
 #include <Interpreter/Read.hpp>
+#include <Interpreter/Variable.hpp>
 #include <Interpreter/Tools.hpp>
 
 // Libraries
@@ -33,6 +34,8 @@ FlaScript::TextBackground(int color) {
 	printf("%c[%dm", ESC, 40+color);
 }
 
+
+	
 std::string
 FlaScript::EscapeSeq(std::string data) {
 	stringtools::replaceAll(data, "\\033[", "\033[");
@@ -42,6 +45,20 @@ FlaScript::EscapeSeq(std::string data) {
     stringtools::replaceAll(data, "\\b", "\b");
     stringtools::replaceAll(data, "\\v", "\v");
     stringtools::replaceAll(data, "\\r", "\r");
+    
+     if(stringtools::Count(data, '{') == stringtools::Count(data, '}')) {
+        unsigned i = stringtools::Count(data, '{');
+        FVariable var;
+
+		std::string variable, variable_data;
+		
+        for(; i != 0; i--) {
+            variable      = stringtools::Between(data, "{", "}");
+        	variable_data = var.GetVariable(variable);
+
+            stringtools::replaceAll(data, "{" + variable + "}", variable_data);
+        }
+    }
     
     return data;
 }

@@ -1,6 +1,9 @@
 main() -> main {
+	var(string) -> Fla -> name <-
+	var(string) -> Tux -> mascot <-
+	
 	var(string) -> (tux) {
- Fla: Hi, Tux!
+ {name}: Hi, {mascot}!
  --------------
      .--.
     |o_o |
@@ -11,8 +14,11 @@ main() -> main {
  \___)=(___/
  
  --------------
- Tux: Hi, Fla!
+ {mascot}: Hi, {name}!
 	} -> tux <-
+	
+	
+	@escape_seq -> tux <
 	
 	@echo -> tux <-
 } main;
