@@ -668,6 +668,15 @@ FInterpreter::ValueDefinition(std::string file, std::string arg) {
 		} 
 		
 		return assign;
+	} else if(FindObject(arg, "output") == true) {
+		/* var(string) -> (func) output -> "fpm --info flascript" (end) -> info <- */
+		std::string assign = "";
+		assign = stringtools::GetBetweenString(arg, "output -> \"", "\"");
+		
+		if(assign != "error") {
+			ExecutePlusPlus exec;
+			return exec.ExecWithOutput(assign);
+		}
 	}
        
 	return "";
