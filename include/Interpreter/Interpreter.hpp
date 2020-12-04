@@ -29,6 +29,8 @@ public:
 	
 	std::string FlaScriptImporter(std::string, std::string);
 	std::string ValueDefinition(std::string, std::string);
+	
+	std::string CleanComments(std::string data);
 };
 
 #endif // INTERPRETER_HPP

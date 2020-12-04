@@ -200,6 +200,33 @@ namespace stringtools {
 
 		return temp;
 	}
+	
+	static inline std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v") {
+    	s.erase(0, s.find_first_not_of(t));
+    	return s;
+	}
+
+	/* try kmp algorithm for pattern searching to replace within it */
+	static int CountSub(const std::string& str, const std::string& sub) {
+    	if (sub.length() == 0) return 0;
+    
+    	int count = 0;
+    
+    	for (size_t offset = str.find(sub); offset != std::string::npos; offset = str.find(sub, offset + sub.length())) 
+    		++count;
+    	
+    	return count;
+	}
+	
+	static std::string EraseSub(std::string & mainString, const std::string & erase) {
+		size_t pos = std::string::npos;
+   		
+   		if((pos = mainString.find(erase)) != std::string::npos)
+        		mainString.erase(pos, erase.length());
+  		
+  		return mainString;
+  	}
+  	
 }
 
 #endif // STRING_TOOLS_HPP

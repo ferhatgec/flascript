@@ -1,8 +1,8 @@
-main() -> main {
+/> main function </ main() -> main {
 	var(string) -> Fla -> name <-
 	var(string) -> Tux -> mascot <-
 	
-	var(string) -> (tux) {
+	var(string)/> it's tux :^) </ -> (tux) {
  {name}: Hi, {mascot}!
  --------------
      .--.
@@ -20,5 +20,5 @@ main() -> main {
 	
 	@escape_seq -> tux <
 	
-	@echo -> tux <-
+	@echo -> tux <- /> print tux </
 } main;

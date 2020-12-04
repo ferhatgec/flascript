@@ -673,6 +673,21 @@ FInterpreter::ValueDefinition(std::string file, std::string arg) {
 	return "";
 }
 
+std::string
+FInterpreter::CleanComments(std::string data) {
+	if(FindObject(data, "/>") == true &&
+			FindObject(data, "</") == true) { 
+		if(stringtools::CountSub(data, "/>") == stringtools::CountSub(data, "</")) {
+			unsigned i = stringtools::CountSub(data, "/>");
+			
+			for(; i != 0; i--) { 
+				data = stringtools::EraseSub(data, "/>" + stringtools::Between(data, "/>", "</") + "</");
+			}
+		}
+	} else if(data[0] == '/' && data[1] == '/') data.erase();
+	
+	return data;
+}
 
 /*
 	FlaScript's main interpreter.
@@ -693,23 +708,9 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 		while (std::getline(readfile, line)) {
         	Read(data.file);
         	
-        	/* Single Comment Line */
-        	if(FindObject(line, token.SingleCommentLine) == true) {
-        		line.erase();
-			}
-
-        	/* Single Comment Line */
-        	if(FindObject(line, token.CommentLineBegin) == true) {
-				std::string assign;
-				
-				stringtools::GetBtwString(line, token.CommentLineBegin, token.CommentLineEnd, assign);
-			
-				if(assign != "error") {
-					line = stringtools::EraseAllSubString(line, token.CommentLineBegin + assign + token.CommentLineEnd);
-				} else {
-					if(FCommentLine(data.file, "</") == true) {}
-				}
-    		}
+        	line = stringtools::ltrim(line);
+        	
+		    line = CleanComments(line);
 		
 			/* except(version) : 0.3 -> { error("This version is really old?") } version; */
 			if(FindObject(line, "except") == true) {
@@ -772,25 +773,10 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 				std::istringstream f(alltext);
 
 				while(std::getline(f, linebyline)) {
-					/* Single Comment Line */
-					if(FindObject(linebyline, token.SingleCommentLine) == true)
-        				linebyline.erase();
-
-
-        			/* Comment Line */
-        			if(FindObject(linebyline, token.CommentLineBegin) == true) {
-						std::string assign;
-						
-						stringtools::GetBtwString(line, token.CommentLineBegin, token.CommentLineEnd, assign);
-						
-						if(assign != "error") {
-							linebyline = stringtools::EraseAllSubString(line, token.CommentLineBegin + assign + token.CommentLineEnd);
-						} else {
-							if(FCommentLine(data.file, "</") == true) {}
-						}
-    				}
-
-	
+					linebyline = stringtools::ltrim(linebyline);
+        	
+		    		linebyline = CleanComments(linebyline);
+					
 					if(FindObject(linebyline, "var(") == true) {
 						FVariable var;
 					
