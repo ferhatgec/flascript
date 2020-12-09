@@ -477,6 +477,24 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			}
 		}
 					
+		/* @ltrim -> name < */
+		if(FindObject(strarg, "@ltrim") == true) {
+			FVariable var;
+			std::string get_variable_name = stringtools::GetBetweenString(strarg, "@ltrim -> ", " <");
+			
+			if(get_variable_name != "error") {
+				std::string get_variable_data = var.GetVariable(get_variable_name);
+			
+				/* exp: get_variable_data = <sof>....test<eof> . = <ws>
+					It's will be:
+						<sof>test<eof>
+				*/		
+				get_variable_data = stringtools::ltrim(get_variable_data);	
+			
+				var.Equal(get_variable_name, get_variable_data);
+			}
+		}
+		
 		/*
 			statement[#pi]
 		*/
@@ -1082,6 +1100,34 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						}
 					}
 					
+					/* @trim(type) -> name < 
+					
+					   type:
+					   	left:
+					   	right:
+					   	null:
+					*/
+					if(FindObject(linebyline, "@trim") == true) {
+						FVariable var;
+						
+						/* It must be left, right or null */
+						std::string get_pos = stringtools::Between(linebyline, "@trim(", ")");
+						std::string get_variable = stringtools::Between(linebyline, "@trim(" + get_pos + ") -> ", " <");
+									
+						if(get_variable != "error") {
+							std::string get_variable_data = var.GetVariable(get_variable);
+							
+							if(get_pos == "left")       get_variable_data = stringtools::ltrim(get_variable_data);	
+							else if(get_pos == "right") get_variable_data = stringtools::rtrim(get_variable_data);
+							else if(get_pos == "null")  {
+								get_variable_data = stringtools::ltrim(get_variable_data);
+								get_variable_data = stringtools::rtrim(get_variable_data);
+							}
+							
+							var.Equal(get_variable, get_variable_data);
+						}
+					}
+					
 					/* inline(brainfuck) -> {"......."} brainfuck; */
 					if(FindObject(linebyline, "inline") == true) {
 						std::string assign = stringtools::GetBetweenString(linebyline, "inline(", ")");
@@ -1225,7 +1271,22 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						
 						if(data.dir != "") chdir(data.dir.c_str());
 					}
-	
+					
+					/* @getchar -> name < */
+					if(FindObject(linebyline, "@getchar") == true) {
+						if(data.dir != "" && data.dir.length() != 0) chdir(data.dir.c_str());
+						
+						FInput input;
+						
+						std::string variable_name;
+						variable_name = stringtools::GetBetweenString(linebyline, "@getchar -> ", " <");
+					
+						input.GetCharInput(variable_name);
+						
+						if(data.dir != "" && data.dir.length() != 0) chdir(data.dir.c_str());	
+					}
+					
+					
 					/* header[string]: Hello -> "test.flsh" */
 					if(FindObject(linebyline, "header") == true) {
 						Get(data.file, linebyline);

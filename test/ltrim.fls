@@ -1,0 +1,10 @@
+
+main() -> main {
+	var(string) ->      testflascript  -> foo <-
+
+	print(string) -> "{foo}\n"
+
+	@trim(left) -> foo <
+
+	print(string) -> "{foo}\n"
+} main;

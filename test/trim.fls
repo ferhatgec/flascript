@@ -1,0 +1,10 @@
+main() -> main {
+	var(string) ->   test     test    -> hello_trim <-
+
+	print(string) -> "{hello_trim}!\n"
+
+	@trim(null) -> hello_trim <
+	
+	print(string) -> "{hello_trim}!2\n"
+
+} main;

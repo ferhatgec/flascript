@@ -1,9 +1,8 @@
 main() -> main {
-	/> get output of flascript's version </
-	var(string) -> (func) output -> "fla --v" (end) -> fla_version <-
-	
-	@pop_back -> fla_version <
-	
-	/> print </
-	print(string) -> "FlaScript version: {fla_version}!\n"  
+	var(string) -> null -> data <-
+
+	print(string) -> "Do you want to install FlaScript? (y/N) : "
+	@getchar -> data <
+
+	print(string) -> "{data}\n"
 } main;

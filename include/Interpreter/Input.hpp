@@ -13,6 +13,7 @@
 class FInput {
 public:
 	void GetInput(std::string name);
+	void GetCharInput(std::string name);
 };
 
 #endif // INPUT_HPP

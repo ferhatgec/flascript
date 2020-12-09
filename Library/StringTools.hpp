@@ -206,6 +206,11 @@ namespace stringtools {
     	return s;
 	}
 
+	static inline std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v") {
+		s.erase(s.find_last_not_of(t) + 1);
+		return s;
+	}
+
 	/* try kmp algorithm for pattern searching to replace within it */
 	static int CountSub(const std::string& str, const std::string& sub) {
     	if (sub.length() == 0) return 0;

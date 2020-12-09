@@ -1,0 +1,10 @@
+main() -> main {
+	var(string) -> test   aassd     -> variable <-
+
+	// or use print(string) -> "{variable}"
+	print(string) -> "{variable}\n"
+
+	
+	@trim(right) -> variable <
+	print(string) -> "{variable}\n"
+} main;

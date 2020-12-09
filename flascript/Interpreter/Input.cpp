@@ -22,3 +22,18 @@ FInput::GetInput(std::string name) {
 	
     if(input != "") var.Change(name, input);
 }
+
+void
+FInput::GetCharInput(std::string name) {
+	FVariable var;
+
+	std::string data;	
+	char input;
+	
+	input = getchar();
+	
+	data.push_back(input);
+	data.append("  ");
+	
+	if(input != ' ') var.Change(name, data);
+}
