@@ -1,8 +1,10 @@
 main() -> main {
-	var(string) -> null -> data <-
+	var(string) -> 64 -> data <-
+	var(string) -> 16 -> sq_number <-
 
-	print(string) -> "Do you want to install FlaScript? (y/N) : "
-	@getchar -> data <
+	print(string) -> "Data: {data}\nSquare number: {sq_number}\n"
 
-	print(string) -> "{data}\n"
+	@square(var(sq_number)) -> data <
+
+	print(string) -> "Data: {data}\nSq number: {sq_number}\n"
 } main;

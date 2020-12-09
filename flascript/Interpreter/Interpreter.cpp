@@ -24,6 +24,7 @@
 #include <Interpreter/Input.hpp>
 #include <Interpreter/Compress.hpp>
 #include <Interpreter/Tools.hpp>
+#include <Interpreter/Math.hpp>
 
 #include <Interpreter/FileOperations/InputStream.hpp>
 #include <Interpreter/FileSystem/Directory.hpp>
@@ -1127,6 +1128,56 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 							var.Equal(get_variable, get_variable_data);
 						}
 					}
+					
+					/* built-in @sqrt(integer) -> name < */	
+					if(FindObject(linebyline, "@sqrt") == true) {
+						FVariable var;
+						FMath sqrt;
+						
+						std::string get_integer = stringtools::GetBetweenString(linebyline, "@sqrt(", ") ->");
+						
+						if(get_integer != "error") {
+							std::string get_variable = stringtools::Between(linebyline, "@sqrt(" + get_integer + ") -> ", " <");
+							
+							if(FindObject(get_integer, "var") == true) {
+								get_integer = stringtools::Between(get_integer, "var(", ")");
+								
+								get_integer = var.GetVariable(get_integer);
+							}
+							
+							get_integer = std::to_string(sqrt.Sqrt(atoi(get_integer.c_str())));
+														
+							get_integer.append(" ");
+							
+							var.Equal(get_variable, get_integer);
+						}
+					}
+				
+				
+					/* built-in @square(integer) -> name < */	
+					if(FindObject(linebyline, "@square") == true) {
+						FVariable var;
+						FMath sq;
+						
+						std::string get_integer = stringtools::GetBetweenString(linebyline, "@square(", ") ->");
+						
+						if(get_integer != "error") {
+							std::string get_variable = stringtools::Between(linebyline, "@square(" + get_integer + ") -> ", " <");
+							
+							if(FindObject(get_integer, "var") == true) {
+								get_integer = stringtools::Between(get_integer, "var(", ")");
+								
+								get_integer = var.GetVariable(get_integer);
+							}
+							
+							get_integer = std::to_string(sq.Square(atoi(get_integer.c_str())));
+							
+							get_integer.append(" ");
+							
+							var.Equal(get_variable, get_integer);
+						}
+					}
+				
 					
 					/* inline(brainfuck) -> {"......."} brainfuck; */
 					if(FindObject(linebyline, "inline") == true) {
