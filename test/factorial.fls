@@ -1,0 +1,10 @@
+main() -> main {
+	var(string) -> 64 -> data <-
+	var(string) -> 4  -> factorial_number <-
+
+	print(string) -> "Data: {data}\nFactorial number: {factorial_number}\n"
+
+	@factorial(var(factorial_number)) -> data <
+
+	print(string) -> "Data: {data}\nFactorial number: {factorial_number}\n"
+} main;

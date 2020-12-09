@@ -32,3 +32,11 @@ FMath::Square(int64_t i) {
 	return i * i;
 }
 
+int64_t
+FMath::Factorial(int64_t i) {
+	if(i > 1) { 
+		i =  i * Factorial(i - 1);
+	} else i = 1;
+	
+	return i;
+}

@@ -1,0 +1,10 @@
+main() -> main {
+	var(string) -> 64 -> data <-
+	var(string) -> 256 -> sqrt_number <-
+
+	print(string) -> "Data: {data}\nSquare root number: {sqrt_number}\n"
+
+	@sqrt(var(sqrt_number)) -> data <
+
+	print(string) -> "Data: {data}\nSqrt number: {sqrt_number}\n"
+} main;

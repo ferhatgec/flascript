@@ -1178,7 +1178,32 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						}
 					}
 				
-					
+					/* built-in @factorial(integer) -> name < */	
+					if(FindObject(linebyline, "@factorial") == true) {
+						FVariable var;
+						FMath factorial;
+												
+						std::string get_integer = stringtools::GetBetweenString(linebyline, "@factorial(", ") ->");
+						
+						if(get_integer != "error") {
+							std::string get_variable = stringtools::Between(linebyline, "@factorial(" + get_integer + ") -> ", " <");
+							
+							
+							if(FindObject(get_integer, "var") == true) {
+								get_integer = stringtools::Between(get_integer, "var(", ")");
+
+								get_integer = var.GetVariable(get_integer);
+							}
+								
+							get_integer = std::to_string(factorial.Factorial(atoi(get_integer.c_str())));
+							
+							get_integer.append(" ");
+							
+							var.Equal(get_variable, get_integer);
+						}
+					}
+				
+				
 					/* inline(brainfuck) -> {"......."} brainfuck; */
 					if(FindObject(linebyline, "inline") == true) {
 						std::string assign = stringtools::GetBetweenString(linebyline, "inline(", ")");

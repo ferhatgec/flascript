@@ -1,10 +1,14 @@
+func -> GetCPU() {
+	/> for GNU/Linux </	
+	@lineof -> get_cpu_name -> "/proc/cpuinfo" : "model name	: " <
+} GetCPU;
+
 main() -> main {
-	var(string) -> 64 -> data <-
-	var(string) -> 16 -> sq_number <-
+	var(string) -> null -> get_cpu_name <-
 
-	print(string) -> "Data: {data}\nSquare number: {sq_number}\n"
+	func -> GetCPU()
 
-	@square(var(sq_number)) -> data <
+	// @pop_back -> get_cpu_name <
 
-	print(string) -> "Data: {data}\nSq number: {sq_number}\n"
+	print(string) -> "Your CPU: {get_cpu_name}"
 } main;

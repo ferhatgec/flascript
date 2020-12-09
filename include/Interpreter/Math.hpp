@@ -14,6 +14,7 @@ class FMath {
 public:
 	int64_t Sqrt(int64_t i);
 	int64_t Square(int64_t i);
+	int64_t Factorial(int64_t i);
 };
 
 #endif // MATH_HPP
