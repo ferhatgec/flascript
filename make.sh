@@ -14,5 +14,5 @@ c++ -I./Library/ -I./include/ \
 ./flascript/Interpreter/Variable.cpp ./flascript/Interpreter/Loop.cpp \
 ./flascript/Interpreter/Input.cpp ./flascript/Interpreter/Compress.cpp \
 ./flascript/Interpreter/FileOperations/InputStream.cpp ./flascript/Interpreter/FileSystem/Directory.cpp \
-./flascript/Interpreter/Math.cpp \
+./flascript/Interpreter/Math.cpp ./flascript/Interpreter/Random.cpp \
 ./flascript/FlaVersion.cpp ./flascript/FlaScriptMain.cpp -o fla && ./fla --b test.fls

@@ -25,6 +25,7 @@
 #include <Interpreter/Compress.hpp>
 #include <Interpreter/Tools.hpp>
 #include <Interpreter/Math.hpp>
+#include <Interpreter/Random.hpp>
 
 #include <Interpreter/FileOperations/InputStream.hpp>
 #include <Interpreter/FileSystem/Directory.hpp>
@@ -51,19 +52,6 @@ FInterpreter::~FInterpreter() { }
 
 std::string inp, test, alltext, linebyline;
 
-int random(int min_num, int max_num) {
-	int result=0,low_num=0,hi_num=0;
-	if(min_num<max_num) {
-        	low_num=min_num;
-        	hi_num=max_num+1; // this is done to include max_num in output.
-     	} else{
-     	    	low_num=max_num+1;// this is done to include max_num in output.
-         	hi_num=min_num;
-     	}
-     	srand(time(NULL));
-     	result = (rand()%(hi_num-low_num-low_num))+low_num; // Unsecure.
-     	return result;
-}
 
 bool
 FInterpreter::FindObject(std::string object, std::string find) {
@@ -595,39 +583,8 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 		/*
 			header[string]: Hello -> "test.flsh"
 		*/
-		if(FindObject(strarg, "header") == true)
+		if(FindObject(strarg, "header") == true) {
 			Get(file, strarg);
-
-		/*
-			pseudo-random generator. (rand)
-			random(:1, 12:) -> print
-		*/
-		if(FindObject(strarg, "random") == true) {
-			std::string assign;
-			std::string first, second;
-			
-			stringtools::GetBtwString(strarg, "(", ")", assign);
-			
-			if(assign == "error")
-				std::cout << "main() : random : Brackets error. random(:, :)\n";
-
-			stringtools::GetBtwString(assign, ":", ", ", first);
-			
-			if(first == "error") {
-				srand(time(NULL));
-				int number = atoi(assign.c_str());
-				std::cout << random(0, number);
-			} else {
-				stringtools::GetBtwString(assign, ", ", " :", second);
-				
-				if(second == "error")
-					  std::cout << "main() : random : Second number is not defined. random(..., 2:)\n";
-
-				int first_number = atoi(first.c_str());
-				int second_number = atoi(second.c_str());
-				srand(time(NULL));
-				std::cout << random(first_number, second_number);
-			}
 		}
 
 		/*
@@ -1368,30 +1325,7 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						Get(data.file, linebyline);
 					}
 					
-					/* pseudo-random generator (rand)
-					   random(:1, 12:) -> print
-					*/
-				
-					if(FindObject(linebyline, "random") == true) {
-						std::string assign, first, second;
 					
-						stringtools::GetBtwString(linebyline, "(", ")", assign);
-						stringtools::GetBtwString(assign, ":", ", ", first);
-
-						if(first == "error") {
-							srand(time(NULL));
-						
-							int number = atoi(assign.c_str());
-							std::cout << random(0, number);
-						} else {
-							stringtools::GetBtwString(assign, ", ", " :", second);
-
-							int first_number = atoi(first.c_str());
-							int second_number = atoi(second.c_str());
-							srand(time(NULL));
-							std::cout << random(first_number, second_number);
-						}
-					}
 
 					/* executepp("TestExec", "fetcheya") */
 					if(FindObject(linebyline, "executepp") == true ||
@@ -1405,7 +1339,40 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						FExec execute;
 						execute.Exec(linebyline);
         			}
+			
+					/* TODO:
+						Implement rand() from scratch.
 
+						syntax:
+							@random(start) -> variable <
+							@random(10) -> test <
+					*/
+					if(FindObject(linebyline, "@random") == true) {
+						std::string get_data, get_start, get_variable;
+						
+						get_data = stringtools::Between(linebyline, "@random(", ")");
+										
+						if(get_data != "error") {
+							FRandom random;
+							FVariable var;
+							
+							if(get_data.rfind("var", 0) == 0) {
+								get_data = stringtools::Between(get_data, "var(", ")");
+								
+								get_data = var.GetVariable(get_data);
+							} 
+							
+							get_variable = stringtools::Between(linebyline, 
+								" -> ", " <");														
+
+							get_start = std::to_string(random.Random(atoi(get_data.c_str())));
+							
+							get_start.append(" ");
+							
+							var.Equal(get_variable, get_start);
+						}
+					}
+						
 					/* EraseAllSubstring(string["Hello FlaScript!", "ll"]) */
 					if(FindObject(linebyline, "EraseAllSubstring") == true) {
 						FString st;

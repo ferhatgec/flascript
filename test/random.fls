@@ -1,3 +1,8 @@
 main() -> main {
-	random(400)
+	var(string) -> null -> number <-
+	var(string) -> 15 -> start <-
+
+	@random(var(start)) -> number <
+
+	print(string) -> "Your Lucky number: {number}\n"
 } main;

@@ -1,14 +1,8 @@
-func -> GetCPU() {
-	/> for GNU/Linux </	
-	@lineof -> get_cpu_name -> "/proc/cpuinfo" : "model name	: " <
-} GetCPU;
-
 main() -> main {
-	var(string) -> null -> get_cpu_name <-
+	var(string) -> null -> number <-
+	var(string) -> 15 -> start <-
 
-	func -> GetCPU()
+	@random(var(start)) -> number <
 
-	// @pop_back -> get_cpu_name <
-
-	print(string) -> "Your CPU: {get_cpu_name}"
+	print(string) -> "Your Lucky number: {number}\n"
 } main;
