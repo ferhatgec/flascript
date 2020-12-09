@@ -1,0 +1,16 @@
+/> for GNU/Linux </
+func -> GetCPU() {
+	@lineof -> cpu_name -> "/proc/cpuinfo" : "model name	: " <
+	
+	@substring -> cpu_name -> model name	:  <
+	
+	@pop_back -> cpu_name <
+
+	print(string) -> "{cpu_name}\n"
+} GetCPU;
+
+main() -> main {
+	var(string) -> null -> cpu_name <-
+
+	func -> GetCPU()
+} main;
