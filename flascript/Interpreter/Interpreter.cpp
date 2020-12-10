@@ -736,7 +736,7 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						FlaScriptInterpreterWithArg(data.file, 
 							"error(\"file: " + data.file + 
 								"\\ndata: " + linebyline + "\\n-> Variable cannot be parsed.\\n" +
-								"idea: add '<-' end of manipulation (..[..] -> \".."\" <-) \")");
+								"idea: add '<-' end of manipulation (..[..] -> \"..\" <-) \")");
 					}
 				}
 			}	
