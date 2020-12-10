@@ -43,328 +43,50 @@ namespace fsplusplus {
     		return (stat(path.c_str(), &buffer) == 0);
 	}
 
-	static void List() {
-	    DIR *directory;
-	    struct dirent *entryname;
-	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
-    	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
-        	return;
-    	    }
-            while ((entryname = readdir(directory)))
-    	    {
-        	stat(entryname->d_name, &filestat);
-        	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
-            	if(strstr(entryname->d_name, ".")) {
-            		// Null
-            	} else if(strstr(entryname->d_name, "..")){
-	    		// Null
-	    	} else {  
-            	printf("%4s: %s\n", "[Dir]", entryname->d_name);
-            	}
-            } 
-            else if(strstr(entryname->d_name, ".scr"))
-            {
-            	printf("%4s: %s\n", "[Scrift]", entryname->d_name);
-            }     
-	    else if(strstr(entryname->d_name, ".cpp")) 
-	    {
-            	printf("%4s: %s\n", "[C++]", entryname->d_name);
-	    }  
-	    else if(strstr(entryname->d_name, ".c"))
-	    {
-            	printf("%4s: %s\n", "[C]", entryname->d_name);		
-	    }
-	    else if(strstr(entryname->d_name, "CMakeLists.txt"))
-	    {
-            	printf("%4s: %s\n", "[CMake]", entryname->d_name);	
-	    }
-	    else if(strstr(entryname->d_name, ".sh"))
-	    {
-            	printf("%4s: %s\n", "[Bash]", entryname->d_name);	
-	    }
- 	    else if(strstr(entryname->d_name, ".py")) 
-	    {
-            	printf("%4s: %s\n", "[Python]", entryname->d_name);
-	    }
-	    else if(strstr(entryname->d_name, ".md")) 
-	    {
-            	printf("%4s: %s\n", "[Markdown]", entryname->d_name);
-	    }	
-            else {
-               printf("%4s: %s\n", "[File]", entryname->d_name);
-            }
-    	}
-   	 closedir(directory);
-	}
-	
-	static void ListFile() {
-	    DIR *directory;
-	    struct dirent *entryname;
-	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
-    	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
-        	return;
-    	    }
-            while ((entryname = readdir(directory)))
-    	    {
-        	stat(entryname->d_name, &filestat);
-        	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
-            	if(strstr(entryname->d_name, ".")) {
-            		// Null
-            	} else if(strstr(entryname->d_name, "..")){
-	    		// Null
-	    	} else {  
-          	// Null
-            	}
-            } 
-            else if(strstr(entryname->d_name, ".scr"))
-            {
-            	printf("%4s: %s\n", "[Scrift]", entryname->d_name);
-            }     
-	    else if(strstr(entryname->d_name, ".cpp")) 
-	    {
-            	printf("%4s: %s\n", "[C++]", entryname->d_name);
-	    }  
-	    else if(strstr(entryname->d_name, ".c"))
-	    {
-            	printf("%4s: %s\n", "[C]", entryname->d_name);		
-	    }
-	    else if(strstr(entryname->d_name, "CMakeLists.txt"))
-	    {
-            	printf("%4s: %s\n", "[CMake]", entryname->d_name);	
-	    }
-	    else if(strstr(entryname->d_name, ".sh"))
-	    {
-            	printf("%4s: %s\n", "[Bash]", entryname->d_name);	
-	    }
- 	    else if(strstr(entryname->d_name, ".py")) 
-	    {
-            	printf("%4s: %s\n", "[Python]", entryname->d_name);
-	    }
-	    else if(strstr(entryname->d_name, ".md")) 
-	    {
-            	printf("%4s: %s\n", "[Markdown]", entryname->d_name);
-	    }	
-            else {
-               printf("%4s: %s\n", "[File]", entryname->d_name);
-            }
-    	}
-   	 closedir(directory);
-	}
-	
-	static void ListDirectory() {
-	    DIR *directory;
-	    struct dirent *entryname;
-	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
-    	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
-        	return;
-    	    }
-            while ((entryname = readdir(directory)))
-    	    {
-        	stat(entryname->d_name, &filestat);
-        	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
-            	if(strstr(entryname->d_name, ".")) {
-            		// Null
-            	} else if(strstr(entryname->d_name, "..")){
-	    		// Null
-	    	} else {  
-          		printf("%4s: %s\n", "[Dir]", entryname->d_name);
-            	}
-            } else {
-               // Null
-            }
-    	   }
-   	 closedir(directory);
-	}
-	
-	static void ListFileDefault() {
-	    DIR *directory;
-	    struct dirent *entryname;
-	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
-    	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
-        	return;
-    	    }
-            while ((entryname = readdir(directory)))
-    	    {
-        	stat(entryname->d_name, &filestat);
-        	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
-            	if(strstr(entryname->d_name, ".")) {
-            		// Null
-            	} else if(strstr(entryname->d_name, "..")){
-	    		// Null
-	    	} else {  
-          	// Null
-            	}
-            } else {
-               printf("%4s %s\n", entryname->d_name);
-            }
-    	}
-   	 closedir(directory);
-	}
-	
-	static void ListDirectoryDefault() {
-	    DIR *directory;
-	    struct dirent *entryname;
-	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
-    	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
-        	return;
-    	    }
-            while ((entryname = readdir(directory)))
-    	    {
-        	stat(entryname->d_name, &filestat);
-        	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
-            	if(strstr(entryname->d_name, ".")) {
-            		// Null
-            	} else if(strstr(entryname->d_name, "..")){
-	    		// Null
-	    	} else {  
-          		printf("%4s %s\n", entryname->d_name);
-            	}
-            } else {
-               // Null
-            }
-    	   }
-   	 closedir(directory);	
-	}
-	
-	static void ListPath(std::string path) {
-	    DIR *directory;
-	    struct dirent *entryname;
-	    struct stat filestat;
-    	    directory = opendir(path.c_str());
-    	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
-        	return;
-    	    }
-            while ((entryname = readdir(directory)))
-    	    {
-        	stat(entryname->d_name, &filestat);
-        	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
-            	if(strstr(entryname->d_name, ".")) {
-            		// Null
-            	} else if(strstr(entryname->d_name, "..")){
-	    		// Null
-	    	} else {  
-            	printf("%4s: %s\n", "[Dir]", entryname->d_name);
-            	}
-            } 
-            else if(strstr(entryname->d_name, ".scr"))
-            {
-            	printf("%4s: %s\n", "[Scrift]", entryname->d_name);
-            }     
-	    else if(strstr(entryname->d_name, ".cpp")) 
-	    {
-            	printf("%4s: %s\n", "[C++]", entryname->d_name);
-	    }  
-	    else if(strstr(entryname->d_name, ".c"))
-	    {
-            	printf("%4s: %s\n", "[C]", entryname->d_name);		
-	    }
-	    else if(strstr(entryname->d_name, "CMakeLists.txt"))
-	    {
-            	printf("%4s: %s\n", "[CMake]", entryname->d_name);	
-	    }
-	    else if(strstr(entryname->d_name, ".sh"))
-	    {
-            	printf("%4s: %s\n", "[Bash]", entryname->d_name);	
-	    }
- 	    else if(strstr(entryname->d_name, ".py")) 
-	    {
-            	printf("%4s: %s\n", "[Python]", entryname->d_name);
-	    }
-	    else if(strstr(entryname->d_name, ".md")) 
-	    {
-            	printf("%4s: %s\n", "[Markdown]", entryname->d_name);
-	    }	
-            else {
-               printf("%4s: %s\n", "[File]", entryname->d_name);
-            }
-    	}
-   	 closedir(directory);				
-	}
-
 	static std::string CDFunction(std::string path) {
 		return GetCurrentWorkingDir() + path;
 	}
 	
 	static void ReadFile(std::string file) {
-		std::string line;
-    		std::ifstream readfile((GetCurrentWorkingDir() + "/" + file).c_str());
-    		if(readfile.is_open())
-    		{
-        	while (std::getline(readfile, line))
-        	{
-			printf(line.c_str());
-			printf("\n");
-        	}
+        std::string line;
+        std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
+    		
+        if(readfile.is_open()) {
+        	while (std::getline(readfile, line)) std::cout << line << "\n";
+        	
         	readfile.close();
-    	} else {
-        	printf("Unable to open file\n");
-    	}
-    	}
+    	} else 
+            std::cout << "Unable to open file\n";
     	
-    	static std::string ReadFileWithReturn(std::string file) {
-		    std::string line, add;
-    		std::ifstream readfile((GetCurrentWorkingDir() + "/" + file).c_str());
+    }
+    	
+    static std::string ReadFileWithReturn(std::string file) {
+		std::string line, data;
+        std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
+    	
+    	if(readfile.is_open()) {
+        	while (std::getline(readfile, line)) data.append(line + "\n");
+        	
+            readfile.close();
+        } else 
+        		std::cout << "Unable to open file\n";
+		
+        return data;
+    }
+    	
+    static std::string ReadDirWithReturn(std::string dir) {
+	    std::string line, add;
+    	std::ifstream readfile(dir.c_str());
     		
-            if(readfile.is_open()) {
-            	while (std::getline(readfile, line)) add.append(line + "\n");
+		if(readfile.is_open()) {
+			while(std::getline(readfile, line)) add.append(line + "\n");
 
-            	readfile.close();
-    		} 
+			readfile.close();
+		} 
 
-       		return add;
-    	}
+       	return add;
+    }
     	
-    	static std::string ReadDirWithReturn(std::string dir) {
-		    std::string line, add;
-    		std::ifstream readfile(dir.c_str());
-    		
-            if(readfile.is_open()) {
-            	while (std::getline(readfile, line)) add.append(line + "\n");
-
-            	readfile.close();
-    		} 
-
-       		return add;
-    	}
-    	
-    	static void FindPath(std::string name) {
-    	    DIR *directory;
-    	    struct dirent *entryname;
-	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
-    	    if(directory == NULL) {
-            printf("ERR: DIRECTORY OR FILE NOT FOUND OR NULL\n");
-            return;
-    	    }
-    	    while ((entryname = readdir(directory)))
-    	    {
-            stat(entryname->d_name, &filestat);
-            if(entryname->d_type == DT_DIR) {
-                if(strstr(entryname->d_name, ".")) {
-                // Null
-                } else if(strstr(entryname->d_name, "..")){
-	        // Null
-	        } else if(strstr(entryname->d_name, name.c_str())) {  
-            	  printf("%4s %s\n", "[Dir]", entryname->d_name);
-                }
-            } 
-            else if(strstr(entryname->d_name, name.c_str())){
-                 printf("%4s %s\n", "[File]", entryname->d_name);
-            }
-            }
-   	    closedir(directory);
-    	}
     	
 	// Get Between String    
 	static void GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
@@ -404,43 +126,46 @@ namespace fsplusplus {
         	while (std::getline(readfile, line)) {
         		if(line.find("PRETTY_NAME=\"") == 0) {
 					GetBtwString(line, "\"", "\"", line);
-					printf(line.c_str());
-					printf("\n");
+					
+					std::cout << line + "\n";
         		}
         	}
         	readfile.close();
     	} else {
-       		printf("Unable to open file\n");
+       		std::cout << "Unable to open file\n";
    		}
 	}
 	
 	static std::string ReadOSName() {
 		#ifdef __FreeBSD__
-		return "FreeBSD";
+			return "FreeBSD";
 		#else
     		std::string line;
     		std::ifstream readfile("/etc/os-release");
+
     		if(readfile.is_open()) {
-        	while (std::getline(readfile, line)) {
-        		if(line.find("PRETTY_NAME=\"") == 0) {
-				GetBtwString(line, "\"", "\"", line);
-				return line;
-        		}
-        	}
-        	readfile.close();
+	        	while (std::getline(readfile, line)) {
+	        		if(line.find("PRETTY_NAME=\"") == 0) {
+						GetBtwString(line, "\"", "\"", line);
+						return line;
+	        		}
+	        	}
+
+	        	readfile.close();
     		} else {
-        		printf("Unable to open file\n");
+        		std::cout << "Unable to open file\n";
     		}
+		
 		return "null";
 		#endif	
 	}
 	
-	
 	static void ReadCPU() {
-    		std::string line;
+    	std::string line;
 		#ifdef __FreeBSD__
     		std::ifstream readfile("/var/run/dmesg.boot");
 		#else
+		
 		std::ifstream readfile("/proc/cpuinfo");	
 		#endif    		
 		if(readfile.is_open()) {
@@ -451,22 +176,21 @@ namespace fsplusplus {
 				if(line.length() >= 20) {
 					line = line.substr(0, 40);
 				}
-				printf(line.c_str());
-				printf("\n");
+				
+				std::cout << line + "\n";
 				return;
-        		}
+        	}
 			#else
         		if(line.find("model name	: ") == 0) {
-				line = EraseAllSubString(line, "model name	: ");
-				printf(line.c_str());
-				printf("\n");
-				return;
+					line = EraseAllSubString(line, "model name	: ");
+					std::cout << line + "\n";
+					return;
         		}
 			#endif
         	}
         	readfile.close();
     	} else {
-        	printf("Unable to open file\n");
+        	std::cout << "Unable to open file\n";
     	}
 	}
 	
