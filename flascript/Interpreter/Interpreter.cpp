@@ -1372,7 +1372,35 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 							var.Equal(get_variable, get_start);
 						}
 					}
+
+					/* @variable = "hello" < */					
+					if(linebyline[0] == '@') {
+						FVariable var;
+						std::string variable;
 						
+						for(unsigned i = 0; linebyline[i] != '\0'; i++) {
+							if(linebyline[i] == '=') {
+								std::string new_data = stringtools::GetBetweenString(linebyline, "\"", "\" <");
+								
+								if(new_data.compare("error") != 0) {
+									variable = stringtools::ltrim(variable);
+									variable = stringtools::rtrim(variable);
+									
+									variable = variable.erase(0, 1); // erase @ character
+									
+									var.Equal(variable, new_data);
+								} else {
+									/* Use Embedded FlaScript code in C++ */
+									FlaScriptInterpreterWithArg(data.file, 
+										"error(\"file: " + data.file + 
+											"\\ndata: " + linebyline + "|-> \\nParse error under variable manipulation.\")");
+								}
+								
+								break;
+							} else variable.push_back(linebyline[i]);
+						}
+					}	
+					
 					/* EraseAllSubstring(string["Hello FlaScript!", "ll"]) */
 					if(FindObject(linebyline, "EraseAllSubstring") == true) {
 						FString st;

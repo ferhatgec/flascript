@@ -2,7 +2,9 @@ main() -> main {
 	var(string) -> null -> number <-
 	var(string) -> 15 -> start <-
 
-	@random(var(start)) -> number <
+	@number = "100" <
+	
+	print(string) -> "{number}\n"
 
-	print(string) -> "Your Lucky number: {number}\n"
+
 } main;
