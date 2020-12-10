@@ -863,7 +863,7 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 								name  = stringtools::GetBetweenString(linebyline, _data + " -> ", " <-");
 							}
 							
-							if(name.find(" ")) {
+							if(stringtools::Find(name, " ")) {
 								FlaScriptInterpreterWithArg(data.file, 
 									"warning(\"file: " + data.file + 
 									"\\ndata: " + linebyline + "\\n-> Whitespace detected.\\n" +
