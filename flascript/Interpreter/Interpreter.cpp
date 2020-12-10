@@ -195,6 +195,8 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				BOLD_RED_COLOR
 				std::cout << "error: ";
 				
+				get_data = FlaScript::EscapeSeq(get_data);
+				
 				BOLD_LIGHT_WHITE_COLOR
 				std::cout << get_data + "\n";
 				
@@ -212,6 +214,8 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				BOLD_YELLOW_COLOR
 				std::cout << "warning: ";
 				
+				get_data = FlaScript::EscapeSeq(get_data);
+				
 				BOLD_LIGHT_WHITE_COLOR
 				std::cout << get_data + "\n";
 			}
@@ -226,6 +230,8 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			if(get_data != "error") {
 				BOLD_LIGHT_GREEN_COLOR
 				std::cout << "success: ";
+				
+				get_data = FlaScript::EscapeSeq(get_data);
 				
 				BOLD_LIGHT_WHITE_COLOR
 				std::cout << get_data + "\n";
@@ -723,7 +729,15 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 				if(assign == "main") {
 					assign = stringtools::GetBetweenString(line, "standard[" + assign + "] -> \"", "\" <-");
 				
-					if(assign != "error") standard_main = assign; 
+					if(assign != "error") {
+						standard_main = assign; 
+					} else {
+						/* Use Embedded FlaScript code in C++ */
+						FlaScriptInterpreterWithArg(data.file, 
+							"error(\"file: " + data.file + 
+								"\\ndata: " + linebyline + "\\n-> Variable cannot be parsed.\\n" +
+								"idea: add '<-' end of manipulation (..[..] -> \".."\" <-) \")");
+					}
 				}
 			}	
 
@@ -775,6 +789,11 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 							if(_data != "error") {
 								_data = ValueDefinition(data.file, _data);
 								var.Variable(name, _data);
+							} else {
+								FlaScriptInterpreterWithArg(data.file, 
+								"error(\"file: " + data.file + 
+									"\\ndata: " + linebyline + "\\n-> Function cannot be initialized.\\n" +
+									"idea: try '(func) .. (end)'\")");
 							}
 						} else if(FindObject(linebyline, "(__compress__)") == true) {
                         	FCompress compress;                        
@@ -787,6 +806,11 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
                         	    compress.Encode(_data, compressed_data);
 
 								var.Variable(name, compressed_data);
+							} else {
+								FlaScriptInterpreterWithArg(data.file, 
+								"error(\"file: " + data.file + 
+									"\\ndata: " + linebyline + "\\n-> Variable cannot be initialized.\\n" +
+									"idea: try '(__compress__) .. (__end__)'\")");
 							}
                     	} else if(FindObject(linebyline, "(__decompress__)") == true) {
                         	FCompress compress; 
@@ -799,6 +823,11 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
                         	    compress.Decompress(_data, decompressed_data);
 
 								var.Variable(name, decompressed_data);
+							} else {
+								FlaScriptInterpreterWithArg(data.file, 
+								"error(\"file: " + data.file + 
+									"\\ndata: " + linebyline + "\\n-> Variable cannot be initialized.\\n" +
+									"idea: try '(__decompress__) .. (__end__)'\")");
 							}
                     	} else if(FindObject(linebyline, "(__link__)") == true) {
                     		/* var(string) -> (__link__)argv[1] (__end__) -> ... <- */
@@ -817,7 +846,12 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
                     				}
                     			} else if(FindObject(_data, "argc") == true) {
                     				var.Variable(name, std::to_string(data.argc));  
-                    			}
+                    			} else {
+									FlaScriptInterpreterWithArg(data.file, 
+										"error(\"file: " + data.file + 
+										"\\ndata: " + linebyline + "\\n-> Argument not found in built-ins.\\n" +
+										"idea: erase " + _data + " try 'argv' or 'argc'\")");
+								}
                     		}
                     	} else {
                     		if(stringtools::GetBetweenString(linebyline, ") -> (", ") {") != "error") {
@@ -828,7 +862,14 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 								_data = stringtools::GetBetweenString(linebyline, ") -> ", " -> ");
 								name  = stringtools::GetBetweenString(linebyline, _data + " -> ", " <-");
 							}
-									
+							
+							if(name.find(" ")) {
+								FlaScriptInterpreterWithArg(data.file, 
+									"warning(\"file: " + data.file + 
+									"\\ndata: " + linebyline + "\\n-> Whitespace detected.\\n" +
+									"idea: erase whitespace from variable name, use pascal or camel case.\")");
+							}
+							
 							var.Variable(name, _data);
 						}
 					}
@@ -838,7 +879,14 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						FVariable var;
 						std::string assin = stringtools::GetBetweenString(linebyline, "@echo -> ", " <-");
 					
-						std::cout << var.GetVariable(assin);
+						if(assin != "error") {
+							std::cout << var.GetVariable(assin);
+						} else {
+							FlaScriptInterpreterWithArg(data.file, 
+								"error(\"file: " + data.file + 
+								"\\ndata: " + linebyline + "\\n-> Parse error.\\n" +
+								"idea: add '->' of front and add '<-' of end\")");
+						}
 					}
 				
 					/* @change -> name : Hello, world < */
@@ -1393,7 +1441,8 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 									/* Use Embedded FlaScript code in C++ */
 									FlaScriptInterpreterWithArg(data.file, 
 										"error(\"file: " + data.file + 
-											"\\ndata: " + linebyline + "|-> \\nParse error under variable manipulation.\")");
+											"\\ndata: " + linebyline + "\\n-> Parse error under variable manipulation.\\n" +
+											"idea: add '<' end of manipulation\")");
 								}
 								
 								break;

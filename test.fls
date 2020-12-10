@@ -1,6 +1,6 @@
 main() -> main {
 	var(string) -> null -> number <-
-	var(string) -> 15 -> start <-
+	var(string) -> 15 -> start hello <-
 
 	@number = "100" <
 	
