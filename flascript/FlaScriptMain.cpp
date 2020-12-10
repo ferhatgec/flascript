@@ -10,7 +10,6 @@
 #include <FlaVersion.hpp>
 
 #include <Interpreter/Interpreter.hpp>
-#include <Debug/Debug_Interpreter.hpp>
 
 /* Library */
 #include <FileSystemPlusPlus.h>
@@ -22,8 +21,6 @@ void HelpFunction(char** argv) {
 	std::cout << "Fegeya FlaScript " << vers.VersionAlgorithm() + "\n" <<
 	"Usage: fla [Options] file\nOptions:\n" <<
 	argv[0] << " --b  || --build  <source> : Build & Run FlaScript code\n" <<
-	argv[0] << " --d  || --debug <source> : Debug FlaScript code\n" <<
-	argv[0] << " --ba || --buildall <source> : [Under the construction] Debug & Build & Run\n" <<
 	argv[0] << " --v  || --version : Show version\n";
 }
 
@@ -67,27 +64,6 @@ int main(int argc, char** argv) {
 			data.file = file;
 			
 			interpreter.FlaScriptInterpreter(data);
-		}
-	} else if(argument == "--debug" || argument == "--d") {
-		Debug_FInterpreter interpreter;
-		
-		if(argc > 2) {
-			std::string file(argv[2]);
-			data.file = file;
-			
-			interpreter.Debug_FlaScriptInterpreter(file);	
-		}
-	} else if(argument == "--buildall" || argument == "--ba") { /* Under the construction */
-		Debug_FInterpreter debug; /* Debug */
-		FInterpreter interpreter; /* Build & Run */
-		
-		if(argc > 2) {
-			std::string file(argv[2]);
-			
-			data.file = file;
-			
-			debug.Debug_FlaScriptInterpreter(file);		
-			interpreter.FlaScriptInterpreter(data);		
 		}
 	} else if(argument == "--help" || argument == "--h") {
 		HelpFunction(argv);
