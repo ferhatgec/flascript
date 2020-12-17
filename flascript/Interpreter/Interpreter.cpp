@@ -1455,53 +1455,39 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 					if(linebyline[0] == '@') {
 						FVariable var;
 						std::string variable;
+						char token;
+
+						std::string new_data = stringtools::GetBetweenString(linebyline, "\"", "\" <");
 
 						for(unsigned i = 0; linebyline[i] != '\0'; i++) {
-							if(linebyline[i] == '=') {
-								std::string new_data = stringtools::GetBetweenString(linebyline, "\"", "\" <");
+							if(linebyline[i + 1] != '=') {
+								variable.push_back(linebyline[i]);
+							} else {
+								token = linebyline[i];
+								break;
+							}
+						}
 
-								if(new_data.compare("error") != 0) {
-									variable = stringtools::ltrim(variable);
-									variable = stringtools::rtrim(variable);
+						if(new_data.compare("error") == 0) {
+							variable = stringtools::rtrim(variable);
+							variable = stringtools::ltrim(variable);
 
-									variable = variable.erase(0, 1); // erase @ character
+							variable = variable.erase(0, 1); // erase @ character
 
-									var.Change(variable, new_data, FLA_STRING);
-								} else {
-									/* Use Embedded FlaScript code in C++ */
-									FlaScriptInterpreterWithArg(data.file,
-										"error(\"file: " + data.file +
-											"\\ndata: " + linebyline + "\\n-> Parse error under variable manipulation.\\n" +
-											"idea: add '<' end of manipulation\")");
+							/* get token @<variable> <token>= .... <*/
+							if(token == '/') { /* /= */
+								new_data = stringtools::GetBetweenString(linebyline, "/=", "<");
+
+								new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) / atoi(new_data.c_str()));
+
+								if(new_data.length() <= 2) {
+									new_data.append("  ");
 								}
 
-								break;
-							} else if(linebyline[i] == '/' && linebyline[i + 1] == '=') {
-								std::string new_data = stringtools::GetBetweenString(linebyline, " /=", "<");
-
-								if(new_data.compare("error") != 0) {
-									variable = stringtools::ltrim(variable);
-									variable = stringtools::rtrim(variable);
-
-									variable = variable.erase(0, 1); // erase @ character
-
-									new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) / atoi(new_data.c_str()));
-
-									if(new_data.length() <= 2) {
-											new_data.append("  ");
-									}
-
-									var.Change(variable, new_data, FLA_INT);
-								} else {
-									/* Use Embedded FlaScript code in C++ */
-									FlaScriptInterpreterWithArg(data.file,
-										"error(\"file: " + data.file +
-											"\\ndata: " + linebyline + "\\n-> Parse error under variable manipulation.\\n" +
-											"idea: add '<' end of manipulation\")");
-								}
-
-								break;
-							} else variable.push_back(linebyline[i]);
+								var.Change(variable, new_data, FLA_INT);
+							} else if(token == '=') { /* == */
+								var.Change(variable, new_data, FLA_STRING);
+							}
 						}
 					}
 
