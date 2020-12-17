@@ -1473,12 +1473,18 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						variable = variable.erase(0, 1); // erase @ character
 
 						/* get token @<variable> <token>= .... <*/
-						if(token == "/" || token == "-" || token == "*") { /* /= */
+						if(token == "/"
+							|| token == "-"
+							|| token == "*"
+							|| token == "+"
+							|| token == "%") { /* /= -= *= += %= */
 							new_data = stringtools::GetBetweenString(linebyline, token + "=", "<");
 
 							if(token      == "/") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) / atoi(new_data.c_str()));
 							else if(token == "-") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) - atoi(new_data.c_str()));
 							else if(token == "*") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) * atoi(new_data.c_str()));
+							else if(token == "+") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) + atoi(new_data.c_str()));
+							else if(token == "%") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) % atoi(new_data.c_str()));
 							else {}
 							/* undefined token (error) */
 

@@ -1,7 +1,7 @@
 main() -> main {
-	var(int) -> 120 -> number <-
+	var(int) -> 12 -> number <-
 
-	@number -= 20 <
+	@number %= 5 <
 
 	print(string) -> "{number}\n"
 } main;
