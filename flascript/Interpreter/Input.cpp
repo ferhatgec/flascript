@@ -13,27 +13,27 @@
 
 #include <StringTools.hpp>
 
-void 
+void
 FInput::GetInput(std::string name) {
 	FVariable var;
-	
+
 	std::string input;
 	std::getline(std::cin, input);
-	
-    if(input != "") var.Change(name, input);
+
+    if(input != "") var.Change(name, input, FLA_STRING);
 }
 
 void
 FInput::GetCharInput(std::string name) {
 	FVariable var;
 
-	std::string data;	
+	std::string data;
 	char input;
-	
+
 	input = getchar();
-	
+
 	data.push_back(input);
 	data.append("  ");
-	
-	if(input != ' ') var.Change(name, data);
+
+	if(input != ' ') var.Change(name, data, FLA_STRING);
 }

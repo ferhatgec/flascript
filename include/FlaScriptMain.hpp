@@ -15,7 +15,7 @@ typedef struct {
 	std::string dir;
 	std::string file;
 	int32_t argc;
-	char** argv;	
+	char** argv;
 } flascript_t;
 
 #endif // FLA_SCRIPT_MAIN_HPP

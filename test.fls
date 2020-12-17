@@ -3,8 +3,6 @@ main() -> main {
 	var(string) -> 15 -> start hello <-
 
 	@number = "100" <
-	
+
 	print(string) -> "{number}\n"
-
-
 } main;

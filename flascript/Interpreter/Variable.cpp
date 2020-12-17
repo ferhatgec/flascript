@@ -20,36 +20,88 @@
 
 // (name: asdsa)[data: hi]
 void
-FVariable::Variable(std::string name, std::string data) {
-	
-	if(data.length() <= 2) {
-		data = "{" + name + ": " + data; 
+FVariable::Variable(std::string name, std::string data, Data_Types type) {
+	switch(type) {
+		case FLA_INT:
+		{
+			if(data.length() <= 2) {
+				data = "{" + name + ": " + data;
+			}
+
+			variable_data = variable_data.append("{" + name + "};(name: "
+				+ name
+				+ ");"
+				+ "{"
+				+ name
+				+ "};[data: start:{"
+				+ data
+				+ ":end]<"
+				+ name
+			+ ">;\n");
+
+			break;
+		}
+
+		case FLA_STRING:
+		{
+			if(data.length() <= 2) {
+				data = "{" + name + ": " + data;
+			}
+
+			variable_data = variable_data.append("{" + name + "};(name: "
+			 	+ name
+				+ ");"
+				+ "{"
+				+ name
+				+ "};[data: start:{\n"
+				+ data
+				+ "\n:end]<"
+				+ name
+			+ ">;\n");
+
+			break;
+		}
 	}
-	
-	variable_data = variable_data.append("{" + name + "};(name: " + name + ");" + "{" + name + "};[data: start:{\n" + data + "\n:end]<" + name + ">;\n");
 }
 
 std::string
 FVariable::GetVariable(std::string name) {
     std::string data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
 
-	    
-    if(stringtools::EraseAllSubString(data, "{" + name + ": ") != "error") { 
+
+    if(stringtools::EraseAllSubString(data, "{" + name + ": ") != "error") {
     	data = stringtools::EraseAllSubString(data, "{" + name + ": ");
-    } 
-    
+    }
+
     return data;
+	// stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
 }
 
-// stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
 
 void
-FVariable::Change(std::string name, std::string data) {
-    std::string _data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", 
-        "\n:end]<" + name + ">;\n");    
-	
+FVariable::Change(std::string name, std::string data, Data_Types type) {
+    std::string _data;
+
+	switch (type) {
+		case FLA_INT:
+		{
+			_data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{",
+				":end]<" + name + ">;\n");
+
+			break;
+		}
+
+		case FLA_STRING:
+		{
+			_data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n",
+				"\n:end]<" + name + ">;\n");
+
+			break;
+		}
+	}
+
 	if(data.length() == 0) { data = "  "; }
-	
+
     stringtools::replace(variable_data, _data, data);
 }
 
@@ -58,7 +110,7 @@ FVariable::Append(std::string name, std::string data) {
 	std::string data_ = GetVariable(name);
     data_.append(data);
 
-    Change(name, data_);
+    Change(name, data_, FLA_STRING);
 }
 
 void
@@ -66,7 +118,7 @@ FVariable::Between(std::string name, std::string first, std::string second) {
 	std::string data_ = GetVariable(name);
     data_ = stringtools::GetBetweenString(data_, first, second);
 
-    Change(name, data_);
+    Change(name, data_, FLA_STRING);
 }
 
 void
@@ -74,15 +126,15 @@ FVariable::Pop_Back(std::string name) {
 	std::string data_ = GetVariable(name);
     data_.pop_back();
 
-    Change(name, data_);
+    Change(name, data_, FLA_STRING);
 }
 
 void
 FVariable::Strip(std::string name) {
 	std::string data_ = GetVariable(name);
     data_ = stringtools::EraseAllSubString(data_, " ");
-		
-    Change(name, data_);	
+
+    Change(name, data_, FLA_STRING);
 }
 
 
@@ -90,11 +142,11 @@ void
 FVariable::Substring(std::string name, std::string substring) {
 	std::string data_ = GetVariable(name);
     data_ = stringtools::EraseAllSubString(data_, substring);
-		
-    Change(name, data_);	
+
+    Change(name, data_, FLA_STRING);
 }
 
 void
 FVariable::Equal(std::string name, std::string data) {
-    Change(name, data);
+    Change(name, data, FLA_STRING);
 }

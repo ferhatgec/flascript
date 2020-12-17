@@ -35,18 +35,23 @@ static std::map<std::string, std::string> variables {
         {"__NEWLINE__", "\n"}
 };
 
+enum Data_Types {
+	FLA_INT = 1,
+	FLA_STRING = 2
+};
+
 static auto var_ = variables;
 static std::string variable_data;
 
 class FVariable {
 public:
-	void Variable(std::string name, std::string data);
+	void Variable(std::string name, std::string data, Data_Types type);
 	std::string GetVariable(std::string name);
-	
-	void Change(std::string name, std::string data);
+
+	void Change(std::string name, std::string data, Data_Types type);
 	void Append(std::string name, std::string data);
 	void Between(std::string name, std::string first, std::string second);
-	
+
     void Equal(std::string name, std::string data);
 	void Substring(std::string name, std::string substring);
 	void Strip(std::string name);
