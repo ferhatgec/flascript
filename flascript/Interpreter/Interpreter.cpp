@@ -1454,8 +1454,7 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 					/* @variable = "hello" < */
 					if(linebyline[0] == '@') {
 						FVariable var;
-						std::string variable;
-						char token;
+						std::string variable, token;
 
 						std::string new_data = stringtools::GetBetweenString(linebyline, "\"", "\" <");
 
@@ -1463,31 +1462,32 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 							if(linebyline[i + 1] != '=') {
 								variable.push_back(linebyline[i]);
 							} else {
-								token = linebyline[i];
+								token.push_back(linebyline[i]);
 								break;
 							}
 						}
 
-						if(new_data.compare("error") == 0) {
-							variable = stringtools::rtrim(variable);
-							variable = stringtools::ltrim(variable);
+						variable = stringtools::rtrim(variable);
+						variable = stringtools::ltrim(variable);
 
-							variable = variable.erase(0, 1); // erase @ character
+						variable = variable.erase(0, 1); // erase @ character
 
-							/* get token @<variable> <token>= .... <*/
-							if(token == '/') { /* /= */
-								new_data = stringtools::GetBetweenString(linebyline, "/=", "<");
+						/* get token @<variable> <token>= .... <*/
+						if(token == "/" || token == "-") { /* /= */
+							new_data = stringtools::GetBetweenString(linebyline, token + "=", "<");
 
-								new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) / atoi(new_data.c_str()));
+							if(token == "/")      new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) / atoi(new_data.c_str()));
+							else if(token == "-") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) - atoi(new_data.c_str()));
+							else {}
+							/* undefined token (error) */
 
-								if(new_data.length() <= 2) {
-									new_data.append("  ");
-								}
-
-								var.Change(variable, new_data, FLA_INT);
-							} else if(token == '=') { /* == */
-								var.Change(variable, new_data, FLA_STRING);
+							if(new_data.length() <= 2) {
+								new_data.append("  ");
 							}
+
+							var.Change(variable, new_data, FLA_INT);
+						} else if(token == "=") { /* == */
+							var.Change(variable, new_data, FLA_STRING);
 						}
 					}
 
