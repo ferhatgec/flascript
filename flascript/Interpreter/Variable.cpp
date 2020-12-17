@@ -68,6 +68,10 @@ std::string
 FVariable::GetVariable(std::string name) {
     std::string data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
 
+	/* integer found */
+	if(data == "error") {
+		data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{", ":end]<" + name + ">;\n");
+	}
 
     if(stringtools::EraseAllSubString(data, "{" + name + ": ") != "error") {
     	data = stringtools::EraseAllSubString(data, "{" + name + ": ");

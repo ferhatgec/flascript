@@ -1,8 +1,7 @@
 main() -> main {
-	var(string) -> null -> number <-
-	var(string) -> 15 -> start hello <-
+	var(int) -> 120 -> number <-
 
-	@number = "100" <
+	@number /= 20 <
 
 	print(string) -> "{number}\n"
 } main;

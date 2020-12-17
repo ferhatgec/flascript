@@ -1476,6 +1476,31 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 								}
 
 								break;
+							} else if(linebyline[i] == '/' && linebyline[i + 1] == '=') {
+								std::string new_data = stringtools::GetBetweenString(linebyline, " /=", "<");
+
+								if(new_data.compare("error") != 0) {
+									variable = stringtools::ltrim(variable);
+									variable = stringtools::rtrim(variable);
+
+									variable = variable.erase(0, 1); // erase @ character
+
+									new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) / atoi(new_data.c_str()));
+
+									if(new_data.length() <= 2) {
+											new_data.append("  ");
+									}
+
+									var.Change(variable, new_data, FLA_INT);
+								} else {
+									/* Use Embedded FlaScript code in C++ */
+									FlaScriptInterpreterWithArg(data.file,
+										"error(\"file: " + data.file +
+											"\\ndata: " + linebyline + "\\n-> Parse error under variable manipulation.\\n" +
+											"idea: add '<' end of manipulation\")");
+								}
+
+								break;
 							} else variable.push_back(linebyline[i]);
 						}
 					}
