@@ -1,0 +1,8 @@
+main() -> main {
+	var(int) -> 12 -> number <-
+	var(int) -> null -> other <-
+	
+	@number %= 5 -> var(other) <
+
+	print(string) -> "number: {number}\nother number:{other}\n"
+} main;
