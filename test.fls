@@ -1,8 +1,13 @@
 main() -> main {
 	var(int) -> 12 -> number <-
-	var(int) -> null -> other <-
+	var(int) -> null -> data <-
 	
-	@number %= 5 -> var(other) <
+	print(string) -> "Factorial(𝑥)\n𝑥 = " 
+	
+	@input(int) -> data <
+	
+	// factorial(5) etc.
+	@number !!= var(data) <
 
-	print(string) -> "number: {number}\nother number:{other}\n"
-} main;
+	print(string) -> "Factorial({data}) = {number}\n"
+} main;	

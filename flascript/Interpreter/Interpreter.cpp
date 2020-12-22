@@ -519,17 +519,26 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			read.Read(strarg);
 		}
 
-		/*
-			@input -> name <
-		*/
-		if(FindObject(strarg, "@input") == true) {
-			FInput input;
 
-			std::string assign;
-			assign = stringtools::GetBetweenString(strarg, "@input -> ", " <");
+		/* @input -> name < */
+        if(FindObject(strarg, "@input") == true) {
+            FInput input;
 
-			input.GetInput(assign);
-		}
+            std::string assign;
+            assign = stringtools::GetBetweenString(assign, "@input -> ", " <");
+
+            if(assign == "error") {
+                assign = stringtools::GetBetweenString(strarg, "@input(", ") ->");
+
+                if(assign == "int") {
+                    input.GetInput(assign, FLA_INT);
+                } else if(assign == "string") {
+                    input.GetInput(assign, FLA_STRING);
+                }
+            } else {
+                input.GetInput(assign, FLA_STRING);
+            }
+        }
 
         /* @compress -> name < */
 		if(FindObject(strarg, "@compress") == true) {
@@ -1369,6 +1378,7 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						read.Read(linebyline);
 					}
 
+                    /* remove duplicated functions & link with FlaScriptInterpreterWithArg */
 					/* @input -> name < */
 					if(FindObject(linebyline, "@input") == true) {
 						if(data.dir != "") chdir(data.dir.c_str());
@@ -1377,8 +1387,26 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						std::string assign;
 						assign = stringtools::GetBetweenString(linebyline, "@input -> ", " <");
 
-						input.GetInput(assign);
+                        if(assign == "error") {
+                            assign = stringtools::GetBetweenString(linebyline, "@input(", ") ->");
 
+                            if(assign == "int") {
+                                assign = stringtools::GetBetweenString(linebyline,
+                                "@input(" + assign + ") -> ",  " <");
+
+                                input.GetInput(assign, FLA_INT);
+                            } else if(assign == "string") {
+                                assign = stringtools::GetBetweenString(linebyline,
+                                "@input(" + assign + ") -> ",  " <");
+
+                                input.GetInput(assign, FLA_STRING);
+                            }
+                        } else {
+                            assign = stringtools::GetBetweenString(linebyline,
+                                "@input(" + assign + ") -> ",  " <");
+
+                            input.GetInput(assign, FLA_STRING);
+                        }
 
 						if(data.dir != "") chdir(data.dir.c_str());
 					}
@@ -1459,7 +1487,12 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						std::string new_data = stringtools::GetBetweenString(linebyline, "\"", "\" <");
 
 						for(unsigned i = 0; linebyline[i] != '\0'; i++) {
-							if(linebyline[i + 1] != '=') {
+							if(linebyline[i] == '!'
+							    && linebyline[i + 1] == '!'
+							    && linebyline[i + 2] == '=') {
+                                token = "!!";
+                                break;
+							} else if(linebyline[i + 1] != '=') {
 								variable.push_back(linebyline[i]);
 							} else {
 								token.push_back(linebyline[i]);
@@ -1479,7 +1512,8 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 							|| token == "-"
 							|| token == "*"
 							|| token == "+"
-							|| token == "%") { /* /= -= *= += %= */
+							|| token == "%"
+							|| token == "!!") { /* /= -= *= += %= */
 							new_data = stringtools::EraseAllSubString(linebyline, "@" + variable + token + "=");
 
                             if(stringtools::GetBetweenString(new_data, "->", "<") != "error") {
@@ -1491,12 +1525,23 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
                                 new_data = stringtools::EraseAllSubString(new_data, "->var("+ other + ")<");
                             } else new_data.pop_back();
 
+                            if(new_data.rfind("var", 0) == 0) {
+                                new_data = new_data.erase(0, 4);
+
+                                new_data.pop_back();
+
+                                new_data = var.GetVariable(new_data);
+                            }
+
 							if(token      == "/") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) / atoi(new_data.c_str()));
 							else if(token == "-") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) - atoi(new_data.c_str()));
 							else if(token == "*") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) * atoi(new_data.c_str()));
 							else if(token == "+") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) + atoi(new_data.c_str()));
 							else if(token == "%") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) % atoi(new_data.c_str()));
-							else {}
+							else if(token == "!!") {
+							    FMath fact;
+							    new_data = std::to_string(fact.Factorial(atoi(new_data.c_str())));
+							} else {}
 							/* undefined token (error) */
 
 							if(new_data.length() <= 2) {
