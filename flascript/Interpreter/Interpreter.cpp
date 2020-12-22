@@ -1454,7 +1454,7 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 					/* @variable = "hello" < */
 					if(linebyline[0] == '@') {
 						FVariable var;
-						std::string variable, token;
+						std::string variable, token, other;
 
 						std::string new_data = stringtools::GetBetweenString(linebyline, "\"", "\" <");
 
@@ -1472,13 +1472,24 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 
 						variable = variable.erase(0, 1); // erase @ character
 
+                        linebyline = stringtools::EraseAllSubString(linebyline , " ");
+
 						/* get token @<variable> <token>= .... <*/
 						if(token == "/"
 							|| token == "-"
 							|| token == "*"
 							|| token == "+"
 							|| token == "%") { /* /= -= *= += %= */
-							new_data = stringtools::GetBetweenString(linebyline, token + "=", "<");
+							new_data = stringtools::EraseAllSubString(linebyline, "@" + variable + token + "=");
+
+                            if(stringtools::GetBetweenString(new_data, "->", "<") != "error") {
+                                other = stringtools::GetBetweenString(new_data, "->", "<");
+                                other = other.erase(0, 4);
+
+                                other.pop_back();
+
+                                new_data = stringtools::EraseAllSubString(new_data, "->var("+ other + ")<");
+                            } else new_data.pop_back();
 
 							if(token      == "/") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) / atoi(new_data.c_str()));
 							else if(token == "-") new_data = std::to_string(atoi(var.GetVariable(variable).c_str()) - atoi(new_data.c_str()));
@@ -1492,7 +1503,10 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 								new_data.append("  ");
 							}
 
-							var.Change(variable, new_data, FLA_INT);
+                            if(other.length() != 0)
+							    var.Change(other, new_data, FLA_INT);
+						    else
+						        var.Change(variable, new_data, FLA_INT);
 						} else if(token == "=") { /* == */
 							var.Change(variable, new_data, FLA_STRING);
 						}
