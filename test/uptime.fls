@@ -1,0 +1,45 @@
+// This code can be better 
+// * Simple implementation of uptime command from Scrift shell and TimePlusPlus library.
+
+main() -> main {
+	// FlaScript allows you to convert automatically string to integer without type a function,
+	// * Note: In FlaScript all variables collected as string, when you want to use it as integer, it converts automatically.
+	// * So, integer type is not really collected as integer, 
+	//    it's string but when you use this variable, FlaScript forces to convert it to integer. 
+	 
+	var(string) -> null -> data <-
+	var(int) -> null -> hours <-
+	var(int) -> null -> minutes <-
+	
+	var(string) -> \033[1;96m -> bold_light_cyan <- 
+	var(string) -> \033[1;34m -> bold_blue <-
+
+	var(string) -> \033[1;95m -> bold_light_magenta <- 
+	var(string) -> \033[1;35m -> bold_magenta <-
+	var(string) -> \033[0m -> reset <-
+		
+	var(string) -> null -> str_hour <-		
+	var(string) -> null -> str_minute <-
+	
+	@readfile -> data -> "/proc/uptime" <
+	
+	@data /= 60 -> var(hours)< 
+	@data /= 60 -> var(minutes)<
+	
+	@hours /= 60< 
+	@hours %= 24<
+	
+	@minutes %= 60 <
+
+	
+	@equal -> str_hour -> {bold_light_cyan}{hours}{bold_blue}h <
+	@equal -> str_minute -> {bold_light_magenta}{minutes}{bold_magenta}m\n{reset} <
+	
+	@escape_seq -> str_hour <
+	@escape_seq -> str_hour <
+	
+	@escape_seq -> str_minute <
+	@escape_seq -> str_minute <
+	
+	print(string) -> "{str_hour} {str_minute}" 
+} main;
