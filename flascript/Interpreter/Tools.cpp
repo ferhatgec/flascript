@@ -38,7 +38,11 @@ FlaScript::TextBackground(int color) {
 	
 std::string
 FlaScript::EscapeSeq(std::string data) {
-	stringtools::replaceAll(data, "\\033[", "\033[");
+	stringtools::replaceAll(data, "\\033", "\033");
+	stringtools::replaceAll(data, "\\x1", "\x1");
+	stringtools::replaceAll(data, "\\x2", "\x2");
+	stringtools::replaceAll(data, "\\x3", "\x3");
+	
     stringtools::replaceAll(data, "\\n", "\n");
     stringtools::replaceAll(data, "\\t", "\t");
     stringtools::replaceAll(data, "\\a", "\a");
