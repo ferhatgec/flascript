@@ -75,6 +75,10 @@ FVariable::GetVariable(std::string name) {
 
     if(stringtools::EraseAllSubString(data, "{" + name + ": ") != "error") {
     	data = stringtools::EraseAllSubString(data, "{" + name + ": ");
+
+        if(std::atoi(data.c_str()) != 0) {
+            data = std::to_string(std::atoi(data.c_str()));
+        }
     }
 
     return data;
