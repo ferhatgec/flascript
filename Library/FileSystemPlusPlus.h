@@ -62,7 +62,12 @@ namespace fsplusplus {
     	
     static std::string ReadFileWithReturn(std::string file) {
 		std::string line, data;
-        std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
+		
+		if(file[0] != '/') {
+			file = fsplusplus::GetCurrentWorkingDir() + "/" + file;
+		}
+		
+        std::ifstream readfile(file.c_str());
     	
     	if(readfile.is_open()) {
         	while (std::getline(readfile, line)) data.append(line + "\n");
@@ -73,7 +78,7 @@ namespace fsplusplus {
 		
         return data;
     }
-    	
+    
     static std::string ReadDirWithReturn(std::string dir) {
 	    std::string line, add;
     	std::ifstream readfile(dir.c_str());
