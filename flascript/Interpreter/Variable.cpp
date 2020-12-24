@@ -13,6 +13,7 @@
 #include <iterator>
 #include <map>
 
+#include <FlaScriptMain.hpp>
 #include <Interpreter/Variable.hpp>
 #include <Interpreter/Tools.hpp>
 
@@ -24,40 +25,36 @@ FVariable::Variable(std::string name, std::string data, Data_Types type) {
 	switch(type) {
 		case FLA_INT:
 		{
-			if(data.length() <= 2) {
-				data = "{" + name + ": " + data;
-			}
-
-			variable_data = variable_data.append("{" + name + "};(name: "
+			variable_data = variable_data.append("type: 'int' name: '"
 				+ name
-				+ ");"
-				+ "{"
-				+ name
-				+ "};[data: start:{"
+				+ "'\n"
+				+ "start*\n"
 				+ data
-				+ ":end]<"
+				+ "\n*end\n"
+				+ "type: 'int' name: '"
 				+ name
-			+ ">;\n");
+				+ "' end\n");
 
 			break;
 		}
 
 		case FLA_STRING:
 		{
-			if(data.length() <= 2) {
-				data = "{" + name + ": " + data;
-			}
+            /* type: 'string' name: '....'
+               start*
 
-			variable_data = variable_data.append("{" + name + "};(name: "
-			 	+ name
-				+ ");"
-				+ "{"
+               *end
+               type: 'string' name: '....' end
+            */
+            variable_data = variable_data.append("type: 'string' name: '"
 				+ name
-				+ "};[data: start:{\n"
+				+ "'\n"
+				+ "start*\n"
 				+ data
-				+ "\n:end]<"
+				+ "\n*end\n"
+				+ "type: 'string' name: '"
 				+ name
-			+ ">;\n");
+				+ "' end\n");
 
 			break;
 		}
@@ -66,23 +63,18 @@ FVariable::Variable(std::string name, std::string data, Data_Types type) {
 
 std::string
 FVariable::GetVariable(std::string name) {
-    std::string data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
+    std::string data = stringtools::GetBetweenString(variable_data,
+        STR("type: 'string' name: '") + name + STR("'\nstart*\n"),
+            STR("\n*end\n") + STR("type: 'string' name: '") + name + STR("' end\n"));
 
 	/* integer found */
 	if(data == "error") {
-		data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{", ":end]<" + name + ">;\n");
+        data = stringtools::GetBetweenString(variable_data,
+        STR("type: 'int' name: '") + name + STR("'\nstart*\n"),
+            STR("\n*end\n") + STR("type: 'int' name: '") + name + STR("' end\n"));
 	}
 
-    if(stringtools::EraseAllSubString(data, "{" + name + ": ") != "error") {
-    	data = stringtools::EraseAllSubString(data, "{" + name + ": ");
-
-        if(std::atoi(data.c_str()) != 0) {
-            data = std::to_string(std::atoi(data.c_str()));
-        }
-    }
-
     return data;
-	// stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n", "\n:end]<" + name + ">;\n");
 }
 
 
@@ -93,22 +85,22 @@ FVariable::Change(std::string name, std::string data, Data_Types type) {
 	switch (type) {
 		case FLA_INT:
 		{
-			_data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{",
-				":end]<" + name + ">;\n");
+			_data = stringtools::GetBetweenString(variable_data,
+                STR("type: 'int' name: '") + name + STR("'\nstart*\n"),
+                STR("\n*end\n") + STR("type: 'int' name: '") + name + STR("' end\n"));
 
 			break;
 		}
 
 		case FLA_STRING:
 		{
-			_data = stringtools::GetBetweenString(variable_data, "{" + name + "};(name: " + name + ");{" + name + "};[data: start:{\n",
-				"\n:end]<" + name + ">;\n");
+			_data = stringtools::GetBetweenString(variable_data,
+                STR("type: 'string' name: '") + name + STR("'\nstart*\n"),
+                STR("\n*end\n") + STR("type: 'string' name: '") + name + STR("' end\n"));
 
 			break;
 		}
 	}
-
-	if(data.length() == 0) { data = "  "; }
 
     stringtools::replace(variable_data, _data, data);
 }

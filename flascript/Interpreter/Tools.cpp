@@ -60,7 +60,9 @@ FlaScript::EscapeSeq(std::string data) {
             variable      = stringtools::Between(data, "{", "}");
         	variable_data = var.GetVariable(variable);
 
-            stringtools::replaceAll(data, "{" + variable + "}", variable_data);
+            if(variable_data != "error") {
+                stringtools::replaceAll(data, "{" + variable + "}", variable_data);
+            }
         }
     }
     

@@ -11,6 +11,10 @@
 #include <iostream>
 #include <string>
 
+inline std::string STR(const char* _ch) {
+	return (std::string)_ch;
+}
+
 typedef struct {
 	std::string dir;
 	std::string file;

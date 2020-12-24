@@ -540,26 +540,37 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			read.Read(strarg);
 		}
 
-
 		/* @input -> name < */
-        if(FindObject(strarg, "@input") == true) {
-            FInput input;
+		if(FindObject(strarg, "@input") == true) {
+			FInput input;
 
             std::string assign;
-            assign = stringtools::GetBetweenString(assign, "@input -> ", " <");
+			assign = stringtools::GetBetweenString(strarg, "@input -> ", " <");
 
             if(assign == "error") {
                 assign = stringtools::GetBetweenString(strarg, "@input(", ") ->");
 
                 if(assign == "int") {
+                    assign = stringtools::GetBetweenString(strarg,
+                        "@input(" + assign + ") -> ",  " <");
+
                     input.GetInput(assign, FLA_INT);
                 } else if(assign == "string") {
+                    assign = stringtools::GetBetweenString(strarg,
+                        "@input(" + assign + ") -> ",  " <");
+
                     input.GetInput(assign, FLA_STRING);
                 }
             } else {
+                assign = stringtools::GetBetweenString(strarg,
+                    "@input(" + assign + ") -> ",  " <");
+
                 input.GetInput(assign, FLA_STRING);
             }
-        }
+
+		    continue;
+		}
+
 
         /* @compress -> name < */
 		if(FindObject(strarg, "@compress") == true) {
