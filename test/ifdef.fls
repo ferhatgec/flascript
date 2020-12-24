@@ -1,9 +1,9 @@
-if {
-    ifdef(freebsd) -> 
-	print(string) -> "FreeBSD!"
-	print(newline)
-endif}
+#if FREEBSD
+    print(string) -> "FreeBSD!\n"
+#endif FREEBSD
 
-main() -> main {
-	
-} main;
+#if LINUX
+	print(string) -> "GNU/Linux!\n"
+#endif LINUX
+
+main() -> main {} main;
