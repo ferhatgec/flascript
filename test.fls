@@ -1,4 +1,18 @@
+#if LINUX
+	print(string) -> "Hi, GNU/Linux user!\n"
+#endif LINUX
+
+#if FREEBSD
+	print(string) -> "Hi, FreeBSD user!\n"
+#endif FREEBSD
+
 main() -> main {
+	#if OPENBSD
+		// This should give an error.	
+	#endif OPENBSD
+	
+	exit(success)
+	
 	var(int) -> 12 -> number <-
 	var(int) -> null -> data <-
 	

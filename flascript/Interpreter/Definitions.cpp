@@ -39,84 +39,49 @@ FDefinition::OSDefinition(std::string file, std::string arg) {
 	FInterpreter inp;
 	FFunction func;
 	
-	if(inp.FindObject(arg, "if") == true) {
-		std::string assign, type, read;
+	/* [#]if */
+	if(arg[0] == '#') {
+        std::string assign, type, read;
 		read = func.FRead(file);
-	
-		stringtools::GetBtwString(read, "if {", "endif}", assign);
-	
-		if(inp.FindObject(assign, "ifdef") == true) {
-			stringtools::GetBtwString(assign, "ifdef(", ")", type);
-			stringtools::GetBtwString(read, ") ->", "endif}", read);
-			
-			if(type != "error") {
-				if(type == "linux") {
-					#ifdef __linux__
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "freebsd") {
-					#ifdef __FreeBSD__
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "openbsd") {
-					#ifdef __OpenBSD__
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "netbsd") {
-					#ifdef __NetBSD__
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "gnuhurd") {
-					#ifdef __gnu_hurd__
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "gnu_linux") {
-					#ifdef __gnu_linux__
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "morphos") {
-					#ifdef __MORPHOS__
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "macos") {
-					#ifdef __APPLE__
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "dragonfly") {
-					#ifdef __DragonFly__
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "beos") {
-					#ifdef __BEOS__
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "syllable") {
-					#ifdef __SYLLABLE__
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "os2") {
-					#ifdef OS2
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "plan9") {
-					#ifdef EPLAN9
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "win64") {
-					#ifdef _WIN64
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				} else if(type == "win32") {
-					#ifdef _WIN32
-						inp.FlaScriptInterpreterWithArg(file, read);
-					#endif
-				}/* else {
-					std::cout << "ifdef( ) : Unsupported definition.\n";
-					std::cout << "     ^^^\n";
-					inp.FlaScriptInterpreterWithArg(file, read);
-				}*/
-			}
-		}
+
+        /* [#if ] */
+        arg = arg.erase(0, 4);
+
+        read = stringtools::GetBetweenString(read, "#if " + arg, "#endif " + arg);
+
+        if(read != "error") {
+            #ifdef __linux__
+	            if	(arg == "LINUX")   inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  __FreeBSD__
+	            if(arg == "FREEBSD")   inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  __OpenBSD__
+	            if(arg == "OPENBSD")   inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  __NetBSD__
+	            if(arg == "NETBSD")    inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  __gnu_hurd__
+	            if(arg == "GNU_HURD")  inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  __gnu_linux__
+	            if(arg == "GNU_LINUX") inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  __MORPHOS__
+	            if(arg == "MORPHOS")   inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  __APPLE__
+	            if(arg == "APPLE")     inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  __DragonFly__
+	            if(arg == "DRAGONFLY") inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif __SYLLABLE__
+	            if(arg == "SYLLABLE")  inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  __BEOS__
+	            if(arg == "BEOS")      inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  OS2
+	            if(arg == "OS2")       inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  PLAN9
+	            if(arg == "PLAN9")     inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  _WIN64
+	            if(arg == "WIN64")     inp.FlaScriptInterpreterWithArg(file, read);
+	        #elif  _WIN32
+	            if(arg == "WIN32")     inp.FlaScriptInterpreterWithArg(file, read);
+	        #endif
+        }
 	}
 }
 

@@ -260,10 +260,9 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 		}
 
 		/*
-			if {
-				ifdef(linux)
+			#if ....
 				   // Code here
-	   		endif}
+	   		#endif ....
 		*/
 		if(FindObject(strarg, token.If) == true) {
 			FDefinition def;
@@ -757,10 +756,9 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 			}
 
 			/*
-				if {
-				ifdef(linux)
+                #if ...
 				   // Code here
-			   endif}
+                #endif ...
 			*/
 			if(FindObject(line, token.If) == true) {
 				FDefinition def;
@@ -784,6 +782,16 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 					linebyline = stringtools::ltrim(linebyline);
 
 		    		linebyline = CleanComments(linebyline);
+
+                    /* It caused to error, preprocessor must to be defined except of main */
+			        if(FindObject(linebyline, token.If) == true) {
+                        FlaScriptInterpreterWithArg(data.file,
+								"warning(\"file: " + data.file +
+									"\\ndata: " + linebyline + "\\n-> Preprocessor must to be defined except of main..\\n" +
+									"idea: move your preprocessor out of main.\")");
+
+            		    continue;
+            		}
 
 					if(FindObject(linebyline, "var(") == true) {
 						FVariable var;

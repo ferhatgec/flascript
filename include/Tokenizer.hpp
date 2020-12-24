@@ -50,7 +50,7 @@ public:
 	std::string System = "system";
 	
 	// Definitions
-	std::string If = "if {";
+	std::string If = "#if";
 	std::string Ifdef = "ifdef";
 	std::string endif = "endif}";
 	std::string Definition = "defin";
