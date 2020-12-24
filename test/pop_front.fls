@@ -1,0 +1,15 @@
+main() -> main {
+	var(string) -> FlaHello, developerFla -> pop <-
+	
+	print(string) -> "String: {pop}\n"
+	
+	@pop_front -> pop <
+	@pop_front -> pop <
+	@pop_front -> pop <
+	
+	@pop_back -> pop <
+	@pop_back -> pop <
+	@pop_back -> pop <
+	
+	print(string) -> "String: {pop}\n"
+} main;
