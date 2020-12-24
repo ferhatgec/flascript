@@ -61,9 +61,28 @@ FExec::ExecutePp(std::string arg) {
 		std::string assign;
 		stringtools::GetBtwString(arg, "execout(-> ", " <-)", assign);
 		
+		if(assign == "error") {
+		    stringtools::GetBtwString(arg, "execout(\"", "\")", assign);
+		}
+
 		ExecutePlusPlus ex;
 		assign = ex.ExecWithOutput(assign.c_str());
-		std::cout << assign;		 
+
+		if(arg.find("var")) {
+		    FVariable var;
+
+		    std::string variable = stringtools::GetBetweenString(arg, "->", "<");
+
+		    variable = stringtools::ltrim(variable);
+		    variable = stringtools::rtrim(variable);
+
+		    if(variable.length() > 4) { variable.erase(0, 4); variable.pop_back(); }
+
+            /* As FLA_STRING */
+            var.Equal(variable, assign);
+		} else {
+		    std::cout << assign;
+	    }
 	} else if(inp.FindObject(arg, "executepp") == true) {
 		std::string assign, first;
 		

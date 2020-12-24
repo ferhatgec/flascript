@@ -453,7 +453,16 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 
             if(get_name != "error") {
                 std::string get_data = stringtools::GetBetweenString(strarg, get_name + " : \"", "\" -> ");
-                std::string get_data_2 = stringtools::GetBetweenString(strarg, " -> \"", "\" <");
+                std::string get_data_2 = stringtools::GetBetweenString(strarg, "-> \"", "\" <");
+
+                if(get_data_2 == "error") {
+                    get_data_2 = stringtools::GetBetweenString(strarg, get_data + "\" ->", "<");
+
+                    get_data_2 = stringtools::ltrim(get_data_2);
+                    get_data_2 = stringtools::rtrim(get_data_2);
+
+                    if(get_data_2 == "null") get_data_2 = "";
+                 }
 
                 stringtools::replaceAll(__get_name, get_data, get_data_2);
 
@@ -1042,19 +1051,9 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 
                 	/* @replace_all -> name : "abc" -> "xyz" < */
                 	if(FindObject(linebyline, "@replace_all") == true) {
-						FVariable get;
-						std::string get_name = stringtools::GetBetweenString(linebyline, "@replace_all -> ", " : ");
+						FlaScriptInterpreterWithArg(data.file, linebyline);
 
-                    	std::string __get_name = get.GetVariable(get_name);
-
-						if(get_name != "error") {
-							std::string get_data = stringtools::GetBetweenString(linebyline, get_name + " : \"", "\" -> ");
-                    	    std::string get_data_2 = stringtools::GetBetweenString(linebyline, " -> \"", "\" <");
-
-							stringtools::replaceAll(__get_name, get_data, get_data_2);
-
-                    	    get.Change(get_name, __get_name, FLA_STRING);
-						}
+						continue;
 					}
 
 	                /* @compress -> name < */

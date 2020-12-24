@@ -7,21 +7,29 @@
 #endif FREEBSD
 
 main() -> main {
-	#if OPENBSD
+	//#if OPENBSD
 		// This should give an error.	
-	#endif OPENBSD
+	//#endif OPENBSD
 	
-	exit(success)
+	//exit(success)
 	
-	var(int) -> 12 -> number <-
-	var(int) -> null -> data <-
+	//var(int) -> 12 -> number <-
+	//var(int) -> null -> data <-
 	
-	print(string) -> "Factorial(𝑥)\n𝑥 = " 
+	//print(string) -> "Factorial(𝑥)\n𝑥 = " 
 	
-	@input(int) -> data <
+	//@input(int) -> data <
 	
 	// factorial(5) etc.
-	@number !!= var(data) <
+	//@number !!= var(data) <
 
-	print(string) -> "Factorial({data}) = {number}\n"
+	//print(string) -> "Factorial({data}) = {number}\n"
+
+	var(string) -> null -> test_string <-
+	
+	execout("python3 --version") -> var(test_string) <
+
+ 	@replace_all -> test_string : "Python " -> ": " <
+	
+	print(string) -> "Your Python version{test_string}\n"
 } main;	
