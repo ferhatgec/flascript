@@ -381,6 +381,19 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			}
 		}
 
+        /* @pop_front -> name < */
+		if(FindObject(strarg, "@pop_front") == true) {
+			FVariable var;
+
+			std::string get_name = stringtools::EraseAllSubString(strarg, " ");
+
+            get_name = stringtools::GetBetweenString(get_name, "->", "<");
+
+			if(get_name != "error") {
+				var.Pop_Front(get_name);
+			}
+		}
+
 		/* @escape_seq -> name < */
 		if(FindObject(strarg, "@escape_seq") == true) {
 			FVariable var;
@@ -1088,14 +1101,12 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
     	                }
     	            }
 
-					/* @pop_back -> name < */
-					if(FindObject(linebyline, "@pop_back") == true) {
-						FVariable var;
-						std::string get_name = stringtools::GetBetweenString(linebyline, "@pop_back -> ", " <");
-
-						if(get_name != "error") {
-							var.Pop_Back(get_name);
-						}
+					/* @pop_back -> name <
+					   @pop_front -> name <
+					*/
+					if(FindObject(linebyline, "@pop_back") == true ||
+					    FindObject(linebyline, "@pop_front") == true) {
+						FlaScriptInterpreterWithArg(data.file, linebyline);
 					}
 
 					/* @escape_seq -> name < */

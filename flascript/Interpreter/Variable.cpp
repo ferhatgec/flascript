@@ -138,6 +138,15 @@ FVariable::Pop_Back(std::string name) {
 }
 
 void
+FVariable::Pop_Front(std::string name) {
+	std::string data_ = GetVariable(name);
+
+    data_ = data_.erase(0, 1);
+
+    Change(name, data_, FLA_STRING);
+}
+
+void
 FVariable::Strip(std::string name) {
 	std::string data_ = GetVariable(name);
     data_ = stringtools::EraseAllSubString(data_, " ");

@@ -56,6 +56,7 @@ public:
 	void Substring(std::string name, std::string substring);
 	void Strip(std::string name);
 	void Pop_Back(std::string name);
+	void Pop_Front(std::string name);
 };
 
 #endif // VARIABLE_HPP
