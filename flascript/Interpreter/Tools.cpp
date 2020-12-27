@@ -30,27 +30,15 @@
 #endif
 
 void 
-FlaScript::TextBackground(int color) {
+FTools::TextBackground(int color) {
 	printf("%c[%dm", ESC, 40+color);
 }
 
-
-	
 std::string
-FlaScript::EscapeSeq(std::string data) {
-	stringtools::replaceAll(data, "\\033", "\033");
-	stringtools::replaceAll(data, "\\x1", "\x1");
-	stringtools::replaceAll(data, "\\x2", "\x2");
-	stringtools::replaceAll(data, "\\x3", "\x3");
-	
-    stringtools::replaceAll(data, "\\n", "\n");
-    stringtools::replaceAll(data, "\\t", "\t");
-    stringtools::replaceAll(data, "\\a", "\a");
-    stringtools::replaceAll(data, "\\b", "\b");
-    stringtools::replaceAll(data, "\\v", "\v");
-    stringtools::replaceAll(data, "\\r", "\r");
+FTools::EscapeSeq(std::string data) {
+    data = Sequence(data);
     
-     if(stringtools::Count(data, '{') == stringtools::Count(data, '}')) {
+    if(stringtools::Count(data, '{') == stringtools::Count(data, '}')) {
         unsigned i = stringtools::Count(data, '{');
         FVariable var;
 
@@ -66,5 +54,22 @@ FlaScript::EscapeSeq(std::string data) {
         }
     }
     
+    return data;
+}
+
+std::string
+FTools::Sequence(std::string data) {
+    stringtools::replaceAll(data, "\\033", "\033");
+	stringtools::replaceAll(data, "\\x1", "\x1");
+	stringtools::replaceAll(data, "\\x2", "\x2");
+	stringtools::replaceAll(data, "\\x3", "\x3");
+
+    stringtools::replaceAll(data, "\\n", "\n");
+    stringtools::replaceAll(data, "\\t", "\t");
+    stringtools::replaceAll(data, "\\a", "\a");
+    stringtools::replaceAll(data, "\\b", "\b");
+    stringtools::replaceAll(data, "\\v", "\v");
+    stringtools::replaceAll(data, "\\r", "\r");
+
     return data;
 }

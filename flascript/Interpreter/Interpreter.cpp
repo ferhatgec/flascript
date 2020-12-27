@@ -156,6 +156,7 @@ FInterpreter::FlaScriptImporter(std::string file, std::string get) {
 */
 void
 FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
+	FTools    seq;
 	Tokenizer token;
 	std::string strarg;
 	std::istringstream argline(arg);
@@ -195,7 +196,7 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				BOLD_RED_COLOR
 				std::cout << "error: ";
 
-				get_data = FlaScript::EscapeSeq(get_data);
+				get_data = seq.EscapeSeq(get_data);
 
 				BOLD_LIGHT_WHITE_COLOR
 				std::cout << get_data + "\n";
@@ -214,7 +215,7 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				BOLD_YELLOW_COLOR
 				std::cout << "warning: ";
 
-				get_data = FlaScript::EscapeSeq(get_data);
+				get_data = seq.EscapeSeq(get_data);
 
 				BOLD_LIGHT_WHITE_COLOR
 				std::cout << get_data + "\n";
@@ -231,7 +232,7 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 				BOLD_LIGHT_GREEN_COLOR
 				std::cout << "success: ";
 
-				get_data = FlaScript::EscapeSeq(get_data);
+				get_data = seq.EscapeSeq(get_data);
 
 				BOLD_LIGHT_WHITE_COLOR
 				std::cout << get_data + "\n";
@@ -402,7 +403,7 @@ FInterpreter::FlaScriptInterpreterWithArg(std::string file, std::string arg) {
 			std::string get_data = var.GetVariable(get_name);
 
 			if(get_name != "error") {
-				get_data = FlaScript::EscapeSeq(get_data);
+				get_data = seq.EscapeSeq(get_data);
 
 				var.Equal(get_name, get_data);
 			}
@@ -1127,7 +1128,9 @@ FInterpreter::FlaScriptInterpreter(flascript_t &data) {
 						std::string get_data = var.GetVariable(get_name);
 
 						if(get_name != "error") {
-							get_data = FlaScript::EscapeSeq(get_data);
+						    FTools    seq;
+
+							get_data = seq.EscapeSeq(get_data);
 
 							var.Equal(get_name, get_data);
 						}

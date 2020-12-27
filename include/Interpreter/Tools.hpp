@@ -11,10 +11,16 @@
 #include <iostream>
 #include <cstring>
 
-namespace FlaScript {
+class FTools {
+public:
 	void TextBackground(int);
 	
 	std::string EscapeSeq(std::string data);
+	std::string Sequence(std::string data);
+
+	std::string StandardSeq(std::string data) {
+		return Sequence(data);
+	}
 };
 
 #endif // TOOLS_HPP

@@ -61,6 +61,7 @@ FPrint::Print(std::string file, std::string arg) {
 	FInterpreter inp;
 	FFunction func;
 	FVariable var;
+	FTools    seq;
 	
   	if(inp.FindObject(arg, "fprintf") == true || inp.FindObject(arg, "fprintln") == true) { // fprintf(<%string>[:"test":, :"hello":])
 		std::string assign, type;
@@ -107,12 +108,20 @@ FPrint::Print(std::string file, std::string arg) {
 			std::string assign;
 			stringtools::GetBtwString(arg, "(", ")", assign);
 			
-			if(assign == "string") {
-				stringtools::GetBtwString(arg, " \"", "\"", assign);
-				assign = FlaScript::EscapeSeq(assign);
-		
-				if(assign != "error")
-					std::cout << assign;
+			if(assign[0] == '"' || assign == "string" || assign == "untyp") {
+
+			    if(assign == "string") {
+                    stringtools::GetBtwString(arg, "\"", "\"", assign);
+			        assign = seq.EscapeSeq(assign);
+                } else if(assign == "untyp") {
+                    stringtools::GetBtwString(arg, "\"", "\"", assign);
+                    assign = seq.StandardSeq(assign);
+                } else {
+                    stringtools::GetBtwString(assign, "\"", "\"", assign);
+                    assign = seq.EscapeSeq(assign);
+                }
+
+				if(assign != "error") std::cout << assign;
 			} else if(inp.FindObject(assign, "var") == true) {
 				stringtools::GetBtwString(assign, "[", "]", assign);
 				
@@ -273,7 +282,7 @@ FPrint::Print(std::string file, std::string arg) {
 				stringtools::GetBtwString(arg, " \"", "\"", assign);
 				
 				if(assign != "error") {
-					assign = FlaScript::EscapeSeq(assign);
+					assign = seq.EscapeSeq(assign);
 					
 					std::cout << assign << "\n";
 				} else
@@ -293,7 +302,7 @@ FPrint::Print(std::string file, std::string arg) {
 					stringtools::GetBtwString(get, " ", ":", color);
 					stringtools::GetBtwString(arg, " \"", "\" <-", assign);
 					
-					assign = FlaScript::EscapeSeq(assign);
+					assign = seq.EscapeSeq(assign);
 					
 					if(assign == "error") {
 						stringtools::GetBtwString(arg, " \"", "\"", assign);
@@ -319,7 +328,7 @@ FPrint::Print(std::string file, std::string arg) {
 					stringtools::GetBtwString(get, " ", ":", color);
 					stringtools::GetBtwString(arg, " \"", "\" <-", assign);
 					
-					assign = FlaScript::EscapeSeq(assign);
+					assign = seq.EscapeSeq(assign);
 					
 					if(assign == "error") {
 						stringtools::GetBtwString(arg, " \"", "\"", assign);
@@ -335,6 +344,8 @@ FPrint::Print(std::string file, std::string arg) {
 					if (t != var_.end()) // Found
 						std::cout << t->second;
 				}
+			} else {
+			    /* error, undefined type */
 			}
  	}
 }
